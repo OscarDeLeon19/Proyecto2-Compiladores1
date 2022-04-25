@@ -1,49 +1,49 @@
-boro = 522 +6 +6 -8 -8 -7
+Double boro = 522 +6 +6 -8 -8 -7
 Int i=1
-Mostrar (i)
-DibujarAST(Uno)
-Mientras (50 + Ju >= 20):
-	Mostrar (50 + true)
-	String sensacion = "HOLA"
-	boro = 522 +6 +6 -8 -8 -7
-	DibujarAST(Uno) 
-	DibujarEXP(5+6) 
-	DibujarTS()    
-	Detener
 
-Para (Int i=1;i!=11;++):
-	String sensacion = "HOLA"
-	boro = 522 +6 +6 -8 -8 -7
-	Continuar
-
-Si (a<max):
-	Mostrar (50 + true)
-	String sensacion = "HOLA"
-	boro = 522 +6 +6 -8 -8 -7
-	DibujarEXP(5+6) 
-	DibujarTS() 
-Sino:
-	String sensacion = "HOLA"
-	boro = 522 +6 +6 -8 -8 -7
-	DibujarAST(Uno)    
-	Mostrar (50 + true)    
-
+ 
 Void perro(String gato, Boolean chihuahua):
+	Para (Int i=1;i!=11;++):
+		String sensacion = "HOLA"
+		boro = 522 +6 +6 -8 -8 -7
+		Continuar
+
 	boro = 522 +6 +6 -8 -8 -7
 	String sensacion = "HOLA"
 	boro = 522 +6 +6 -8 -8 -7
 	Correr(25,true)
 	DibujarEXP(5+6) 
-	DibujarTS()     
+	DibujarTS()  
+	Mientras (50 + Ju >= 20):
+		Mostrar (50 + true)
+		String sensacion = "HOLA"
+		boro = 522 +6 +6 -8 -8 -7
+		DibujarAST(Uno) 
+		DibujarEXP(5+6) 
+		DibujarTS()    
+		Detener   
+
 	Retorno 
 
 Int perro():
 	boro = 522 +6 +6 -8 -8 -7
 	String sensacion = "HOLA"
 	boro = 522 +6 +6 -8 -8 -7
+	Si (a<max):
+		Mostrar (50 + true)
+		String sensacion = "HOLA"
+		boro = 522 +6 +6 -8 -8 -7
+		DibujarEXP(5+6) 
+		DibujarTS() 
+	Sino:
+		String sensacion = "HOLA"
+		boro = 522 +6 +6 -8 -8 -7
+		DibujarAST(Uno)    
+		Mostrar (50 + true)  
+
 	String perro
 	HolaMundo() 
 	DibujarAST(Uno)
-	Retorno 25 + 69
+	Retorno
 
-boro = 522 +6 +6 -8 -8 -7
+Double boro = 522 +6 +6 -8 -8 -7

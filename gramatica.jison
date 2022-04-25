@@ -121,16 +121,7 @@ instrucciones
 
 instruccion
 	: declaracion
-	| asignacion
 	| funcion
-	| llamada
-	| sentencia_si	
-	| para	
-	| mientras
-	| mostrar
-	| dibujar_AST
-	| dibujar_EXP
-	| dibujar_TS
 	| 
 ;
 
@@ -164,8 +155,8 @@ aumentar
 ;
 
 instrucciones_para
-	: instrucciones_para TAB instruccion_para SALTO
-	| TAB instruccion_para SALTO
+	: instrucciones_para TAB TAB instruccion_para SALTO
+	| TAB TAB instruccion_para SALTO
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (this._$.first_line) + ', en la columna: ' + this._$.first_column)}
 ;
 
@@ -182,22 +173,15 @@ instruccion_para
 	|
 ;
 
-sentencia_si
-	: si sino
-	| si
-;
 
 si
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if
-;
-
-sino
-	: SINO DOSPTS SALTO instrucciones_if
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_if
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if
 ;
 
 instrucciones_if
-	: instrucciones_if TAB instruccion_if SALTO
-	| TAB instruccion_if SALTO
+	: instrucciones_if TAB TAB instruccion_if SALTO
+	| TAB TAB instruccion_if SALTO
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (this._$.first_line) + ', en la columna: ' + this._$.first_column)}
 ;
 
@@ -221,25 +205,32 @@ instruccion_funcion
 	:  declaracion
 	|  asignacion
 	|  llamada
-	|  retorno
 	|  mostrar
 	|  dibujar_AST
 	| dibujar_EXP
-	| dibujar_TS	
+	| dibujar_TS
+	| si	
+	| para	
+	| mientras	
 	|
 ;
 
 funcion
-	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion
-	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion
-	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion
-	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion
+	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO
+	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO
+	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO
+	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO
 	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instruccion_funcion
 ;
 
-retorno
+retorno_metodo
 	: RETORNO expresion
 	| RETORNO
+;
+
+retorno
+	:TAB RETORNO
+	| 
 ;
 
 llamada
@@ -334,5 +325,3 @@ valores
      | FALSE 
      | ID 
 ;  
-
-*/
