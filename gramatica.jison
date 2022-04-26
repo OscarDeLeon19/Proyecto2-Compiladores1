@@ -2,6 +2,13 @@
  * Gramatica Proyecto 2 | Compiladores 1
  */
 
+%{
+	const Tabla = require('./clases/Tabla');
+	const Salida = require("./clases/Salida");
+	var tabla = new Tabla(null);
+	var salida = new Salida();
+%}
+
 // Parte Lexica
 %lex
 
@@ -157,8 +164,7 @@ aumentar
 instrucciones_para
 	: instrucciones_para TAB TAB instruccion_para SALTO
 	| TAB TAB instruccion_para SALTO
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (this._$.first_line) + ', en la columna: ' + this._$.first_column)}
-;
+	;
 
 instruccion_para
 	:  declaracion
@@ -182,8 +188,7 @@ si
 instrucciones_if
 	: instrucciones_if TAB TAB instruccion_if SALTO
 	| TAB TAB instruccion_if SALTO
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (this._$.first_line) + ', en la columna: ' + this._$.first_column)}
-;
+	;
 
 instruccion_if
 	:  declaracion
@@ -324,4 +329,5 @@ valores
      | TRUE 
      | FALSE 
      | ID 
+	 | llamada
 ;  

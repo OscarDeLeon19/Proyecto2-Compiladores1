@@ -4,8 +4,8 @@ const Type = require('./Tipo');
 class Tabla{
 
     constructor(_tablaSuperior){
-        if (_tsuperior != null){
-            this.funciones = _tsuperior.funciones
+        if (_tablaSuperior != null){
+            this.funciones = _tablaSuperior.funciones
         }
         this.simbolos = [];
         this.tablaSuperior = _tablaSuperior;
@@ -82,3 +82,5 @@ class Tabla{
     
     
 }
+
+module.exports = Tabla;

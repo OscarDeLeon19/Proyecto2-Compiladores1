@@ -31,5 +31,8 @@ const Tipo = {
     INCERTEZA: 'INCERTEZA',
     RETORNO: 'RETORNO',
     CONTINUAR: 'CONTINUAR',
-    DETENER: 'DETENER'
+    DETENER: 'DETENER',
+    ERROR: 'ERROR'
 }
+
+module.exports = Tipo;

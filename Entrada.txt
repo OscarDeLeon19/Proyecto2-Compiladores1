@@ -1,4 +1,4 @@
-Double boro = 522 +6 +6 -8 -8 -7
+Double bordo = 522 +6 +6 -8 -8 -7
 Int i=1
 
  
