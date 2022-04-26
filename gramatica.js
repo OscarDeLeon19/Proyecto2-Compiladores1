@@ -86,8 +86,53 @@ switch (yystate) {
 case 5:
 console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (this._$.first_line) + ', en la columna: ' + this._$.first_column)
 break;
+case 72:
+this.$ = Tipo.ENTERO;
+break;
+case 73:
+this.$ = Tipo.DECIMAL;
+break;
+case 74:
+this.$ = Tipo.BOOLEAN;
+break;
+case 75:
+this.$ = Tipo.CARACTER;
+break;
+case 76:
+this.$ = Tipo.CADENA;
+break;
 case 83: case 89: case 92: case 97: case 99:
 this.$ = $$[$0];
+break;
+case 100:
+this.$ = new Valor(Number($$[$0]),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 101:
+this.$ = new Valor(Number($$[$0]),Tipo.ENTERO,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 102:
+this.$ = new Valor(-1*Number($$[$0]),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 103:
+this.$ = new Valor(-1*Number($$[$0]),Tipo.ENTERO,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 104:
+this.$ = $$[$0-1];
+break;
+case 105:
+this.$ = new Valor($$[$0],Tipo.CADENA,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 106:
+this.$ = new Valor($$[$0],Tipo.CARACTER,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 107:
+this.$ = new Valor(true,Tipo.BOOLEAN,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 108:
+this.$ = new Valor(false,Tipo.BOOLEAN,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 109:
+this.$ = new Valor($$[$0],Tipo.ID,Tipo.VALOR,this._$.first_line,this._$.first_column);
 break;
 }
 },
@@ -341,8 +386,10 @@ _handle_error:
     return true;
 }};
 
+	const Tipo = require('./clases/Tipo');
 	const Tabla = require('./clases/Tabla');
 	const Salida = require("./clases/Salida");
+	const Valor = require('./clases/Valor');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 

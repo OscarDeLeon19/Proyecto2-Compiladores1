@@ -3,8 +3,10 @@
  */
 
 %{
+	const Tipo = require('./clases/Tipo');
 	const Tabla = require('./clases/Tabla');
 	const Salida = require("./clases/Salida");
+	const Valor = require('./clases/Valor');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 %}
@@ -263,11 +265,11 @@ declaracion
 ;
 
 tipo
-     : INT 
-     | DOUBLE 
-     | BOOLEAN 
-     | CHAR 
-     | STRING
+     : INT {$$ = Tipo.ENTERO;}
+     | DOUBLE {$$ = Tipo.DECIMAL;}
+     | BOOLEAN {$$ = Tipo.BOOLEAN;}
+     | CHAR {$$ = Tipo.CARACTER;}
+     | STRING {$$ = Tipo.CADENA;}
 ;
 
 // Expresiones logicas
@@ -319,15 +321,15 @@ expresion_not
 ;
 
 valores
-     : DECIMAL 
-     | ENTERO 
-     | MENOS DECIMAL 
-     | MENOS ENTERO 
-     | PARIZQ expresion PARDER 
-     | CADENA 
-     | CARACTER 
-     | TRUE 
-     | FALSE 
-     | ID 
+     : DECIMAL {$$ = new Valor(Number($1),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | ENTERO {$$ = new Valor(Number($1),Tipo.ENTERO,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | MENOS DECIMAL {$$ = new Valor(-1*Number($2),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | MENOS ENTERO {$$ = new Valor(-1*Number($2),Tipo.ENTERO,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | PARIZQ expresion PARDER {$$ = $2;}
+     | CADENA {$$ = new Valor($1,Tipo.CADENA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | CARACTER {$$ = new Valor($1,Tipo.CARACTER,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | TRUE {$$ = new Valor(true,Tipo.BOOLEAN,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | FALSE {$$ = new Valor(false,Tipo.BOOLEAN,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | ID {$$ = new Valor($1,Tipo.ID,Tipo.VALOR,this._$.first_line,this._$.first_column);}
 	 | llamada
 ;  
