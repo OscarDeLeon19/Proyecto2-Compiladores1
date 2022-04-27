@@ -24,6 +24,7 @@ const Tipo = {
     INCREMENTO: 'INCREMENTO',
     DECREMENTO: 'DECREMENTO',
     AND: 'AND',
+    XOR: 'XOR',
     OR: 'OR',
     NOT: 'NOT',
     ID: 'ID',

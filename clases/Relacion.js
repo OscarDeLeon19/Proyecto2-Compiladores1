@@ -1,6 +1,7 @@
 
+const Salida = require('./Salida');
+const Tabla = require('./Tabla');
 const Tipo = require('./Tipo');
-const Type = require('./Tipo');
 const Valor = require('./Valor');
 
 class Relacion{

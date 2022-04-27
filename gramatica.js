@@ -101,6 +101,15 @@ break;
 case 76:
 this.$ = Tipo.CADENA;
 break;
+case 77:
+this.$ = new Logica("Logica",$$[$0-2],$$[$0],Tipo.OR,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 78: case 80:
+this.$ = $$[$0]
+break;
+case 79:
+this.$ = new Logica("Logica",$$[$0-2],$$[$0],Tipo.AND,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
 case 81:
 this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
 break;
@@ -142,6 +151,9 @@ this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.MODULO,Tipo.VALOR,this._
 break;
 case 96:
 this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.POTENCIA,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 98:
+this.$ = new Logica("Logica",$$[$0],null,Tipo.NOT,Tipo.VALOR,this._$.first_line,this._$.first_column);
 break;
 case 100:
 this.$ = new Valor(Number($$[$0]),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
@@ -431,6 +443,7 @@ _handle_error:
 	const Valor = require('./clases/Valor');
 	const Operacion = require('./clases/Operacion');
 	const Relacion = require('./clases/Relacion');
+	const Logica = require('./clases/Logica')
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 

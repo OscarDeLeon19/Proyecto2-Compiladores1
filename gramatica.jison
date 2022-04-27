@@ -9,6 +9,7 @@
 	const Valor = require('./clases/Valor');
 	const Operacion = require('./clases/Operacion');
 	const Relacion = require('./clases/Relacion');
+	const Logica = require('./clases/Logica')
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 %}
@@ -277,13 +278,13 @@ tipo
 // Expresiones logicas
 
 expresion
-    : expresion OR expresion 
-	| expresion_1
+    : expresion OR expresion {$$ = new Logica("Logica",$1,$3,Tipo.OR,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+	| expresion_1 {$$ = $1}
 ;
 
 expresion_1
-    : expresion_1 AND expresion_1 
-    | expresion_relacional
+    : expresion_1 AND expresion_1 {$$ = new Logica("Logica",$1,$3,Tipo.AND,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+    | expresion_relacional {$$ = $1}
 ;
 
 // Expresiones Relacionales
@@ -318,7 +319,7 @@ expresion_aritmetica_1
 ;
 
 expresion_not
-	: NOT expresion_not
+	: NOT expresion_not {$$ = new Logica("Logica",$2,null,Tipo.NOT,Tipo.VALOR,this._$.first_line,this._$.first_column);}
     | valores {$$ = $1;}
 ;
 
