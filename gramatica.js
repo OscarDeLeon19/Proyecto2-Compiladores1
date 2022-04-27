@@ -117,6 +117,9 @@ break;
 case 13:
 this.$ = new Mostrar("Mostrar",$$[$0-1],Tipo.VALOR,yylineno,this._$.first_column);
 break;
+case 72:
+this.$ = new Asignacion("Asignacion",$$[$0-2],$$[$0],yylineno,this._$.first_column);
+break;
 case 73:
 this.$ = new Declaracion("Declaracion",$$[$0-2],$$[$0],$$[$0-3],Tipo.VALOR,yylineno,this._$.first_column);
 break;
@@ -480,6 +483,7 @@ _handle_error:
 	const Logica = require('./clases/Logica');
 	const Declaracion = require('./clases/Declaracion');
 	const Mostrar = require('./clases/Mostrar');
+	const Asignacion = require('./clases/Asignacion');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];

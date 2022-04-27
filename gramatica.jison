@@ -12,6 +12,7 @@
 	const Logica = require('./clases/Logica');
 	const Declaracion = require('./clases/Declaracion');
 	const Mostrar = require('./clases/Mostrar');
+	const Asignacion = require('./clases/Asignacion');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
@@ -275,7 +276,7 @@ parametros
 ;
 
 asignacion 
-	: ID IGUAL expresion
+	: ID IGUAL expresion {$$ = new Asignacion("Asignacion",$1,$3,yylineno,this._$.first_column);}
 ;
 
 declaracion
