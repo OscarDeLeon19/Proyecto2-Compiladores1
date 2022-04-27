@@ -46,10 +46,10 @@ class Relacion{
                     if(nodoIzquierdo.tipoDato == Tipo.CADENA){
                         var valorCadena1 = 0;
                         var valorCadena2 = 0;
-                        for(var i = 0; i< nodoIzquierdo.valor.lenght(); i++){
+                        for(var i = 0; i< nodoIzquierdo.valor.toString().lenght; i++){
                             valorCadena1 = valorCadena1 + nodoIzquierdo.valor.charCodeAt(i);
                         }
-                        for(var i = 0; i< nodoDerecho.valor.lenght(); i++){
+                        for(var i = 0; i< nodoDerecho.valor.toString().lenght; i++){
                             valorCadena2 = valorCadena2 + nodoDerecho.valor.charCodeAt(i);
                         }
                         if(this.tipoDato != null){

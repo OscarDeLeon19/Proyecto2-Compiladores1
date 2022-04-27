@@ -1,7 +1,20 @@
-Double bordo = 522 +6 +6 -8 -8 -7
-Int i=1
+Int bordo = 1000
+Char c = ' '
+Int i=1 +52 *10
+Boolean comprobacion = !(bordo < i)
+String cadena = "Hola " + " Mundo " + c 
+Double decimal = 10.0 * comprobacion * c
+String cad1 = "compiladores2"
+String cad2 = "compiladores 1"
 
- 
+
+Mostrar(i)
+Mostrar(bordo)
+Mostrar(comprobacion)
+Mostrar(cadena)
+Mostrar(decimal)
+Mostrar(cad1 > cad2)
+
 Void perro(String gato, Boolean chihuahua):
 	Para (Int i=1;i!=11;++):
 		String sensacion = "HOLA"
@@ -32,7 +45,7 @@ Int perro():
 	Si (a<max):
 		Mostrar (50 + true)
 		String sensacion = "HOLA"
-		boro = 522 +6 +6 -8 -8 -7
+		bodro = 522 +6 +6 -8 -8 -7
 		DibujarEXP(5+6) 
 		DibujarTS() 
 	Sino:

@@ -27,7 +27,7 @@ class Valor{
                 return new Valor(Number(this.valor), this.tipoDato, this.tipoEstructura, this.fila, this.columna);
             case Tipo.CADENA:
                 if (this.valor.toString().startsWith("\"")){
-                    this.valor = this.vavalorlue.toString().substring(1, this.valor.toString().length - 1);
+                    this.valor = this.valor.toString().substring(1, this.valor.toString().length - 1);
                 }
                 return new Valor(this.valor, this.tipoDato, this.tipoEstructura, this.fila, this.columna); 
             case Tipo.CARACTER:
@@ -48,7 +48,7 @@ class Valor{
                 }
             default:  
                 salida.agregarError(Tipo.SEMANTICO, "Tipo " + this.tipoDato + " no es aceptado por la gramatica", this.fila, this.columna);
-                return new Value(null, Tipo.ERROR, Tipo.ERROR, this.fila, this.columna);    
+                return new Valor(null, Tipo.ERROR, Tipo.ERROR, this.fila, this.columna);    
         }
     }
 

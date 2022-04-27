@@ -9,9 +9,12 @@
 	const Valor = require('./clases/Valor');
 	const Operacion = require('./clases/Operacion');
 	const Relacion = require('./clases/Relacion');
-	const Logica = require('./clases/Logica')
+	const Logica = require('./clases/Logica');
+	const Declaracion = require('./clases/Declaracion');
+	const Mostrar = require('./clases/Mostrar');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
+	var operaciones = [];
 %}
 
 // Parte Lexica
@@ -121,19 +124,30 @@
 %% /* Definición de la gramática */
 
 ini
-	: instrucciones EOF 
+	: instrucciones EOF {
+		/*
+		for(var i = 0; i< $1.length; i++){
+            if($1[i]){
+                $1[i].operar(tabla, salida);
+			}	
+        }
+		*/
+		return salida;
+		
+	}
     | EOF
 ;
 
 instrucciones
-	: instrucciones instruccion SALTO
-	| instruccion SALTO
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (this._$.first_line) + ', en la columna: ' + this._$.first_column)}
+	: instrucciones instruccion SALTO {$$ = operaciones; operaciones.push($2);}
+	| instruccion SALTO {operaciones.push($1);}
+	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 instruccion
-	: declaracion
-	| funcion
+	: declaracion {if ($1!=null){$$ = $1}}
+	| funcion {$$ = null}
+	| mostrar {$$ = $1;}	
 	| 
 ;
 
@@ -150,7 +164,7 @@ dibujar_AST
 ;
 
 mostrar
-	: MOSTRAR PARIZQ expresion PARDER
+	: MOSTRAR PARIZQ expresion PARDER {$$ = new Mostrar("Mostrar",$3,Tipo.VALOR,yylineno,this._$.first_column);}
 ;
 
 mientras 
@@ -204,6 +218,7 @@ instruccion_if
 	|  dibujar_EXP
 	|  dibujar_TS
 	|
+	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 instrucciones_funcion
@@ -223,6 +238,7 @@ instruccion_funcion
 	| para	
 	| mientras	
 	|
+	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 funcion
@@ -263,8 +279,8 @@ asignacion
 ;
 
 declaracion
-	:	tipo ID IGUAL expresion
-	| 	tipo ID 
+	:	tipo ID IGUAL expresion {$$ = new Declaracion("Declaracion",$2,$4,$1,Tipo.VALOR,yylineno,this._$.first_column);}
+	| 	tipo ID {$$ = new Declaracion("Declaracion",$2,null,$1,Tipo.VALOR,yylineno,this._$.first_column);}
 ;
 
 tipo
@@ -278,61 +294,61 @@ tipo
 // Expresiones logicas
 
 expresion
-    : expresion OR expresion {$$ = new Logica("Logica",$1,$3,Tipo.OR,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+    : expresion OR expresion {$$ = new Logica("Logica",$1,$3,Tipo.OR,Tipo.VALOR,yylineno,this._$.first_column);}
 	| expresion_1 {$$ = $1}
 ;
 
 expresion_1
-    : expresion_1 AND expresion_1 {$$ = new Logica("Logica",$1,$3,Tipo.AND,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+    : expresion_1 AND expresion_1 {$$ = new Logica("Logica",$1,$3,Tipo.AND,Tipo.VALOR,yylineno,this._$.first_column);}
     | expresion_relacional {$$ = $1}
 ;
 
 // Expresiones Relacionales
 expresion_relacional
-	: expresion_relacional DOBLE_IGUAL  expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-    | expresion_relacional DIFERENTE expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+	: expresion_relacional DOBLE_IGUAL  expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion_relacional DIFERENTE expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,yylineno,this._$.first_column);}
     | expresion_relacional_1 {$$ = $1;}
 ;
 
 expresion_relacional_1
-     : expresion_relacional_1 MAYOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | expresion_relacional_1 MENOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR_IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR_IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-	 | expresion_relacional_1 INCERT expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.INCERTEZA,Tipo.VALOR,this._$.first_line,this._$.first_column);}	
+     : expresion_relacional_1 MAYOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_relacional_1 MENOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR_IGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR_IGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+	 | expresion_relacional_1 INCERT expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.INCERTEZA,Tipo.VALOR,yylineno,this._$.first_column);}	
      | expresion_aritmetica {$$ = $1;}
 ;
 //-----------------------------------------------------------------------------------------------------------
 //producciones para operaciones aritmeticas
 expresion_aritmetica 
-	: expresion_aritmetica MAS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.SUMA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-    | expresion_aritmetica MENOS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.RESTA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+	: expresion_aritmetica MAS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.SUMA,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion_aritmetica MENOS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.RESTA,Tipo.VALOR,yylineno,this._$.first_column);}
     | expresion_aritmetica_1 {$$ = $1;}
 ;
 
 expresion_aritmetica_1 
-	 : expresion_aritmetica_1 POR expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MULTIPLICACION,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | expresion_aritmetica_1 DIVIDIDO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.DIVISION,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | expresion_aritmetica_1 MODULO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MODULO,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | expresion_aritmetica_1 POTENCIA expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.POTENCIA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+	 : expresion_aritmetica_1 POR expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MULTIPLICACION,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_aritmetica_1 DIVIDIDO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.DIVISION,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_aritmetica_1 MODULO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MODULO,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_aritmetica_1 POTENCIA expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.POTENCIA,Tipo.VALOR,yylineno,this._$.first_column);}
      | expresion_not {$$ = $1;}
 ;
 
 expresion_not
-	: NOT expresion_not {$$ = new Logica("Logica",$2,null,Tipo.NOT,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+	: NOT expresion_not {$$ = new Logica("Logica",$2,null,Tipo.NOT,Tipo.VALOR,yylineno,this._$.first_column);}
     | valores {$$ = $1;}
 ;
 
 valores
-     : DECIMAL {$$ = new Valor(Number($1),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | ENTERO {$$ = new Valor(Number($1),Tipo.ENTERO,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | MENOS DECIMAL {$$ = new Valor(-1*Number($2),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | MENOS ENTERO {$$ = new Valor(-1*Number($2),Tipo.ENTERO,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     : DECIMAL {$$ = new Valor(Number($1),Tipo.DECIMAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | ENTERO {$$ = new Valor(Number($1),Tipo.ENTERO,Tipo.VALOR,yylineno,this._$.first_column);}
+     | MENOS DECIMAL {$$ = new Valor(-1*Number($2),Tipo.DECIMAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | MENOS ENTERO {$$ = new Valor(-1*Number($2),Tipo.ENTERO,Tipo.VALOR,yylineno,this._$.first_column);}
      | PARIZQ expresion PARDER {$$ = $2;}
-     | CADENA {$$ = new Valor($1,Tipo.CADENA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | CARACTER {$$ = new Valor($1,Tipo.CARACTER,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | TRUE {$$ = new Valor(true,Tipo.BOOLEAN,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | FALSE {$$ = new Valor(false,Tipo.BOOLEAN,Tipo.VALOR,this._$.first_line,this._$.first_column);}
-     | ID {$$ = new Valor($1,Tipo.ID,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | CADENA {$$ = new Valor($1,Tipo.CADENA,Tipo.VALOR,yylineno,this._$.first_column);}
+     | CARACTER {$$ = new Valor($1,Tipo.CARACTER,Tipo.VALOR,yylineno,this._$.first_column);}
+     | TRUE {$$ = new Valor(true,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
+     | FALSE {$$ = new Valor(false,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
+     | ID {$$ = new Valor($1,Tipo.ID,Tipo.VALOR,yylineno,this._$.first_column);}
 	 | llamada
 ;  

@@ -9,7 +9,7 @@ class Salida{
     limpiarSalida(){
         this.salida = '';
         this.errores = '';
-        this.tablaErrores = '';
+        this.tablaErrores = [];
     }
 
     getSalida(){
@@ -22,6 +22,10 @@ class Salida{
 
     agregarError(tipo, mensaje, fila, columna){
         this.tablaErrores.push({tipo: tipo, mensaje: mensaje, fila: fila, columna: columna});
+    }
+
+    agregarSalida(valor){
+        this.salida = this.salida + valor + "\n";
     }
 }
 

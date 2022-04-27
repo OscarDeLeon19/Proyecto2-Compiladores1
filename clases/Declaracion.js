@@ -44,7 +44,17 @@ class Declaracion{
         }
 
         var comprobacion = tablaSimbolos.buscarSimboloLocal(this.identificador);
-        
+        if (comprobacion === false){
+            if (valorExpresion===null){
+                tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, null))             
+                return true;
+            }
+            tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, valorExpresion.valor))
+            return true;
+        } else {
+            salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.identificador+"esta declarada en este ambito", this.fila, this.columna);
+            return null;
+        }
 
 
     }
@@ -59,3 +69,5 @@ class Declaracion{
     }
 
 }
+
+module.exports = Declaracion;
