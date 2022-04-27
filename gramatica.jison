@@ -7,6 +7,8 @@
 	const Tabla = require('./clases/Tabla');
 	const Salida = require("./clases/Salida");
 	const Valor = require('./clases/Valor');
+	const Operacion = require('./clases/Operacion');
+	const Relacion = require('./clases/Relacion');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 %}
@@ -286,32 +288,32 @@ expresion_1
 
 // Expresiones Relacionales
 expresion_relacional
-	: expresion_relacional DOBLE_IGUAL  expresion_relacional
-    | expresion_relacional DIFERENTE expresion_relacional
+	: expresion_relacional DOBLE_IGUAL  expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+    | expresion_relacional DIFERENTE expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,this._$.first_line,this._$.first_column);}
     | expresion_relacional_1 {$$ = $1;}
 ;
 
 expresion_relacional_1
-     : expresion_relacional_1 MAYOR expresion_relacional_1
-     | expresion_relacional_1 MENOR expresion_relacional_1 
-     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 
-     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 
-	 | expresion_relacional_1 INCERT expresion_relacional_1 	
+     : expresion_relacional_1 MAYOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | expresion_relacional_1 MENOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR_IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR_IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+	 | expresion_relacional_1 INCERT expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.INCERTEZA,Tipo.VALOR,this._$.first_line,this._$.first_column);}	
      | expresion_aritmetica {$$ = $1;}
 ;
 //-----------------------------------------------------------------------------------------------------------
 //producciones para operaciones aritmeticas
 expresion_aritmetica 
-	: expresion_aritmetica MAS expresion_aritmetica 
-    | expresion_aritmetica MENOS expresion_aritmetica 
+	: expresion_aritmetica MAS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.SUMA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+    | expresion_aritmetica MENOS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.RESTA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
     | expresion_aritmetica_1 {$$ = $1;}
 ;
 
 expresion_aritmetica_1 
-	 : expresion_aritmetica_1 POR expresion_aritmetica_1
-     | expresion_aritmetica_1 DIVIDIDO expresion_aritmetica_1 
-     | expresion_aritmetica_1 MODULO expresion_aritmetica_1 
-     | expresion_aritmetica_1 POTENCIA expresion_aritmetica_1
+	 : expresion_aritmetica_1 POR expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MULTIPLICACION,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | expresion_aritmetica_1 DIVIDIDO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.DIVISION,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | expresion_aritmetica_1 MODULO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MODULO,Tipo.VALOR,this._$.first_line,this._$.first_column);}
+     | expresion_aritmetica_1 POTENCIA expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.POTENCIA,Tipo.VALOR,this._$.first_line,this._$.first_column);}
      | expresion_not {$$ = $1;}
 ;
 

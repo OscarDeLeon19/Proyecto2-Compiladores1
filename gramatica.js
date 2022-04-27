@@ -101,8 +101,47 @@ break;
 case 76:
 this.$ = Tipo.CADENA;
 break;
+case 81:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 82:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.DIFERENTE,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
 case 83: case 89: case 92: case 97: case 99:
 this.$ = $$[$0];
+break;
+case 84:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.MAYOR,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 85:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.MENOR,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 86:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.MAYOR_IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 87:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.MENOR_IGUAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 88:
+this.$ = new Relacion("Relacion",$$[$0-2],$$[$0],Tipo.INCERTEZA,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 90:
+this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.SUMA,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 91:
+this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.RESTA,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 93:
+this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.MULTIPLICACION,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 94:
+this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.DIVISION,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 95:
+this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.MODULO,Tipo.VALOR,this._$.first_line,this._$.first_column);
+break;
+case 96:
+this.$ = new Operacion("Operacion",$$[$0-2],$$[$0],Tipo.POTENCIA,Tipo.VALOR,this._$.first_line,this._$.first_column);
 break;
 case 100:
 this.$ = new Valor(Number($$[$0]),Tipo.DECIMAL,Tipo.VALOR,this._$.first_line,this._$.first_column);
@@ -390,6 +429,8 @@ _handle_error:
 	const Tabla = require('./clases/Tabla');
 	const Salida = require("./clases/Salida");
 	const Valor = require('./clases/Valor');
+	const Operacion = require('./clases/Operacion');
+	const Relacion = require('./clases/Relacion');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 

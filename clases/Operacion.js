@@ -1,12 +1,21 @@
 const Salida = require('./Salida');
 const Tabla = require('./Tabla');
-const { VALOR } = require('./Tipo');
-const Tipo = require('./Tipo')
+const Tipo = require('./Tipo');
 const Valor = require('./Valor');
 
 class Operacion{
 
-    constructor(valorIzquierdo, valorDerecho, tipoDato, tipoEstructura, fila, columna){
+    /**
+     * @param {*} id
+     * @param {Valor} valorIzquierdo 
+     * @param {Valor} valorDerecho 
+     * @param {*} tipoDato 
+     * @param {*} tipoEstructura 
+     * @param {*} fila 
+     * @param {*} columna 
+     */
+    constructor(id, valorIzquierdo, valorDerecho, tipoDato, tipoEstructura, fila, columna){
+        this.id = id;
         this.valorIzquierdo = valorIzquierdo;
         this.valorDerecho = valorDerecho;
         this.tipoDato = tipoDato;
@@ -26,7 +35,6 @@ class Operacion{
         if (this.valorIzquierdo != null){
             nodoIzquierdo = this.valorIzquierdo.operar(tablaSimbolos, salida)
         }
-
         if (this.valorDerecho != null){
             nodoDerecho = this.valorDerecho.operar(tablaSimbolos, salida)
         }
