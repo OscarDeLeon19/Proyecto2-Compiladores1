@@ -1,5 +1,6 @@
 const Simbolo = require('./Simbolo');
 const Type = require('./Tipo');
+const Funcion = require('./Funcion');
 
 class Tabla{
 
@@ -79,8 +80,37 @@ class Tabla{
         }
         return false;
     }
-    
-    
+    /**
+     * 
+     * @param {Funcion} funcion 
+     */
+    agregarFuncion(funcion){
+        if(this.buscarFuncion(funcion.id,funcion.parametros.length)===false){
+            this.funciones.push(funcion);
+            return true;
+        } else {
+            salida.agregarError(Tipo.SEMANTICO, "Funcion "+ funcion.id + "ya declarada", this.fila, this.columna);
+            return false;
+        }
+    }
+
+    obtenerFuncion(nombre, cantidadParametros){
+        for(var i = 0; i < this.funciones.length; i++){
+            if(this.funciones[i].id === nombre && this.funciones[i].parametros.length === cantidadParametros){
+                return this.funciones[i];
+            }            
+        }
+        return null;
+    }
+
+    buscarFuncion(nombre, cantidadParametros){
+        for(var i = 0; i < this.funciones.length; i++){
+            if(this.funciones[i].id === nombre && this.funciones[i].parametros.length === cantidadParametros){
+                return true;
+            }            
+        }
+        return false;
+    }
 }
 
 module.exports = Tabla;

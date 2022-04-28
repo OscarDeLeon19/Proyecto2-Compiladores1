@@ -46,6 +46,14 @@ class Valor{
                 }  else {
                     salida.agregarError(Tipo.SEMANTICO, "La variable " + this.valor + " no esta definida", this.fila, this.columna);
                 }
+            case Tipo.LLAMADA:
+                var a = tablaSimbolos.buscarFuncion(this.valor.identificador, this.valor.parametros.length);
+                if(a === true){
+                    return this.valor.operar();
+                }  else {
+                    salida.agregarError(Tipo.SEMANTICO, "La funcion "+this.valor.identificador+" no esta definida", this.fila, this.columna);
+                    return new Valor(null, Tipo.ERROR, Tipo.ERROR, this.fila, this.columna);   
+                } 
             default:  
                 salida.agregarError(Tipo.SEMANTICO, "Tipo " + this.tipoDato + " no es aceptado por la gramatica", this.fila, this.columna);
                 return new Valor(null, Tipo.ERROR, Tipo.ERROR, this.fila, this.columna);    

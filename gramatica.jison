@@ -13,9 +13,15 @@
 	const Declaracion = require('./clases/Declaracion');
 	const Mostrar = require('./clases/Mostrar');
 	const Asignacion = require('./clases/Asignacion');
+	const Funcion = require('./clases/Funcion');
+	const Retorno = require('./clases/Retorno');
+	const Llamada = require('./clases/Llamada');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
+	var operaciones_funcion = [];
+	var parametros_metodo = [];
+	var valores_llamada = [];
 %}
 
 // Parte Lexica
@@ -233,46 +239,46 @@ instruccion_funcion
 	|  llamada
 	|  mostrar
 	|  dibujar_AST
-	| dibujar_EXP
-	| dibujar_TS
-	| si	
-	| para	
-	| mientras	
+	|  dibujar_EXP
+	|  dibujar_TS
+	|  si	
+	|  para	
+	|  mientras	
 	|
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 funcion
-	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO
-	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO
-	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO
-	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO
-	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instruccion_funcion
+	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO {$$ = new Funcion("Funcion",$2,$4,$8,$10,$1,Tipo.VALOR,yylineno,this._$.first_column);}
+	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = new Funcion("Funcion",$2,$4,$8,$9,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column);}
+	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO {$$ = new Funcion("Funcion",$2,null,$7,$9,$1,Tipo.VALOR,yylineno,this._$.first_column);}
+	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = new Funcion("Funcion",$2,null,$7,$8,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column);}
+	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instruccion_funcion {$$ = new Funcion("Funcion","Principal",null,$7,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column);}
 ;
 
 retorno_metodo
-	: RETORNO expresion
-	| RETORNO
+	: RETORNO expresion {$$ = new Retorno("Retorno",$2, yylineno,this._$.first_column);}
+	| RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
 ;
 
 retorno
-	:TAB RETORNO
+	:TAB RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
 	| 
 ;
 
 llamada
-	: ID PARIZQ lista_valores PARDER
-	| ID PARIZQ PARDER
+	: ID PARIZQ lista_valores PARDER {$$ = new Llamada("Llamada",$1,$3,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
+	| ID PARIZQ PARDER {$$ = new Llamada("Llamada",$1,null,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
 ;
 
 lista_valores
-	: lista_valores COMA expresion
-	| expresion
+	: lista_valores COMA expresion {$$ = valores_llamada; valores_llamada.push($3);}
+	| expresion {valores_llamada = []; valores_llamada.push($1);}
 ;
 
 parametros
-	: parametros COMA tipo ID
-	| tipo ID
+	: parametros COMA tipo ID {$$ = parametros_metodo; parametros_metodo.push(new Declaracion("Declaracion",$4,null,$3,Tipo.VALOR,yylineno,this._$.first_column));}
+	| tipo ID {parametros_metodo.push(new Declaracion("Declaracion",$2,null,$1,Tipo.VALOR,yylineno,this._$.first_column));}
 ;
 
 asignacion 
@@ -351,5 +357,5 @@ valores
      | TRUE {$$ = new Valor(true,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
      | FALSE {$$ = new Valor(false,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
      | ID {$$ = new Valor($1,Tipo.ID,Tipo.VALOR,yylineno,this._$.first_column);}
-	 | llamada
+	 | llamada {$$ = new Valor($1,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
 ;  
