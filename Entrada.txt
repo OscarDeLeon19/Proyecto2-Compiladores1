@@ -10,7 +10,7 @@ Void Principal():
 	Sino:
 		Mostrar("El parametro no cumple")
 
-	Si(parametro < 5.0):
+	Si(parametro > 5.0):
 		String str = "Parametro" + parametro
 		Mostrar(str)
 	Sino:
@@ -18,12 +18,19 @@ Void Principal():
 		id = 50
 		Mostrar("El parametro no cumple en el segundo if" + id)
 
+	Para (Int i=1;i <= 5;++):
+		Mostrar("Iteracion: " + (i*i*i))
+
+	Para (Int i=1;i <= 10;++):
+		Mostrar("Numero: " + (i^i))
+
 	Mostrar("Despues de la funcion: " + funcionMetodo2(50,50)*5)
 
 
 Void nuevaFuncionPerro():
 	String nuevaCAD = "25"
 	Mostrar("HOLA esto es prueba" + cad3)
+	Retorno
 
 
 Int HOLAAAAAA():

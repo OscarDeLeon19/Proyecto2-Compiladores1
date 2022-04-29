@@ -232,31 +232,31 @@ class Operacion{
                             } 
                         case Tipo.POTENCIA:  
                             if (nodoIzquierdo.tipoDato === Tipo.BOOLEAN && nodoDerecho.tipoDato === Tipo.DECIMAL){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.BOOLEAN && nodoDerecho.tipoDato === Tipo.ENTERO){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.DECIMAL && nodoDerecho.tipoDato === Tipo.BOOLEAN){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.DECIMAL && nodoDerecho.tipoDato === Tipo.DECIMAL){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.DECIMAL && nodoDerecho.tipoDato === Tipo.ENTERO){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.DECIMAL && nodoDerecho.tipoDato === Tipo.CARACTER){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.ENTERO && nodoDerecho.tipoDato === Tipo.BOOLEAN){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.ENTERO && nodoDerecho.tipoDato === Tipo.DECIMAL){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.ENTERO && nodoDerecho.tipoDato === Tipo.ENTERO){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.ENTERO, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.ENTERO, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.ENTERO && nodoDerecho.tipoDato === Tipo.CARACTER){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.ENTERO, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.ENTERO, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.CARACTER && nodoDerecho.tipoDato === Tipo.DECIMAL){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.CARACTER && nodoDerecho.tipoDato === Tipo.ENTERO){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else if (nodoIzquierdo.tipoDato === Tipo.CARACTER && nodoDerecho.tipoDato === Tipo.CARACTER){
-                                return new Valor(nodoIzquierdo.valor % nodoDerecho.valor, Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor(Math.pow(nodoIzquierdo.valor, nodoDerecho.valor), Tipo.DECIMAL, Tipo.VALOR, this.fila, this.columna);
                             } else {
                                 salida.agregarError(Tipo.SEMANTICO, "La operacion " + this.tipoDato + " no se puede realizar", this.fila, this.columna);
                                 return null;

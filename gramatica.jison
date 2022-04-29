@@ -17,6 +17,8 @@
 	const Retorno = require('./clases/Retorno');
 	const Llamada = require('./clases/Llamada');
 	const Si = require('./clases/Si');
+	const Para = require('./clases/Para');
+	const Iteracion = require('./clases/Iteracion');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
@@ -25,6 +27,7 @@
 	var operaciones_else = [];
 	var parametros_metodo = [];
 	var valores_llamada = [];
+	var operaciones_ciclo = [];
 %}
 
 // Parte Lexica
@@ -190,30 +193,31 @@ mientras
 ;
 
 para
-	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_para
+	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_para {$$ = new Para("Para",$3,$5,$7,operaciones_ciclo,operaciones_ciclo.length,yylineno,this._$.first_column); operaciones_ciclo = [];}
 ;
 
 aumentar
-	: INCREMENTO
-	| DECREMENTO
+	: INCREMENTO {$$ = new Iteracion("Iteracion",Tipo.INCREMENTO,yylineno,this._$.first_column);}
+	| DECREMENTO {$$ = new Iteracion("Iteracion",Tipo.DECREMENTO,yylineno,this._$.first_column);}
 ;
 
 instrucciones_para
 	: instrucciones_para TAB TAB instruccion_para SALTO
 	| TAB TAB instruccion_para SALTO
+	| SALTO
 	;
 
 instruccion_para
-	:  declaracion
-	|  asignacion
-	|  llamada
-	|  DETENER
-	|  CONTINUAR
-	|  mostrar
-	|  dibujar_AST	
-	| dibujar_EXP
-	| dibujar_TS
-	|
+	:  declaracion {if ($1!=null){operaciones_ciclo.push($1);}}
+	|  asignacion {operaciones_ciclo.push($1);}
+	|  llamada {operaciones_ciclo.push($1);}
+	|  DETENER {$$ = null}
+	|  CONTINUAR {$$ = null}
+	|  mostrar {operaciones_ciclo.push($1);}
+	|  dibujar_AST {$$ = null}	  
+	| dibujar_EXP {$$ = null}
+	| dibujar_TS {$$ = null}
+	| {$$ = null}
 ;
 
 
@@ -225,6 +229,7 @@ si
 instrucciones_if
 	: instrucciones_if TAB TAB instruccion_if SALTO
 	| TAB TAB instruccion_if SALTO
+	| SALTO
 	;
 
 instruccion_if
@@ -274,7 +279,8 @@ instruccion_funcion
 	|  asignacion {operaciones_funcion.push($1);}
 	|  llamada {operaciones_funcion.push($1);}
 	|  mostrar {operaciones_funcion.push($1);}
-	|  si {operaciones_funcion.push($1);}	
+	|  si {operaciones_funcion.push($1);}
+	|  para	{operaciones_funcion.push($1);}
 	|  dibujar_AST {$$ = null}
 	|  dibujar_EXP {$$ = null}
 	|  dibujar_TS {$$ = null}
@@ -346,8 +352,8 @@ expresion_relacional
 expresion_relacional_1
      : expresion_relacional_1 MAYOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR,Tipo.VALOR,yylineno,this._$.first_column);}
      | expresion_relacional_1 MENOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR_IGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR_IGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYORIGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENORIGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
 	 | expresion_relacional_1 INCERT expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.INCERTEZA,Tipo.VALOR,yylineno,this._$.first_column);}	
      | expresion_aritmetica {$$ = $1;}
 ;

@@ -29,8 +29,6 @@ class Si{
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
         this.cantElse = cantElse;
-        console.log("OPS: " + cantOperaciones);
-        console.log("ELSE: " + cantElse);
     }
     /**
      * 
