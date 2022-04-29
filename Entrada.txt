@@ -24,6 +24,11 @@ Void Principal():
 	Para (Int i=1;i <= 10;++):
 		Mostrar("Numero: " + (i^i))
 
+	Int varMientras = 0
+	Mientras(varMientras < 100):
+		Mostrar("Ciclo Mientras: " + varMientras)
+		varMientras = varMientras + 15
+
 	Mostrar("Despues de la funcion: " + funcionMetodo2(50,50)*5)
 
 

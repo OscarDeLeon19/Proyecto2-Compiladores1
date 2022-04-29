@@ -18,6 +18,7 @@
 	const Llamada = require('./clases/Llamada');
 	const Si = require('./clases/Si');
 	const Para = require('./clases/Para');
+	const Mientras = require('./clases/Mientras');
 	const Iteracion = require('./clases/Iteracion');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
@@ -189,7 +190,7 @@ mostrar
 ;
 
 mientras 
-	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_para
+	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_para {$$ = new Mientras("Mientras",$3,operaciones_ciclo,operaciones_ciclo.length,yylineno,this._$.first_column); operaciones_ciclo = [];}
 ;
 
 para
@@ -281,6 +282,7 @@ instruccion_funcion
 	|  mostrar {operaciones_funcion.push($1);}
 	|  si {operaciones_funcion.push($1);}
 	|  para	{operaciones_funcion.push($1);}
+	|  mientras	{operaciones_funcion.push($1);}
 	|  dibujar_AST {$$ = null}
 	|  dibujar_EXP {$$ = null}
 	|  dibujar_TS {$$ = null}
