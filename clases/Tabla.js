@@ -12,8 +12,7 @@ class Tabla{
         this.funciones = [];       
         this.simbolos = [];
         if (_tablaSuperior != null){
-            this.funciones = _tablaSuperior.funciones
-            this.simbolos = _tablaSuperior.simbolos;
+            this.funciones = _tablaSuperior.funciones;
         }
         this.tablaSuperior = _tablaSuperior;
         this.salida = null;

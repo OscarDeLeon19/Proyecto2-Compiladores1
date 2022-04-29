@@ -34,7 +34,8 @@ const Tipo = {
     CONTINUAR: 'CONTINUAR',
     DETENER: 'DETENER',
     ERROR: 'ERROR',
-    LLAMADA: 'LLAMADA'
+    LLAMADA: 'LLAMADA',
+    SI: 'SI'
 }
 
 module.exports = Tipo;

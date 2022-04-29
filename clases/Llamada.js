@@ -34,7 +34,6 @@ class LLamada{
             return null;
         }
         var nuevaTabla = new Tabla(tablaSimbolos);
-        console.log(tablaSimbolos)
         if (funcion.parametros != null){
             for(var i = 0; i < funcion.cantidadParametros; i++){
                 if(nuevaTabla.buscarSimboloLocal(funcion.parametros[i].identificador)===false){

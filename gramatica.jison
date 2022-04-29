@@ -16,10 +16,13 @@
 	const Funcion = require('./clases/Funcion');
 	const Retorno = require('./clases/Retorno');
 	const Llamada = require('./clases/Llamada');
+	const Si = require('./clases/Si');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
 	var operaciones_funcion = [];
+	var operaciones_si = [];
+	var operaciones_else = [];
 	var parametros_metodo = [];
 	var valores_llamada = [];
 %}
@@ -215,8 +218,8 @@ instruccion_para
 
 
 si
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_if
-	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,operaciones_else,operaciones_else.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_si = []; operaciones_else = [];}
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,null,0,yylineno,this._$.first_column); operaciones_si = [];}
 ;
 
 instrucciones_if
@@ -225,14 +228,31 @@ instrucciones_if
 	;
 
 instruccion_if
-	:  declaracion
-	|  asignacion
-	|  llamada
-	|  mostrar	
-	|  dibujar_AST
-	|  dibujar_EXP
-	|  dibujar_TS
-	|
+	:  declaracion {if ($1!=null){operaciones_si.push($1);}}
+	|  asignacion {operaciones_si.push($1);}
+	|  llamada {operaciones_si.push($1);}
+	|  mostrar	{operaciones_si.push($1);}
+	|  dibujar_AST {$$ = null}
+	|  dibujar_EXP {$$ = null}
+	|  dibujar_TS  {$$ = null}
+	| {$$ = null}
+	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+;
+
+instrucciones_else
+	: instrucciones_else TAB TAB instruccion_else SALTO
+	| TAB TAB instruccion_else SALTO
+	;
+
+instruccion_else
+	:  declaracion {if ($1!=null){operaciones_else.push($1);}}
+	|  asignacion {operaciones_else.push($1);}
+	|  llamada {operaciones_else.push($1);}
+	|  mostrar {operaciones_else.push($1);}	
+	|  dibujar_AST {$$ = null}
+	|  dibujar_EXP {$$ = null}
+	|  dibujar_TS {$$ = null}
+	| {$$ = null}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
@@ -254,6 +274,10 @@ instruccion_funcion
 	|  asignacion {operaciones_funcion.push($1);}
 	|  llamada {operaciones_funcion.push($1);}
 	|  mostrar {operaciones_funcion.push($1);}
+	|  si {operaciones_funcion.push($1);}	
+	|  dibujar_AST {$$ = null}
+	|  dibujar_EXP {$$ = null}
+	|  dibujar_TS {$$ = null}
 	|  {$$ = null}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;

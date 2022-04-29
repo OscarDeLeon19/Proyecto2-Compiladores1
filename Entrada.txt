@@ -2,13 +2,23 @@ Int numero = 5*5
 
 
 Void Principal():
-	Double parametro = 25.25
-	Mostrar("Parametro: " + parametro)
-	parametro = 10.98
-	Mostrar("Parametro: " + parametro)
+	Double parametro = 10.98
 	funcionMetodo1(6,2)
-	Mostrar(funcionMetodo2(50,50)*5)
-	
+	Si(parametro > 5.0):
+		String str = "Parametro" + parametro
+		Mostrar(str)
+	Sino:
+		Mostrar("El parametro no cumple")
+
+	Si(parametro < 5.0):
+		String str = "Parametro" + parametro
+		Mostrar(str)
+	Sino:
+		Int id
+		id = 50
+		Mostrar("El parametro no cumple en el segundo if" + id)
+
+	Mostrar("Despues de la funcion: " + funcionMetodo2(50,50)*5)
 
 
 Void nuevaFuncionPerro():
