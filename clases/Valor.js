@@ -47,9 +47,9 @@ class Valor{
                     salida.agregarError(Tipo.SEMANTICO, "La variable " + this.valor + " no esta definida", this.fila, this.columna);
                 }
             case Tipo.LLAMADA:
-                var a = tablaSimbolos.buscarFuncion(this.valor.identificador, this.valor.parametros.length);
+                var a = tablaSimbolos.buscarFuncion(this.valor.identificador, this.valor.cantidadParametros);
                 if(a === true){
-                    return this.valor.operar();
+                    return this.valor.operar(tablaSimbolos, salida);
                 }  else {
                     salida.agregarError(Tipo.SEMANTICO, "La funcion "+this.valor.identificador+" no esta definida", this.fila, this.columna);
                     return new Valor(null, Tipo.ERROR, Tipo.ERROR, this.fila, this.columna);   

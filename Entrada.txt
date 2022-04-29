@@ -1,62 +1,34 @@
-Int bordo = 1000
-Char c = ' '
-Int i=1 +52 *10
-Boolean comprobacion = !(bordo < i)
-String cadena = "Hola " + " Mundo " + c 
-Double decimal = 10.0 * comprobacion * c
-String cad1 = "compiladores2"
-String cad2 = "compiladores 1"
+Int numero = 5*5
 
 
-Mostrar(i)
-Mostrar(bordo)
-Mostrar(comprobacion)
-Mostrar(cadena)
-Mostrar(decimal)
-Mostrar(cad1 > cad2)
+Void Principal():
+	Double parametro = 25.25
+	Mostrar("Parametro: " + parametro)
+	parametro = 10.98
+	Mostrar("Parametro: " + parametro)
+	funcionMetodo1(6,2)
+	Mostrar(funcionMetodo2(50,50)*5)
+	
 
-Void perro(String gato, Boolean chihuahua):
-	Para (Int i=1;i!=11;++):
-		String sensacion = "HOLA"
-		boro = 522 +6 +6 -8 -8 -7
-		Continuar
 
-	boro = 522 +6 +6 -8 -8 -7
-	String sensacion = "HOLA"
-	boro = 522 +6 +6 -8 -8 -7
-	Correr(25,true)
-	DibujarEXP(5+6) 
-	DibujarTS()  
-	Mientras (50 + Ju >= 20):
-		Mostrar (50 + true)
-		String sensacion = "HOLA"
-		boro = 522 +6 +6 -8 -8 -7
-		DibujarAST(Uno) 
-		DibujarEXP(5+6) 
-		DibujarTS()    
-		Detener   
+Void nuevaFuncionPerro():
+	String nuevaCAD = "25"
+	Mostrar("HOLA esto es prueba" + cad3)
 
-	Retorno 
 
-Int perro():
-	boro = 522 +6 +6 -8 -8 -7
-	String sensacion = "HOLA"
-	boro = 522 +6 +6 -8 -8 -7
-	Si (a<max):
-		Mostrar (50 + true)
-		String sensacion = "HOLA"
-		bodro = 522 +6 +6 -8 -8 -7
-		DibujarEXP(5+6) 
-		DibujarTS() 
-	Sino:
-		String sensacion = "HOLA"
-		boro = 522 +6 +6 -8 -8 -7
-		DibujarAST(Uno)    
-		Mostrar (50 + true)  
+Int HOLAAAAAA():
 
-	String perro
-	HolaMundo() 
-	DibujarAST(Uno)
-	Retorno
+	Retorno 25
 
-Double boro = 522 +6 +6 -8 -8 -7
+
+Void funcionMetodo1(Int num3, Int num4):
+	Mostrar("Suma: " + (num3+num4))
+	Mostrar("Resta: " + (num3-num4))
+	Mostrar("Multiplicacion: " + (num3*num4))
+	Mostrar("Division: " + (num3/num4))
+
+
+Int funcionMetodo2(Int num1, Int num2):
+	Int nuevaSuma = num1+num2
+	Retorno nuevaSuma
+

@@ -132,13 +132,21 @@
 
 ini
 	: instrucciones EOF {
-		/*
+	
+		var nuevaTabla = new Tabla(tabla);
+		
 		for(var i = 0; i< $1.length; i++){
             if($1[i]){
                 $1[i].operar(tabla, salida);
 			}	
         }
-		*/
+		var funcionPrincipal = tabla.obtenerFuncion('Principal',0);
+		if (funcionPrincipal != null){
+			funcionPrincipal.operar(nuevaTabla, salida);		
+		} else {
+			console.log("error");
+		}
+		
 		return salida;
 		
 	}
@@ -146,16 +154,16 @@ ini
 ;
 
 instrucciones
-	: instrucciones instruccion SALTO {$$ = operaciones; operaciones.push($2);}
-	| instruccion SALTO {operaciones.push($1);}
+	: instrucciones instruccion SALTO {$$ = operaciones; if($2 != null){operaciones.push($2)};}
+	| instruccion SALTO {if($1 != null){operaciones.push($1)};}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 instruccion
 	: declaracion {if ($1!=null){$$ = $1}}
-	| funcion {$$ = null}
-	| mostrar {$$ = $1;}	
-	| 
+	| funcion { $$ = null;}
+	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];}	
+	| {$$ = null}
 ;
 
 dibujar_EXP
@@ -228,52 +236,46 @@ instruccion_if
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
+funcion
+	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,$1,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; parametros_metodo = []; }
+	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; parametros_metodo = [];}
+	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,$1,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];}
+	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; }	
+;
+
 instrucciones_funcion
-	: instrucciones_funcion TAB instruccion_funcion SALTO
-	| TAB instruccion_funcion SALTO
+	: instrucciones_funcion TAB instruccion_funcion SALTO //{$$ = operaciones_funcion; if($3 != null){operaciones_funcion.push($3)};}
+	| TAB instruccion_funcion SALTO //{if($2 != null){operaciones_funcion.push($2)};}
+	| SALTO {}
 ;
 
 instruccion_funcion
-	:  declaracion
-	|  asignacion
-	|  llamada
-	|  mostrar
-	|  dibujar_AST
-	|  dibujar_EXP
-	|  dibujar_TS
-	|  si	
-	|  para	
-	|  mientras	
-	|
+	:  declaracion {if ($1!=null){operaciones_funcion.push($1);}}
+	|  asignacion {operaciones_funcion.push($1);}
+	|  llamada {operaciones_funcion.push($1);}
+	|  mostrar {operaciones_funcion.push($1);}
+	|  {$$ = null}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
-funcion
-	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO {$$ = new Funcion("Funcion",$2,$4,$8,$10,$1,Tipo.VALOR,yylineno,this._$.first_column);}
-	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = new Funcion("Funcion",$2,$4,$8,$9,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column);}
-	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion TAB retorno_metodo SALTO {$$ = new Funcion("Funcion",$2,null,$7,$9,$1,Tipo.VALOR,yylineno,this._$.first_column);}
-	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = new Funcion("Funcion",$2,null,$7,$8,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column);}
-	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instruccion_funcion {$$ = new Funcion("Funcion","Principal",null,$7,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column);}
-;
-
 retorno_metodo
-	: RETORNO expresion {$$ = new Retorno("Retorno",$2, yylineno,this._$.first_column);}
-	| RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
+	: TAB RETORNO expresion {$$ = new Retorno("Retorno",$3, yylineno,this._$.first_column);}
+	| TAB RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
 ;
 
 retorno
 	:TAB RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
-	| 
+	| {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
 ;
 
 llamada
-	: ID PARIZQ lista_valores PARDER {$$ = new Llamada("Llamada",$1,$3,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
+	: ID PARIZQ lista_valores PARDER {$$ = new Llamada("Llamada",$1,valores_llamada,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column); valores_llamada = []}
 	| ID PARIZQ PARDER {$$ = new Llamada("Llamada",$1,null,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
 ;
 
 lista_valores
-	: lista_valores COMA expresion {$$ = valores_llamada; valores_llamada.push($3);}
-	| expresion {valores_llamada = []; valores_llamada.push($1);}
+	: lista_valores COMA expresion {valores_llamada.push($3);}
+	| expresion {valores_llamada.push($1);}
 ;
 
 parametros

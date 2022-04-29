@@ -2,16 +2,19 @@ const Salida = require('./Salida');
 const Simbolo = require('./Simbolo');
 const Tabla = require('./Tabla');
 const Valor = require('./Valor');
+const Tipo = require('./Tipo');
 
 class LLamada{
  
     constructor(id, identificador, parametros, tipoDato, tipoEstructura, fila, columna){
         this.id = id;
         this.identificador = identificador;
-        if(parametros == null){
+        if (parametros == null){
             this.parametros = [];
+            this.cantidadParametros = 0;
         } else {
             this.parametros = parametros;
+            this.cantidadParametros = parametros.length;
         }
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
@@ -25,14 +28,15 @@ class LLamada{
      * @param {Salida} simbolos 
      */
     operar(tablaSimbolos, salida){
-        var funcion = tablaSimbolos.obtenerFuncion(this.identificador, this.parametros.lenght);
-        if (funcion === null){
-            salida.agregarError(Tipo.SEMANTICO, "Funcion: "+ this.identificador + "no declarada", this.fila, this.columna);
+        var funcion = tablaSimbolos.obtenerFuncion(this.identificador, this.cantidadParametros);
+        if (funcion == null){
+            salida.agregarError(Tipo.SEMANTICO, "Funcion: "+ this.identificador + " no declarada", this.fila, this.columna);
             return null;
         }
         var nuevaTabla = new Tabla(tablaSimbolos);
+        console.log(tablaSimbolos)
         if (funcion.parametros != null){
-            for(var i = 0; i < funcion.parametros.lenght; i++){
+            for(var i = 0; i < funcion.cantidadParametros; i++){
                 if(nuevaTabla.buscarSimboloLocal(funcion.parametros[i].identificador)===false){
                     var expresion = this.parametros[i].operar(nuevaTabla, salida);
                     if(expresion === null){
@@ -47,9 +51,16 @@ class LLamada{
                 }
             }
         }
-        for(var i = 0; i < funcion.cuerpo.lenght; i++){
-            funcion.cuerpo[i].operar(nuevaTabla, salida);
+        funcion.operar(nuevaTabla, salida);
+        /*
+        console.log("Error2: " + funcion.getCantidadCuerpo())
+        var cuerpo = funcion.getCuerpo();
+        for(var i = 0; i < funcion.getCantidadCuerpo(); i++){
+            console.log("IDDD: " + cuerpo.id)
+            cuerpo[i].operar(nuevaTabla, salida);
         }
+        */
+       
         if (funcion.tipoDato != Tipo.VOID){
             var valorRetorno = funcion.retorno.operar(nuevaTabla, salida);
             if(valorRetorno === null){

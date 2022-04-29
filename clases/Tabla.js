@@ -4,11 +4,17 @@ const Funcion = require('./Funcion');
 
 class Tabla{
 
+    /**
+     * 
+     * @param {Tabla} _tablaSuperior 
+     */
     constructor(_tablaSuperior){
+        this.funciones = [];       
+        this.simbolos = [];
         if (_tablaSuperior != null){
             this.funciones = _tablaSuperior.funciones
+            this.simbolos = _tablaSuperior.simbolos;
         }
-        this.simbolos = [];
         this.tablaSuperior = _tablaSuperior;
         this.salida = null;
     }
@@ -85,18 +91,22 @@ class Tabla{
      * @param {Funcion} funcion 
      */
     agregarFuncion(funcion){
-        if(this.buscarFuncion(funcion.id,funcion.parametros.length)===false){
+        if(this.buscarFuncion(funcion.identificador,funcion.cantidadParametros)===false){
             this.funciones.push(funcion);
             return true;
         } else {
-            salida.agregarError(Tipo.SEMANTICO, "Funcion "+ funcion.id + "ya declarada", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "Funcion "+ funcion.identificador + "ya declarada", this.fila, this.columna);
             return false;
         }
     }
 
+    devolverCantidad(){
+        return this.funciones.length;
+    }
+
     obtenerFuncion(nombre, cantidadParametros){
         for(var i = 0; i < this.funciones.length; i++){
-            if(this.funciones[i].id === nombre && this.funciones[i].parametros.length === cantidadParametros){
+            if(this.funciones[i].identificador === nombre && this.funciones[i].cantidadParametros === cantidadParametros){
                 return this.funciones[i];
             }            
         }
@@ -104,12 +114,16 @@ class Tabla{
     }
 
     buscarFuncion(nombre, cantidadParametros){
-        for(var i = 0; i < this.funciones.length; i++){
-            if(this.funciones[i].id === nombre && this.funciones[i].parametros.length === cantidadParametros){
-                return true;
-            }            
+        if (this.funciones != null){
+            for(var i = 0; i < this.funciones.length; i++){
+                if(this.funciones[i].identificador === nombre && this.funciones[i].cantidadParametros === cantidadParametros){
+                    return true;
+                }            
+            }
+            return false;
+        } else {
+            return false;
         }
-        return false;
     }
 }
 
