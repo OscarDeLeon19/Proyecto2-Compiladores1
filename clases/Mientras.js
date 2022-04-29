@@ -44,10 +44,20 @@ class Mientras{
             return null;
         }      
         while(expresion.valor === true){
+            var detener = false;
             for(var i = 0; i < this.cantOperaciones; i++){
-                this.cuerpo[i].operar(nuevaTabla,salida);
+                if (this.cuerpo[i].id === "Detener") {
+                    detener = true;
+                    break;
+                } else if (this.cuerpo[i].id === "Continuar") {
+                    break;
+                } else {
+                    this.cuerpo[i].operar(nuevaTabla, salida);
+                }
             }
-
+            if(detener === true){
+                break;
+            }
             expresion = this.relacion.operar(nuevaTabla, salida);
             if (expresion == null){
                 salida.agregarError(Tipo.SEMANTICO, "Error en la expresion relacional del ciclo", this.fila, this.columna);

@@ -122,7 +122,7 @@ break;
 case 8:
 this.$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];
 break;
-case 9: case 24: case 25: case 27: case 28: case 29: case 30: case 40: case 41: case 42: case 43: case 51: case 52: case 53: case 54: case 70: case 71: case 72: case 73:
+case 9: case 27: case 28: case 29: case 30: case 40: case 41: case 42: case 43: case 51: case 52: case 53: case 54: case 70: case 71: case 72: case 73:
 this.$ = null
 break;
 case 13:
@@ -145,6 +145,12 @@ if ($$[$0]!=null){operaciones_ciclo.push($$[$0]);}
 break;
 case 22: case 23: case 26:
 operaciones_ciclo.push($$[$0]);
+break;
+case 24:
+operaciones_ciclo.push(new Detener("Detener",yylineno,this._$.first_column));
+break;
+case 25:
+operaciones_ciclo.push(new Detener("Continuar",yylineno,this._$.first_column));
 break;
 case 31:
 this.$ = new Si("Si",$$[$0-9],Tipo.SI,operaciones_si,operaciones_si.length,operaciones_else,operaciones_else.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_si = []; operaciones_else = [];
@@ -583,6 +589,8 @@ _handle_error:
 	const Para = require('./clases/Para');
 	const Mientras = require('./clases/Mientras');
 	const Iteracion = require('./clases/Iteracion');
+	const Detener = require('./clases/Detener');
+	const Continuar = require('./clases/Continuar');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];

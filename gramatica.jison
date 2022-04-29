@@ -20,6 +20,8 @@
 	const Para = require('./clases/Para');
 	const Mientras = require('./clases/Mientras');
 	const Iteracion = require('./clases/Iteracion');
+	const Detener = require('./clases/Detener');
+	const Continuar = require('./clases/Continuar');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
@@ -212,8 +214,8 @@ instruccion_para
 	:  declaracion {if ($1!=null){operaciones_ciclo.push($1);}}
 	|  asignacion {operaciones_ciclo.push($1);}
 	|  llamada {operaciones_ciclo.push($1);}
-	|  DETENER {$$ = null}
-	|  CONTINUAR {$$ = null}
+	|  DETENER {operaciones_ciclo.push(new Detener("Detener",yylineno,this._$.first_column));}
+	|  CONTINUAR {operaciones_ciclo.push(new Detener("Continuar",yylineno,this._$.first_column));}
 	|  mostrar {operaciones_ciclo.push($1);}
 	|  dibujar_AST {$$ = null}	  
 	| dibujar_EXP {$$ = null}
