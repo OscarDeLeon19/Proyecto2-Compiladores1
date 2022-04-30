@@ -112,6 +112,22 @@ class Tabla{
         return null;
     }
 
+    /**
+     * 
+     * @param {*} nombre 
+     * @returns 
+     */
+    obtenerFunciones(nombre){
+        var cantidadFunciones = [];
+        for(var i = 0; i < this.funciones.length; i++){
+            if(this.funciones[i].identificador === nombre){
+                cantidadFunciones.push(this.funciones[i]);
+            }            
+        }
+        return cantidadFunciones;
+    }
+
+
     buscarFuncion(nombre, cantidadParametros){
         if (this.funciones != null){
             for(var i = 0; i < this.funciones.length; i++){

@@ -46,10 +46,10 @@ class Declaracion{
         var comprobacion = tablaSimbolos.buscarSimboloLocal(this.identificador);
         if (comprobacion === false){
             if (valorExpresion===null){
-                tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, null))             
+                tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, null, this.fila, this.columna))             
                 return true;
             }
-            tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, valorExpresion.valor))
+            tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, valorExpresion.valor,  this.fila, this.columna))
             return true;
         } else {
             salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.identificador+"esta declarada en este ambito", this.fila, this.columna);

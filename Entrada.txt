@@ -34,6 +34,7 @@ Void Principal():
 		Mostrar("Ciclo Mientras: " + varMientras)
 
 	Mostrar("Despues de la funcion: " + funcionMetodo2(50,50)*5)
+	DibujarTS()
 
 
 Void nuevaFuncionPerro():
@@ -43,6 +44,11 @@ Void nuevaFuncionPerro():
 
 
 Int HOLAAAAAA():
+
+	Retorno 25
+
+
+Int HOLAAAAAA(String kishi):
 
 	Retorno 25
 

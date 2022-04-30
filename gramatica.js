@@ -122,8 +122,17 @@ break;
 case 8:
 this.$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];
 break;
-case 9: case 27: case 28: case 29: case 30: case 40: case 41: case 42: case 43: case 51: case 52: case 53: case 54: case 70: case 71: case 72: case 73:
+case 9: case 30: case 43: case 54: case 73:
 this.$ = null
+break;
+case 10:
+this.$ = new DibujarEXP("DibujarAST",$$[$0-1],yylineno,this._$.first_column)
+break;
+case 11:
+this.$ = new DibujarTS("DibujarTS",yylineno,this._$.first_column)
+break;
+case 12:
+this.$ = new DibujarAST("DibujarAST",$$[$0-1],yylineno,this._$.first_column)
 break;
 case 13:
 this.$ = new Mostrar("Mostrar",$$[$0-1],Tipo.VALOR,yylineno,this._$.first_column);
@@ -143,7 +152,7 @@ break;
 case 21:
 if ($$[$0]!=null){operaciones_ciclo.push($$[$0]);}
 break;
-case 22: case 23: case 26:
+case 22: case 23: case 26: case 27: case 28: case 29:
 operaciones_ciclo.push($$[$0]);
 break;
 case 24:
@@ -161,13 +170,13 @@ break;
 case 36:
 if ($$[$0]!=null){operaciones_si.push($$[$0]);}
 break;
-case 37: case 38: case 39:
+case 37: case 38: case 39: case 40: case 41: case 42:
 operaciones_si.push($$[$0]);
 break;
 case 47:
 if ($$[$0]!=null){operaciones_else.push($$[$0]);}
 break;
-case 48: case 49: case 50:
+case 48: case 49: case 50: case 51: case 52: case 53:
 operaciones_else.push($$[$0]);
 break;
 case 56:
@@ -185,7 +194,7 @@ break;
 case 63:
 if ($$[$0]!=null){operaciones_funcion.push($$[$0]);}
 break;
-case 64: case 65: case 66: case 67: case 68: case 69:
+case 64: case 65: case 66: case 67: case 68: case 69: case 70: case 71: case 72:
 operaciones_funcion.push($$[$0]);
 break;
 case 75:
@@ -591,6 +600,9 @@ _handle_error:
 	const Iteracion = require('./clases/Iteracion');
 	const Detener = require('./clases/Detener');
 	const Continuar = require('./clases/Continuar');
+	const DibujarAST = require('./clases/DibujarAST');
+	const DibujarEXP = require('./clases/DibujarEXP');
+	const DibujarTS = require('./clases/DibujarTS');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];

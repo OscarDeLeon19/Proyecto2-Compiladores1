@@ -2,15 +2,16 @@ const Salida = require('./Salida');
 const Tabla = require('./Tabla');
 const Tipo = require('./Tipo');
 
-class Detener{
+class DibujarEXP{
     /**
      * 
      * @param {*} id 
      * @param {*} fila 
      * @param {*} columna 
      */
-    constructor(id,fila, columna){
+    constructor(id, expresion, fila, columna){
         this.id = id;
+        this.expresion = expresion;
         this.fila = fila;
         this.columna = columna;
     }
@@ -21,9 +22,9 @@ class Detener{
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
-        return null;
+        console.log(this.expresion);
     }
 
 }
 
-module.exports = Detener;
+module.exports = DibujarEXP;

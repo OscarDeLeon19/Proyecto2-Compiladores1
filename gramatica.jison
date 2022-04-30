@@ -22,6 +22,9 @@
 	const Iteracion = require('./clases/Iteracion');
 	const Detener = require('./clases/Detener');
 	const Continuar = require('./clases/Continuar');
+	const DibujarAST = require('./clases/DibujarAST');
+	const DibujarEXP = require('./clases/DibujarEXP');
+	const DibujarTS = require('./clases/DibujarTS');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
@@ -176,15 +179,15 @@ instruccion
 ;
 
 dibujar_EXP
-	: DIBUJAREXP PARIZQ expresion PARDER
+	: DIBUJAREXP PARIZQ expresion PARDER {$$ = new DibujarEXP("DibujarAST",$3,yylineno,this._$.first_column)}
 ;
 
 dibujar_TS
-	: DIBUJARTS PARIZQ PARDER
+	: DIBUJARTS PARIZQ PARDER {$$ = new DibujarTS("DibujarTS",yylineno,this._$.first_column)}
 ;
 
 dibujar_AST
-	: DIBUJARAST PARIZQ ID PARDER
+	: DIBUJARAST PARIZQ ID PARDER {$$ = new DibujarAST("DibujarAST",$3,yylineno,this._$.first_column)}
 ;
 
 mostrar
@@ -217,9 +220,9 @@ instruccion_para
 	|  DETENER {operaciones_ciclo.push(new Detener("Detener",yylineno,this._$.first_column));}
 	|  CONTINUAR {operaciones_ciclo.push(new Detener("Continuar",yylineno,this._$.first_column));}
 	|  mostrar {operaciones_ciclo.push($1);}
-	|  dibujar_AST {$$ = null}	  
-	| dibujar_EXP {$$ = null}
-	| dibujar_TS {$$ = null}
+	|  dibujar_AST {operaciones_ciclo.push($1);} 
+	| dibujar_EXP {operaciones_ciclo.push($1);} 
+	| dibujar_TS {operaciones_ciclo.push($1);} 
 	| {$$ = null}
 ;
 
@@ -240,9 +243,9 @@ instruccion_if
 	|  asignacion {operaciones_si.push($1);}
 	|  llamada {operaciones_si.push($1);}
 	|  mostrar	{operaciones_si.push($1);}
-	|  dibujar_AST {$$ = null}
-	|  dibujar_EXP {$$ = null}
-	|  dibujar_TS  {$$ = null}
+	|  dibujar_AST {operaciones_si.push($1);}
+	|  dibujar_EXP {operaciones_si.push($1);}
+	|  dibujar_TS  {operaciones_si.push($1);}
 	| {$$ = null}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
@@ -257,9 +260,9 @@ instruccion_else
 	|  asignacion {operaciones_else.push($1);}
 	|  llamada {operaciones_else.push($1);}
 	|  mostrar {operaciones_else.push($1);}	
-	|  dibujar_AST {$$ = null}
-	|  dibujar_EXP {$$ = null}
-	|  dibujar_TS {$$ = null}
+	|  dibujar_AST {operaciones_else.push($1);}
+	|  dibujar_EXP {operaciones_else.push($1);}
+	|  dibujar_TS {operaciones_else.push($1);}
 	| {$$ = null}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
@@ -285,9 +288,9 @@ instruccion_funcion
 	|  si {operaciones_funcion.push($1);}
 	|  para	{operaciones_funcion.push($1);}
 	|  mientras	{operaciones_funcion.push($1);}
-	|  dibujar_AST {$$ = null}
-	|  dibujar_EXP {$$ = null}
-	|  dibujar_TS {$$ = null}
+	|  dibujar_AST {operaciones_funcion.push($1);}
+	|  dibujar_EXP {operaciones_funcion.push($1);}
+	|  dibujar_TS {operaciones_funcion.push($1);}
 	|  {$$ = null}
 	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
