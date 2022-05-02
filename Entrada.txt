@@ -1,6 +1,4 @@
 Int numero = 5*5
-
-
 Void Principal():
 	Double parametro = 10.98
 	funcionMetodo1(6,2)
@@ -35,6 +33,8 @@ Void Principal():
 
 	Mostrar("Despues de la funcion: " + funcionMetodo2(50,50)*5)
 	DibujarTS()
+	Int perro = 5
+	Mostrar(perro + " Hola")
 
 
 Void nuevaFuncionPerro():
