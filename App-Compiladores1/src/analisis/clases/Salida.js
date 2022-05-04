@@ -1,4 +1,4 @@
-const Type = require('./Tipo');
+const {Error} = require("./Error");
 
 class Salida{
     
@@ -21,7 +21,8 @@ class Salida{
     }
 
     agregarError(tipo, mensaje, fila, columna){
-        this.tablaErrores.push({tipo: tipo, mensaje: mensaje, fila: fila, columna: columna});
+        var error = new Error(tipo, mensaje, fila, columna);
+        this.tablaErrores.push(error);
     }
 
     agregarSalida(valor){

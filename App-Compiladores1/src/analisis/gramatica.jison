@@ -115,7 +115,7 @@
 
 
 <<EOF>>				return 'EOF';
-.					{ console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
+.					{salida.agregarError(Tipo.LEXICO, "Error en el lexema: " + yytext, yylloc.first_line,yylloc.first_column); console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
 
 /lex
 
@@ -146,7 +146,6 @@ ini
 	: instrucciones EOF {
 	
 		var nuevaTabla = new Tabla(tabla);
-		
 		for(var i = 0; i< $1.length; i++){
             if($1[i]){
                 $1[i].operar(tabla, salida);
@@ -158,7 +157,7 @@ ini
 		} else {
 			console.log("error");
 		}
-		
+		tabla = new Tabla(null);
 		return salida;
 		
 	}
@@ -168,7 +167,7 @@ ini
 instrucciones
 	: instrucciones instruccion SALTO {$$ = operaciones; if($2 != null){operaciones.push($2)};}
 	| instruccion SALTO {if($1 != null){operaciones.push($1)};}
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 instruccion
@@ -247,7 +246,7 @@ instruccion_if
 	|  dibujar_EXP {operaciones_si.push($1);}
 	|  dibujar_TS  {operaciones_si.push($1);}
 	| {$$ = null}
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 instrucciones_else
@@ -264,7 +263,7 @@ instruccion_else
 	|  dibujar_EXP {operaciones_else.push($1);}
 	|  dibujar_TS {operaciones_else.push($1);}
 	| {$$ = null}
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 funcion
@@ -292,7 +291,7 @@ instruccion_funcion
 	|  dibujar_EXP {operaciones_funcion.push($1);}
 	|  dibujar_TS {operaciones_funcion.push($1);}
 	|  {$$ = null}
-	| error {console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 retorno_metodo

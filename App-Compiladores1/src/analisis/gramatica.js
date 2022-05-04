@@ -87,7 +87,6 @@ case 1:
 
 	
 		var nuevaTabla = new Tabla(tabla);
-		
 		for(var i = 0; i< $$[$0-1].length; i++){
             if($$[$0-1][i]){
                 $$[$0-1][i].operar(tabla, salida);
@@ -99,7 +98,7 @@ case 1:
 		} else {
 			console.log("error");
 		}
-		
+		tabla = new Tabla(null);
 		return salida;
 		
 	
@@ -111,7 +110,7 @@ case 4:
 if($$[$0-1] != null){operaciones.push($$[$0-1])};
 break;
 case 5: case 44: case 55: case 74:
-console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)
+salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)
 break;
 case 6:
 if ($$[$0]!=null){this.$ = $$[$0]}
@@ -1064,7 +1063,7 @@ case 59:return 23;
 break;
 case 60:return 5;
 break;
-case 61: console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
+case 61:salida.agregarError(Tipo.LEXICO, "Error en el lexema: " + yy_.yytext, yy_.yylloc.first_line,yy_.yylloc.first_column); console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
 break;
 }
 },

@@ -1,6 +1,6 @@
-
-
 import { Component, OnInit } from '@angular/core';
+import {Error} from "../../../analisis/clases/Error";
+
 
 declare var require:any;
 const gramatica = require("../../../analisis/gramatica.js");
@@ -27,8 +27,16 @@ export class PrincipalComponentComponent implements OnInit {
     
     var outPUT = new Salida();
     outPUT = gramatica.parse(this.texto);
+    var errores:Error[] = outPUT.getTablaErrores();
+    
     this.resultado = outPUT.getSalida();
-    this.resultado += outPUT.getTablaErrores();
+    
+    if(errores.length > 0){
+      for(var i = 0; i < errores.length; i++){
+        this.resultado += "TIPO: " + errores[i].tipo + " MENSAJE: " + errores[i].mensaje + " Fila: " +errores[i].fila + "\n";
+      }
+    }
+
   }
 
   limpiarConsola(){
