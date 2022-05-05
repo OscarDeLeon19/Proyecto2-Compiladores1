@@ -1,6 +1,6 @@
 const Salida = require('./Salida');
 const Tabla = require('./Tabla');
-const Tipo = require('./Tipo');
+const {DBTabla} = require('./DBTabla');
 
 class DibujarTS{
     /**
@@ -22,11 +22,14 @@ class DibujarTS{
      */
     operar(tablaSimbolos, salida){
         var simbolos = tablaSimbolos.simbolos;
+        var nuevaTabla = new DBTabla(this.fila, this.columna);
         if(simbolos.length > 0){
             for(var i = 0; i < simbolos.length; i++){
+                nuevaTabla.agregarColumna(simbolos[i].id, simbolos[i].valor, simbolos[i].tipoDato, simbolos[i].fila, simbolos[i].columna);
                 console.log("Variable: " + simbolos[i].id + " | Valor: " + simbolos[i].valor + " | Tipo de Dato: " + simbolos[i].tipoDato + " | Fila: " + simbolos[i].fila + " | " + simbolos[i].columna);           
             }
         }
+        salida.agregarTabla(nuevaTabla);
     }
 
 }

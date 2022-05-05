@@ -1,4 +1,5 @@
 const {Error} = require("./Error");
+const {DBTabla} = require("./DBTabla");
 
 class Salida{
     
@@ -6,10 +7,19 @@ class Salida{
         this.limpiarSalida();
     }
 
+    /**
+     * 
+     * @param {Salida} anterior 
+     */
+    agregarParametros(anterior){
+        this.salida = anterior.salida;
+        this.tablaErrores = anterior.tablaErrores;
+    }
+
     limpiarSalida(){
         this.salida = '';
-        this.errores = '';
         this.tablaErrores = [];
+        this.cantidadTablas = [];
     }
 
     getSalida(){
@@ -20,6 +30,10 @@ class Salida{
         return this.tablaErrores;
     }
 
+    getTablasDibujadas(){
+        return this.cantidadTablas;
+    }
+
     agregarError(tipo, mensaje, fila, columna){
         var error = new Error(tipo, mensaje, fila, columna);
         this.tablaErrores.push(error);
@@ -27,6 +41,14 @@ class Salida{
 
     agregarSalida(valor){
         this.salida = this.salida + valor + "\n";
+    }
+
+    /**
+     * 
+     * @param {DBTabla} tabla 
+     */
+    agregarTabla(tabla){
+        this.cantidadTablas.push(tabla);
     }
 }
 

@@ -146,19 +146,22 @@ ini
 	: instrucciones EOF {
 	
 		var nuevaTabla = new Tabla(tabla);
-		for(var i = 0; i< $1.length; i++){
-            if($1[i]){
-                $1[i].operar(tabla, salida);
+		var nuevaSalida = new Salida();
+        nuevaSalida.agregarParametros(salida);
+        salida.limpiarSalida();
+        for(var i = 0; i< $$[$0-1].length; i++){
+            if($$[$0-1][i]){
+                $$[$0-1][i].operar(tabla, nuevaSalida);
 			}	
         }
 		var funcionPrincipal = tabla.obtenerFuncion('Principal',0);
 		if (funcionPrincipal != null){
-			funcionPrincipal.operar(nuevaTabla, salida);		
+			funcionPrincipal.operar(nuevaTabla, nuevaSalida);		
 		} else {
 			console.log("error");
 		}
-		tabla = new Tabla(null);
-		return salida;
+		tabla.limpiarTabla();
+		return nuevaSalida;
 		
 	}
     | EOF
@@ -173,7 +176,7 @@ instrucciones
 instruccion
 	: declaracion {if ($1!=null){$$ = $1}}
 	| funcion { $$ = null;}
-	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];}	
+	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}	
 	| {$$ = null}
 ;
 
@@ -267,10 +270,10 @@ instruccion_else
 ;
 
 funcion
-	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,$1,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; parametros_metodo = []; }
-	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; parametros_metodo = [];}
-	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,$1,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];}
-	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; }	
+	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = []; }
+	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = [];}
+	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}
+	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; }	
 ;
 
 instrucciones_funcion

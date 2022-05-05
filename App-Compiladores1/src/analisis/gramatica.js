@@ -85,21 +85,24 @@ var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
 
-	
+
 		var nuevaTabla = new Tabla(tabla);
-		for(var i = 0; i< $$[$0-1].length; i++){
+		var nuevaSalida = new Salida();
+        nuevaSalida.agregarParametros(salida);
+        salida.limpiarSalida();
+        for(var i = 0; i< $$[$0-1].length; i++){
             if($$[$0-1][i]){
-                $$[$0-1][i].operar(tabla, salida);
+                $$[$0-1][i].operar(tabla, nuevaSalida);
 			}	
         }
 		var funcionPrincipal = tabla.obtenerFuncion('Principal',0);
 		if (funcionPrincipal != null){
-			funcionPrincipal.operar(nuevaTabla, salida);		
+			funcionPrincipal.operar(nuevaTabla, nuevaSalida);		
 		} else {
 			console.log("error");
 		}
-		tabla = new Tabla(null);
-		return salida;
+		tabla.limpiarTabla();
+		return nuevaSalida;
 		
 	
 break;
@@ -119,7 +122,7 @@ case 7:
  this.$ = null;
 break;
 case 8:
-this.$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];
+this.$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];
 break;
 case 9: case 30: case 43: case 54: case 73:
 this.$ = null
@@ -179,16 +182,16 @@ case 48: case 49: case 50: case 51: case 52: case 53:
 operaciones_else.push($$[$0]);
 break;
 case 56:
-this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-8],parametros_metodo,operaciones_funcion,$$[$0-1],$$[$0-9],Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; parametros_metodo = []; 
+this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-8],parametros_metodo,operaciones_funcion,$$[$0-1],$$[$0-9],Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = []; 
 break;
 case 57:
-this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-8],parametros_metodo,operaciones_funcion,$$[$0-1],Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; parametros_metodo = [];
+this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-8],parametros_metodo,operaciones_funcion,$$[$0-1],Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = [];
 break;
 case 58:
-this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-7],null,operaciones_funcion,$$[$0-1],$$[$0-8],Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = [];
+this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-7],null,operaciones_funcion,$$[$0-1],$$[$0-8],Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];
 break;
 case 59:
-this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-7],null,operaciones_funcion,$$[$0-1],Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column)); operaciones_funcion = []; 
+this.$ = null; tabla.agregarFuncion(new Funcion("Funcion",$$[$0-7],null,operaciones_funcion,$$[$0-1],Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; 
 break;
 case 63:
 if ($$[$0]!=null){operaciones_funcion.push($$[$0]);}

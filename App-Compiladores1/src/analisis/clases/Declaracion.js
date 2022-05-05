@@ -52,7 +52,7 @@ class Declaracion{
             tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, valorExpresion.valor,  this.fila, this.columna))
             return true;
         } else {
-            salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.identificador+"esta declarada en este ambito", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.identificador+" esta declarada en este ambito", this.fila, this.columna);
             return null;
         }
 

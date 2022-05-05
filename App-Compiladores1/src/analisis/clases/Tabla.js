@@ -15,7 +15,12 @@ class Tabla{
             this.funciones = _tablaSuperior.funciones;
         }
         this.tablaSuperior = _tablaSuperior;
-        this.salida = null;
+    }
+
+    limpiarTabla(){
+        this.funciones = [];
+        this.simbolos = [];
+        this.tablaSuperior = null;
     }
 
     /**
@@ -89,7 +94,7 @@ class Tabla{
      * 
      * @param {Funcion} funcion 
      */
-    agregarFuncion(funcion){
+    agregarFuncion(funcion, salida){
         if(this.buscarFuncion(funcion.identificador,funcion.cantidadParametros)===false){
             this.funciones.push(funcion);
             return true;

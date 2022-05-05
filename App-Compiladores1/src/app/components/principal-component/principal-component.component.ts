@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Error} from "../../../analisis/clases/Error";
-
+import {DBTabla} from "../../../analisis/clases/DBTabla";
+import {Columna} from "../../../analisis/clases/Columna";
 
 declare var require:any;
 const gramatica = require("../../../analisis/gramatica.js");
@@ -17,6 +18,13 @@ export class PrincipalComponentComponent implements OnInit {
 
   texto:string = "";
   resultado:string = "";
+  hiddenEditor:boolean = false;
+  hiddenErrores:boolean = true;
+  hiddenTablas:boolean = true;
+  errores:Error[] = [];
+  tablas:DBTabla[] = [];
+
+
   constructor() { }
 
   ngOnInit(): void {
@@ -24,20 +32,55 @@ export class PrincipalComponentComponent implements OnInit {
   }
 
   compilarProyecto(){
-    
     var outPUT = new Salida();
     outPUT = gramatica.parse(this.texto);
-    var errores:Error[] = outPUT.getTablaErrores();
-    
     this.resultado = outPUT.getSalida();
-    
-    if(errores.length > 0){
-      for(var i = 0; i < errores.length; i++){
-        this.resultado += "TIPO: " + errores[i].tipo + " MENSAJE: " + errores[i].mensaje + " Fila: " +errores[i].fila + "\n";
-      }
+    this.errores = outPUT.getTablaErrores();
+    this.tablas = outPUT.getTablasDibujadas();
+    if(this.errores.length > 0){
+      alert("Hay errores en el programa");
     }
+    
+    
 
   }
+
+  descargarCRL(){
+    const file = new Blob([this.texto], {type: "text/plain"});
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(file);
+    link.download = "archivo.txt";
+    link.click();
+    link.remove();
+  }
+
+  async subirCRL(event:any){
+    
+      const file:File = event.target.files[0];
+      var t = file.name;
+      this.texto = await file.text();
+  
+  
+  }
+
+  mostrarEditor(){
+    this.hiddenEditor = false;
+    this.hiddenErrores = true;
+    this.hiddenTablas = true;
+  }
+
+  mostrarErrores(){
+    this.hiddenEditor = true;
+    this.hiddenErrores = false;
+    this.hiddenTablas = true;
+  }
+
+  mostrarTablas(){
+    this.hiddenEditor = true;
+    this.hiddenErrores = true;
+    this.hiddenTablas = false;
+  }
+
 
   limpiarConsola(){
     this.resultado = "";
