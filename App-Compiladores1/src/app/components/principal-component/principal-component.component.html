@@ -24,7 +24,14 @@
             <input #fileUpload [accept]="'.txt'" type="file" class="file-input" (change)="subirCRL($event)">
             <button type="button" class="btn btn-primary" (click)="importarCRL()">Importar</button>    
         </div>
-        <textarea rows = "25" cols="125" [(ngModel)]="texto" name = "texto"></textarea>
+        <div class="col-md-11" >
+          <ngx-codemirror [(ngModel)]="texto" row
+          [options]="{
+            lineNumbers: true,
+            theme: 'material',
+            tabSize: 4
+          }" name = "texto"></ngx-codemirror>
+      </div>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
           <div style="padding-right: 20px;" class="btn-group mr-2" role="group" aria-label="First group">
             <button type="button" class="btn btn-primary" (click)="compilarProyecto()">Compilar</button>
