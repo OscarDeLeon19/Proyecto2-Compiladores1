@@ -17,10 +17,13 @@ const Salida = require("../../../analisis/clases/Salida.js")
 export class PrincipalComponentComponent implements OnInit {
 
   texto:string = "";
+  UploadfileText:string = "";
+  UploadfileName:string = "";
   resultado:string = "";
   hiddenEditor:boolean = false;
   hiddenErrores:boolean = true;
   hiddenTablas:boolean = true;
+  hiddenUpload:boolean = true;
   errores:Error[] = [];
   tablas:DBTabla[] = [];
 
@@ -49,18 +52,28 @@ export class PrincipalComponentComponent implements OnInit {
     const file = new Blob([this.texto], {type: "text/plain"});
     const link = document.createElement("a");
     link.href = URL.createObjectURL(file);
-    link.download = "archivo.txt";
+    if(this.UploadfileName === ""){
+      link.download = "archivo.crl";
+    } else {
+      link.download = this.UploadfileName;
+    }
     link.click();
     link.remove();
   }
 
   async subirCRL(event:any){
-    
       const file:File = event.target.files[0];
-      var t = file.name;
-      this.texto = await file.text();
-  
-  
+      this.UploadfileName = file.name;
+      this.UploadfileText = await file.text();
+  }
+
+  importarCRL(){
+    this.texto = this.UploadfileText;
+    this.hiddenUpload = true;
+  }
+
+  mostrarUpload(){
+    this.hiddenUpload = false;
   }
 
   mostrarEditor(){

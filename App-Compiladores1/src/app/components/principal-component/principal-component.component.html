@@ -1,14 +1,14 @@
-<div class = "mx-auto"style="width: 1000px;">
-  <h1>CRL</h1>  
+<div class = "mx-auto"style="width: 1000px;" style="background-color: aqua;">
+  <h1>Menu CRL</h1>  
   <ul class="nav">
     <li class="nav-item">
-      <button type="button" class="btn btn-primary" (click)="mostrarEditor()">Editor</button>
+      <button type="button" class="nav-link" (click)="mostrarEditor()">Editor</button>
     </li>
     <li class="nav-item">
-      <button type="button" class="btn btn-danger" (click)="mostrarErrores()">Errores</button>
+      <button type="button" class="nav-link" (click)="mostrarErrores()">Errores</button>
     </li>
     <li class="nav-item">
-      <button type="button" class="btn btn-primary" (click)="mostrarTablas()">Tablas</button>
+      <button type="button" class="nav-link" (click)="mostrarTablas()">Tablas</button>
     </li>
     <li class="nav-item">
     </li>
@@ -19,8 +19,20 @@
     <div class = "mx-auto"style="width: 1000px;">
       <div class="mb-3">
         <h3 for="validationTextarea">Area de Texto</h3>
+        <button type="button" class="btn btn-primary" (click)="mostrarUpload()">Subir Archivo</button>
+        <div style="padding: 10px; background-color: skyblue;" [hidden]="hiddenUpload">
+            <input #fileUpload [accept]="'.txt'" type="file" class="file-input" (change)="subirCRL($event)">
+            <button type="button" class="btn btn-primary" (click)="importarCRL()">Importar</button>    
+        </div>
         <textarea rows = "25" cols="125" [(ngModel)]="texto" name = "texto"></textarea>
-        <button type="button" class="btn btn-primary" (click)="compilarProyecto()">Compilar</button>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div style="padding-right: 20px;" class="btn-group mr-2" role="group" aria-label="First group">
+            <button type="button" class="btn btn-primary" (click)="compilarProyecto()">Compilar</button>
+          </div>
+          <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-primary" (click)="descargarCRL()">Descargar</button>
+          </div>
+        </div>     
       </div>
     </div>
     
@@ -57,9 +69,9 @@
 
 <div class = "mx-auto"style="width: 1000px;" [hidden]="hiddenTablas">
   <div *ngFor="let tab of this.tablas">
-    <h1>Tabla Dibujada en {{tab.fila}}</h1>
-    <table class="table table-dark">
-      <thead class="table-danger ">
+    <h1>Sibolos de la tabla dibujada en la fila: {{tab.fila}}</h1>
+    <table class="table">
+      <thead>
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Valor</th>
