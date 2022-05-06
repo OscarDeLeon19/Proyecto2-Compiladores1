@@ -1,6 +1,7 @@
 const Salida = require('./Salida');
 const Tabla = require('./Tabla');
 const Tipo = require('./Tipo');
+const Conteo = require('../Conteo')
 
 class DibujarEXP{
     /**
@@ -22,7 +23,14 @@ class DibujarEXP{
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
-        console.log(this.expresion);
+        var textoGrafico = "";
+        var conteo = new Conteo();
+        if(this.expresion.id === "Operacion" || this.expresion.id === "Valor"){
+            textoGrafico = textoGrafico + this.expresion.obtenerDot(salida, conteo);
+        } else {
+            salida.agregarError(Tipo.SEMANTICO, "Solo se pueden dibujar expresiones aritmeticas", this.fila, this.columna);
+        }
+        console.log(textoGrafico);
     }
 
 }

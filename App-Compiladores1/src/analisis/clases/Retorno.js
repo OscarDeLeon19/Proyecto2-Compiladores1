@@ -29,7 +29,7 @@ class Retorno{
             salida.agregarError(Tipo.SEMANTICO, "Error en la expresion", this.fila, this.columna);
             return null;
         }
-        return new Valor(expresion.valor, expresion.tipoDato, Tipo.VALOR, this.fila, this.columna);
+        return new Valor("Valor", expresion.valor, expresion.tipoDato, Tipo.VALOR, this.fila, this.columna);
     }
 
 }

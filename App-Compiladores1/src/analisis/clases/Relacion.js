@@ -55,17 +55,17 @@ class Relacion{
                         if(this.tipoDato != null){
                             switch (this.tipoDato){
                                 case Tipo.IGUAL:
-                                    return new Valor(valorCadena1 === valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",valorCadena1 === valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.DIFERENTE:
-                                    return new Valor(valorCadena1 !== valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",valorCadena1 !== valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.MAYOR:
-                                    return new Valor(valorCadena1 > valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",valorCadena1 > valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.MENOR:
-                                    return new Valor(valorCadena1 < valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",valorCadena1 < valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.MAYORIGUAL:
-                                    return new Valor(valorCadena1 >= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);  
+                                    return new Valor("Valor",valorCadena1 >= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);  
                                 case Tipo.MENORIGUAL:
-                                    return new Valor(valorCadena1 <= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna); 
+                                    return new Valor("Valor",valorCadena1 <= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna); 
                                 case Tipo.INCERTEZA:
                                     var cadena1 = String(nodoIzquierdo.valor.toUpperCase());
                                     var cadena2 = String(nodoDerecho.valor.toUpperCase());
@@ -111,7 +111,7 @@ class Relacion{
                                     for(var i = 0; i< String(nuevaCadena1.length); i++){
                                         valorIncerteza2 = valorIncerteza2 + nuevaCadena2.charCodeAt(i);
                                     }
-                                    return new Valor(valorIncerteza1 === valorIncerteza2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",valorIncerteza1 === valorIncerteza2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 default:
                                     salida.agregarError(Tipo.SEMANTICO, "La operacion " + this.tipoDato + " no se puede realizar", this.fila, this.columna);
                                     return null;                                
@@ -121,17 +121,17 @@ class Relacion{
                         if(this.tipoDato != null){
                             switch (this.tipoDato){
                                 case Tipo.IGUAL:
-                                    return new Valor(nodoIzquierdo.valor === nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",nodoIzquierdo.valor === nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.DIFERENTE:
-                                    return new Valor(nodoIzquierdo.valor !== nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",nodoIzquierdo.valor !== nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.MAYOR:
-                                    return new Valor(nodoIzquierdo.valor > nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",nodoIzquierdo.valor > nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.MENOR:
-                                    return new Valor(nodoIzquierdo.valor < nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",nodoIzquierdo.valor < nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.MAYORIGUAL:
-                                    return new Valor(nodoIzquierdo.valor >= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);  
+                                    return new Valor("Valor",nodoIzquierdo.valor >= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);  
                                 case Tipo.MENORIGUAL:
-                                    return new Valor(nodoIzquierdo.valor <= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    return new Valor("Valor",nodoIzquierdo.valor <= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.INCERTEZA:
                                     if(nodoIzquierdo.tipoDato === Tipo.ENTERO || nodoIzquierdo.tipoDato === Tipo.DECIMAL){
                                         var valorIncerteza;
@@ -142,7 +142,7 @@ class Relacion{
                                         } else {
                                             valorIncerteza = false;
                                         }
-                                        return new Valor(valorIncerteza, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                        return new Valor("Valor",valorIncerteza, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                     } else {
                                         return null;
                                     }

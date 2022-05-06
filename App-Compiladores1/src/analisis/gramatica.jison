@@ -29,6 +29,8 @@
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
+	var operaciones_anidadas = [];
+	var operaciones_anidadas_else = [];
 	var operaciones_funcion = [];
 	var operaciones_si = [];
 	var operaciones_else = [];
@@ -217,11 +219,59 @@ aumentar
 	| DECREMENTO {$$ = new Iteracion("Iteracion",Tipo.DECREMENTO,yylineno,this._$.first_column);}
 ;
 
+mientras_anidado 
+	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Mientras("Mientras",$3,operaciones_anidadas,operaciones_anidadas.length,yylineno,this._$.first_column); operaciones_anidadas = [];}
+;
+
+para_anidado
+	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Para("Para",$3,$5,$7,operaciones_anidadas,operaciones_anidadas.length,yylineno,this._$.first_column); operaciones_anidadas = [];}
+;
+
+si_anidado
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,operaciones_anidadas_else,operaciones_anidadas_else.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_anidadas = []; operaciones_anidadas_else = [];}
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,null,0,yylineno,this._$.first_column); operaciones_anidadas = [];}
+;
+
+instrucciones_anidadas_else
+	: instrucciones_anidadas_else TAB TAB TAB instruccion_anidadas_else SALTO
+	| TAB TAB TAB instruccion_anidadas_else SALTO
+	| SALTO
+;
+
+instruccion_anidadas_else
+	:  declaracion {if ($1!=null){operaciones_anidadas_else.push($1);}}
+	|  asignacion {operaciones_anidadas_else.push($1);}
+	|  llamada {operaciones_anidadas_else.push($1);}
+	|  mostrar {operaciones_anidadas_else.push($1);}
+	|  dibujar_AST {operaciones_anidadas_else.push($1);} 
+	|  dibujar_EXP {operaciones_anidadas_else.push($1);} 
+	|  dibujar_TS {operaciones_anidadas_else.push($1);} 
+	|  {$$ = null}
+;
+
+instrucciones_anidadas
+	: instrucciones_anidadas TAB TAB TAB instruccion_anidadas SALTO
+	| TAB TAB TAB instruccion_anidadas SALTO
+	| SALTO
+;
+
+instruccion_anidadas
+	:  declaracion {if ($1!=null){operaciones_anidadas.push($1);}}
+	|  asignacion {operaciones_anidadas.push($1);}
+	|  llamada {operaciones_anidadas.push($1);}
+	|  mostrar {operaciones_anidadas.push($1);}
+	|  dibujar_AST {operaciones_anidadas.push($1);} 
+	|  dibujar_EXP {operaciones_anidadas.push($1);} 
+	|  dibujar_TS {operaciones_anidadas.push($1);} 
+	|  {$$ = null}
+;
+
+
 instrucciones_para
 	: instrucciones_para TAB TAB instruccion_para SALTO
 	| TAB TAB instruccion_para SALTO
 	| SALTO
-	;
+;
 
 instruccion_para
 	:  declaracion {if ($1!=null){operaciones_ciclo.push($1);}}
@@ -232,7 +282,10 @@ instruccion_para
 	|  mostrar {operaciones_ciclo.push($1);}
 	|  dibujar_AST {operaciones_ciclo.push($1);} 
 	| dibujar_EXP {operaciones_ciclo.push($1);} 
-	| dibujar_TS {operaciones_ciclo.push($1);} 
+	| dibujar_TS {operaciones_ciclo.push($1);}	
+	|  para_anidado {operaciones_ciclo.push($1);}
+	|  mientras_anidado {operaciones_ciclo.push($1);}
+	|  si_anidado {operaciones_ciclo.push($1);} 
 	| {$$ = null}
 ;
 
@@ -256,6 +309,9 @@ instruccion_if
 	|  dibujar_AST {operaciones_si.push($1);}
 	|  dibujar_EXP {operaciones_si.push($1);}
 	|  dibujar_TS  {operaciones_si.push($1);}
+	|  para_anidado {operaciones_si.push($1);}
+	|  mientras_anidado {operaciones_si.push($1);}
+	|  si_anidado {operaciones_si.push($1);}
 	| {$$ = null}
 	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
@@ -272,7 +328,10 @@ instruccion_else
 	|  mostrar {operaciones_else.push($1);}	
 	|  dibujar_AST {operaciones_else.push($1);}
 	|  dibujar_EXP {operaciones_else.push($1);}
-	|  dibujar_TS {operaciones_else.push($1);}
+	|  dibujar_TS {operaciones_else.push($1);}	
+	|  para_anidado {operaciones_else.push($1);}
+	|  mientras_anidado {operaciones_else.push($1);}
+	|  si_anidado {operaciones_else.push($1);}
 	| {$$ = null}
 	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
@@ -396,15 +455,15 @@ expresion_not
 ;
 
 valores
-     : DECIMAL {$$ = new Valor(Number($1),Tipo.DECIMAL,Tipo.VALOR,yylineno,this._$.first_column);}
-     | ENTERO {$$ = new Valor(Number($1),Tipo.ENTERO,Tipo.VALOR,yylineno,this._$.first_column);}
-     | MENOS DECIMAL {$$ = new Valor(-1*Number($2),Tipo.DECIMAL,Tipo.VALOR,yylineno,this._$.first_column);}
-     | MENOS ENTERO {$$ = new Valor(-1*Number($2),Tipo.ENTERO,Tipo.VALOR,yylineno,this._$.first_column);}
+     : DECIMAL {$$ = new Valor("Valor", Number($1),Tipo.DECIMAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | ENTERO {$$ = new Valor("Valor", Number($1),Tipo.ENTERO,Tipo.VALOR,yylineno,this._$.first_column);}
+     | MENOS DECIMAL {$$ = new Valor("Valor", -1*Number($2),Tipo.DECIMAL,Tipo.VALOR,yylineno,this._$.first_column);}
+     | MENOS ENTERO {$$ = new Valor("Valor", -1*Number($2),Tipo.ENTERO,Tipo.VALOR,yylineno,this._$.first_column);}
      | PARIZQ expresion PARDER {$$ = $2;}
-     | CADENA {$$ = new Valor($1,Tipo.CADENA,Tipo.VALOR,yylineno,this._$.first_column);}
-     | CARACTER {$$ = new Valor($1,Tipo.CARACTER,Tipo.VALOR,yylineno,this._$.first_column);}
-     | TRUE {$$ = new Valor(true,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
-     | FALSE {$$ = new Valor(false,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
-     | ID {$$ = new Valor($1,Tipo.ID,Tipo.VALOR,yylineno,this._$.first_column);}
-	 | llamada {$$ = new Valor($1,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
+     | CADENA {$$ = new Valor("Valor", $1,Tipo.CADENA,Tipo.VALOR,yylineno,this._$.first_column);}
+     | CARACTER {$$ = new Valor("Valor", $1,Tipo.CARACTER,Tipo.VALOR,yylineno,this._$.first_column);}
+     | TRUE {$$ = new Valor("Valor", true,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
+     | FALSE {$$ = new Valor("Valor", false,Tipo.BOOLEAN,Tipo.VALOR,yylineno,this._$.first_column);}
+     | ID {$$ = new Valor("Valor", $1,Tipo.ID,Tipo.VALOR,yylineno,this._$.first_column);}
+	 | llamada {$$ = new Valor("Valor", $1,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
 ;  

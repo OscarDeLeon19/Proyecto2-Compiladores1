@@ -46,11 +46,11 @@ class Logica{
                     if(this.tipoDato != null){
                         switch (this.tipoDato){
                             case Tipo.AND:
-                                return new Valor(nodoIzquierdo.valor && nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor("Valor",nodoIzquierdo.valor && nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                             case Tipo.OR:
-                                return new Valor(nodoIzquierdo.valor || nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor("Valor",nodoIzquierdo.valor || nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                             case Tipo.XOR:
-                                return new Valor(nodoIzquierdo.valor ^= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                return new Valor("Valor",nodoIzquierdo.valor ^= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                             default:
                                 salida.agregarError(Tipo.SEMANTICO, "La operacion " + this.tipoDato + " no se puede realizar", this.fila, this.columna);
                                 return null;                             
@@ -66,9 +66,9 @@ class Logica{
                 if(nodoIzquierdo.tipoDato === Tipo.BOOLEAN){                    
                     if(this.tipoDato === Tipo.NOT){
                         if(nodoIzquierdo.valor === true){
-                            return new Valor(false, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                            return new Valor("Valor",false, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                         } else {
-                            return new Valor(true, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                            return new Valor("Valor",true, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                         }                      
                     }                    
                 } else {

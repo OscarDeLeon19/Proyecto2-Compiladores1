@@ -21,7 +21,7 @@
         <h3 for="validationTextarea">Area de Texto</h3>
         <button type="button" class="btn btn-primary" (click)="mostrarUpload()">Subir Archivo</button>
         <div style="padding: 10px; background-color: skyblue;" [hidden]="hiddenUpload">
-            <input #fileUpload [accept]="'.txt'" type="file" class="file-input" (change)="subirCRL($event)">
+            <input #fileUpload [accept]="'.crl'" type="file" class="file-input" (change)="subirCRL($event)">
             <button type="button" class="btn btn-primary" (click)="importarCRL()">Importar</button>    
         </div>
         <div class="col-md-11" >
