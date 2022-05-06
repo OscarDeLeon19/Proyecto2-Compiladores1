@@ -11,7 +11,7 @@ class Continuar{
      */
     constructor(id,fila, columna){
         this.id = id;
-        this.fila = fila;
+        this.fila = fila+1;
         this.columna = columna;
     }
 

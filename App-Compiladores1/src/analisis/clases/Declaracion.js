@@ -21,7 +21,7 @@ class Declaracion{
         this.valor = valor;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
-        this.fila = fila;
+        this.fila = fila+1;
         this.columna = columna;
     }
 

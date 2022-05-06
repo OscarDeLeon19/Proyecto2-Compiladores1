@@ -22,7 +22,7 @@ class Relacion{
         this.valorDerecho = valorDerecho;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
-        this.fila = fila;
+        this.fila = fila+1;
         this.columna = columna;
     }
 
@@ -46,10 +46,10 @@ class Relacion{
                     if(nodoIzquierdo.tipoDato == Tipo.CADENA){
                         var valorCadena1 = 0;
                         var valorCadena2 = 0;
-                        for(var i = 0; i< nodoIzquierdo.valor.toString().lenght; i++){
+                        for(var i = 0; i< String(nodoIzquierdo.valor.length); i++){
                             valorCadena1 = valorCadena1 + nodoIzquierdo.valor.charCodeAt(i);
                         }
-                        for(var i = 0; i< nodoDerecho.valor.toString().lenght; i++){
+                        for(var i = 0; i< String(nodoDerecho.valor.length); i++){
                             valorCadena2 = valorCadena2 + nodoDerecho.valor.charCodeAt(i);
                         }
                         if(this.tipoDato != null){
@@ -67,7 +67,51 @@ class Relacion{
                                 case Tipo.MENORIGUAL:
                                     return new Valor(valorCadena1 <= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna); 
                                 case Tipo.INCERTEZA:
-                                    return new Valor(valorCadena1 <= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    var cadena1 = String(nodoIzquierdo.valor.toUpperCase());
+                                    var cadena2 = String(nodoDerecho.valor.toUpperCase());
+                                    var nuevaCadena1;
+                                    var inicioCad = 0;
+                                    var finCad = 0;
+                                    for(var i = 0; i< cadena1.length; i++){
+                                        if(cadena1.substring(i, i+1) != " "){
+                                            inicioCad = i;
+                                            break;
+                                        }
+                                    }
+                                    for(var i = cadena1.length; i > 0; i--){
+                                        if(cadena1.substring(i - 1, i) != " "){
+                                            finCad = i;
+                                            break;
+                                        }
+                                    }
+
+                                    nuevaCadena1 = cadena1.substring(inicioCad, finCad);
+
+                                    var nuevaCadena2;
+                                    inicioCad = 0;
+                                    finCad = 0;
+                                    for(var i = 0; i< cadena2.length; i++){
+                                        if(cadena2.substring(i, i+1) != " "){
+                                            inicioCad = i;
+                                            break;
+                                        }
+                                    }
+                                    for(var i = cadena2.length; i > 0; i--){
+                                        if(cadena2.substring(i - 1, i) != " "){
+                                            finCad = i;
+                                            break;
+                                        }
+                                    }
+                                    nuevaCadena2 = cadena2.substring(inicioCad, finCad);
+                                    var valorIncerteza1 = 0;
+                                    var valorIncerteza2 = 0;
+                                    for(var i = 0; i< String(nuevaCadena1.length); i++){
+                                        valorIncerteza1 = valorIncerteza1 + nuevaCadena1.charCodeAt(i);
+                                    }
+                                    for(var i = 0; i< String(nuevaCadena1.length); i++){
+                                        valorIncerteza2 = valorIncerteza2 + nuevaCadena2.charCodeAt(i);
+                                    }
+                                    return new Valor(valorIncerteza1 === valorIncerteza2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 default:
                                     salida.agregarError(Tipo.SEMANTICO, "La operacion " + this.tipoDato + " no se puede realizar", this.fila, this.columna);
                                     return null;                                
@@ -89,7 +133,19 @@ class Relacion{
                                 case Tipo.MENORIGUAL:
                                     return new Valor(nodoIzquierdo.valor <= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.INCERTEZA:
-                                    return new Valor(valorCadena1 <= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    if(nodoIzquierdo.tipoDato === Tipo.ENTERO || nodoIzquierdo.tipoDato === Tipo.DECIMAL){
+                                        var valorIncerteza;
+                                        var resultado = Math.abs(nodoIzquierdo.valor - nodoDerecho.valor);
+                                        var incerteza = tablaSimbolos.obtenerSimbolo("Incerteza");
+                                        if(incerteza.valor > resultado){
+                                            valorIncerteza = true;
+                                        } else {
+                                            valorIncerteza = false;
+                                        }
+                                        return new Valor(valorIncerteza, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                    } else {
+                                        return null;
+                                    }
                                 default:
                                     salida.agregarError(Tipo.SEMANTICO, "La operacion " + this.tipoDato + " no se puede realizar", this.fila, this.columna);
                                     return null;                             

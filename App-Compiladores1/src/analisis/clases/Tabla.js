@@ -1,6 +1,7 @@
 const Simbolo = require('./Simbolo');
-const Type = require('./Tipo');
 const Funcion = require('./Funcion');
+const Incerteza = require('./Incerteza');
+const Tipo = require('./Tipo');
 
 class Tabla{
 
@@ -15,6 +16,23 @@ class Tabla{
             this.funciones = _tablaSuperior.funciones;
         }
         this.tablaSuperior = _tablaSuperior;
+    }
+
+    comprobarIncerteza(){
+        var comprobacion = this.buscarSimbolo("Incerteza");
+        if(comprobacion == false){
+            var incert = new Simbolo("Incerteza", Tipo.INCERTEZA, Tipo.VALOR, 0.5, 1, 1);
+            this.agregarSimboloLocal(incert);
+        }
+    }
+
+    /**
+     * 
+     * @param {Incerteza} incerteza 
+     */
+    agregarIncerteza(incerteza){
+        var incert = new Simbolo("Incerteza", Tipo.INCERTEZA, Tipo.VALOR, incerteza.valor, incerteza.fila, incerteza.columna);
+        this.agregarSimboloLocal(incert);
     }
 
     limpiarTabla(){

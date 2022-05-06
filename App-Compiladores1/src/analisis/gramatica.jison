@@ -25,6 +25,7 @@
 	const DibujarAST = require('./clases/DibujarAST');
 	const DibujarEXP = require('./clases/DibujarEXP');
 	const DibujarTS = require('./clases/DibujarTS');
+	const Incerteza = require('./clases/Incerteza');
 	var tabla = new Tabla(null);
 	var salida = new Salida();
 	var operaciones = [];
@@ -143,28 +144,35 @@
 %% /* Definición de la gramática */
 
 ini
-	: instrucciones EOF {
+	: encabezado instrucciones EOF {
 	
-		var nuevaTabla = new Tabla(tabla);
+		tabla.comprobarIncerteza();
 		var nuevaSalida = new Salida();
         nuevaSalida.agregarParametros(salida);
         salida.limpiarSalida();
-        for(var i = 0; i< $$[$0-1].length; i++){
-            if($$[$0-1][i]){
-                $$[$0-1][i].operar(tabla, nuevaSalida);
+        for(var i = 0; i< operaciones.length; i++){
+            if(operaciones[i]){
+                operaciones[i].operar(tabla, salida);
 			}	
         }
+		var nuevaTabla = new Tabla(tabla);
 		var funcionPrincipal = tabla.obtenerFuncion('Principal',0);
 		if (funcionPrincipal != null){
 			funcionPrincipal.operar(nuevaTabla, nuevaSalida);		
 		} else {
 			console.log("error");
 		}
+		operaciones = [];
 		tabla.limpiarTabla();
 		return nuevaSalida;
 		
 	}
     | EOF
+;
+
+encabezado
+	: INCERTEZA DECIMAL SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $2, yylineno, this._$.first_column));}
+	| 
 ;
 
 instrucciones

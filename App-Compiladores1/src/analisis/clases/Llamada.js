@@ -46,7 +46,7 @@ class LLamada{
                         salida.agregarError(Tipo.SEMANTICO, "Los parametros tienen simbolos incompatibles en la posicion: " + (i+1), this.fila, this.columna);
                         return null;     
                     }
-                    nuevaTabla.agregarSimboloLocal(new Simbolo(funcion.parametros[i].identificador, funcion.parametros[i].tipoDato, funcion.parametros[i].tipoEstructura, expresion.valor))
+                    nuevaTabla.agregarSimboloLocal(new Simbolo(funcion.parametros[i].identificador, funcion.parametros[i].tipoDato, funcion.parametros[i].tipoEstructura, expresion.valor, funcion.fila, funcion.columna))
                 }
             }
         }

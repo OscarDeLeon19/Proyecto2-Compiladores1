@@ -22,7 +22,7 @@ class Logica{
         this.valorDerecho = valorDerecho;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
-        this.fila = fila;
+        this.fila = fila+1;
         this.columna = columna;
     }
 

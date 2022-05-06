@@ -19,7 +19,7 @@ class Asignacion{
         this.id = id;
         this.identificador = identificador;
         this.valor = valor;
-        this.fila = fila;
+        this.fila = fila +1;
         this.columna = columna;
     }
 

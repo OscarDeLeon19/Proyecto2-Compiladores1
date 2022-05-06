@@ -12,7 +12,7 @@ class DibujarEXP{
     constructor(id, expresion, fila, columna){
         this.id = id;
         this.expresion = expresion;
-        this.fila = fila;
+        this.fila = fila+1;
         this.columna = columna;
     }
 

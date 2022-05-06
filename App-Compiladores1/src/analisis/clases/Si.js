@@ -25,7 +25,7 @@ class Si{
         if(cuerpo_else != null){
             this.cuerpo_else = cuerpo_else;
         }
-        this.fila = fila;
+        this.fila = fila+1;
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
         this.cantElse = cantElse;
