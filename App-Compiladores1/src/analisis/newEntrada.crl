@@ -1,0 +1,69 @@
+Incerteza 0.5
+
+!!Declaro algunas globales
+Int Estado=(0+10-10)^1
+String palabra = "Hola Mundo"
+
+Void Principal():
+	Saludar(palabra, true, true)
+	Saludar(palabra, true, false)
+	Saludar(palabra, false, false)
+	Int resultado=factorial(5)*true
+	Int resultado2=factorial(1)*true
+	Mostrar("El fatorial de 5 es: " + resultado + " y el factorial de 1 es: " + resultado2)
+	imprimr(2,2)
+	DibujarEXP((60+5)*num1)
+	imprimr2(2,2)
+	Contar(10)
+
+
+Int factorial(Int n):
+	Int num = 1
+	Mientras (n >= 1):
+		num = num * n
+		n = n - 1
+
+	Retorno num
+
+
+Void Saludar(String mensaje, Boolean tipo, Boolean tipo1):
+	Si (tipo && tipo1):
+		Mostrar ("Dar saludo")
+		Mostrar (mensaje)
+	Sino: 
+		Si(tipo != tipo1):
+			Mostrar ("Sigue en el programa")
+		Sino:
+			Mostrar ("Dar despedida")
+			Mostrar (mensaje)
+
+		Mostrar ("Se acabo el sino")
+
+	Mostrar ("Se acabo la funcion")
+
+
+Void imprimr(Int a, Int b):
+	Para (Int i=1; i<a; ++):
+		Para (Int j=1; j<b;++):
+			Mostrar ("Matriz " + i + " " + j)
+
+
+
+
+Void imprimr2(Int a, Int b):
+	Para (Int i=1; i<a; ++):
+		Para (Int j=1; j<b;++):
+			Mostrar ("Matriz " + i + " " + j)
+
+
+
+
+Void Contar(Int a):
+	Para (Int i=0; i<a; ++):
+		Si (i>=5):
+			Mostrar ("Se detuvo")
+
+		Mostrar ("numero:" + i)
+
+
+

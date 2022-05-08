@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Error} from "../../../analisis/clases/Error";
 import {DBTabla} from "../../../analisis/clases/DBTabla";
-import {Columna} from "../../../analisis/clases/Columna";
+import {graphviz} from 'd3-graphviz';
 
 declare var require:any;
 const gramatica = require("../../../analisis/gramatica.js");
@@ -15,6 +15,7 @@ const Salida = require("../../../analisis/clases/Salida.js")
   styleUrls: ['./principal-component.component.css']
 })
 export class PrincipalComponentComponent implements OnInit {
+ 
 
   texto:string = "";
   UploadfileText:string = "";
@@ -23,6 +24,7 @@ export class PrincipalComponentComponent implements OnInit {
   hiddenEditor:boolean = false;
   hiddenErrores:boolean = true;
   hiddenTablas:boolean = true;
+  hiddenGraficos:boolean = true;
   hiddenUpload:boolean = true;
   errores:Error[] = [];
   tablas:DBTabla[] = [];
@@ -32,6 +34,10 @@ export class PrincipalComponentComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  graficar(){
+    graphviz("#reporteGrafico").renderDot('digraph G { node0[label="Suma"] node0 -> b,c,d,a}');
   }
 
   compilarProyecto(){
@@ -46,6 +52,10 @@ export class PrincipalComponentComponent implements OnInit {
     
     
 
+  }
+
+  limpiarEditor(){
+    this.texto = '';
   }
 
   descargarCRL(){
@@ -80,20 +90,29 @@ export class PrincipalComponentComponent implements OnInit {
     this.hiddenEditor = false;
     this.hiddenErrores = true;
     this.hiddenTablas = true;
+    this.hiddenGraficos = true;
   }
 
   mostrarErrores(){
     this.hiddenEditor = true;
     this.hiddenErrores = false;
     this.hiddenTablas = true;
+    this.hiddenGraficos = true;
   }
 
   mostrarTablas(){
     this.hiddenEditor = true;
     this.hiddenErrores = true;
     this.hiddenTablas = false;
+    this.hiddenGraficos = true;
   }
 
+  mostrarGraficos(){
+    this.hiddenEditor = true;
+    this.hiddenErrores = true;
+    this.hiddenTablas = true;
+    this.hiddenGraficos = false;
+  }
 
   limpiarConsola(){
     this.resultado = "";

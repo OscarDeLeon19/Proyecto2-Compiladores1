@@ -11,6 +11,9 @@
       <button type="button" class="nav-link" (click)="mostrarTablas()">Tablas</button>
     </li>
     <li class="nav-item">
+      <button type="button" class="nav-link" (click)="mostrarGraficos()">Graficos</button>
+    </li>
+    <li class="nav-item">
     </li>
   </ul>
 
@@ -35,6 +38,12 @@
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
           <div style="padding-right: 20px;" class="btn-group mr-2" role="group" aria-label="First group">
             <button type="button" class="btn btn-primary" (click)="compilarProyecto()">Compilar</button>
+          </div>
+          <div  style="padding-right: 20px;" class="btn-group mr-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-primary" (click)="limpiarEditor()">Limpiar</button>
+          </div>
+          <div  style="padding-right: 20px;" class="btn-group mr-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-primary" (click)="graficar()">Graficar</button>
           </div>
           <div class="btn-group mr-2" role="group" aria-label="Second group">
             <button type="button" class="btn btn-primary" (click)="descargarCRL()">Descargar</button>
@@ -98,3 +107,9 @@
       </tbody>
     </table>
   </div>
+</div>
+
+<div id = "graficos" class = "mx-auto"style="width: 1000px;" [hidden]="hiddenGraficos">
+      <div id="reporteGrafico"></div>
+</div>
+

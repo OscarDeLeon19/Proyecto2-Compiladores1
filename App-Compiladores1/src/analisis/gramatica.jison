@@ -185,6 +185,7 @@ instrucciones
 
 instruccion
 	: declaracion {if ($1!=null){$$ = $1}}
+	| asignacion {$$ = $1}
 	| funcion { $$ = null;}
 	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}	
 	| {$$ = null}
