@@ -36,6 +36,22 @@ class Mostrar{
         return null;
     }
 
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "Mostrar"]';
+        conteo.agregarEncabezado(nodo+label);
+
+        var texto = nodo;
+        return texto;
+
+    }
+
 }
 
 module.exports = Mostrar;

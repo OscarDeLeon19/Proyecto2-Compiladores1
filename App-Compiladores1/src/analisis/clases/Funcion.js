@@ -1,5 +1,5 @@
 const Salida = require('./Salida');
-const { IGUAL } = require('./Tipo');
+const Conteo = require('../Conteo');
 
 class Funcion{
     /**
@@ -46,6 +46,48 @@ class Funcion{
             }
         }
         return null;
+    }
+
+    /**
+     * 
+     * @param {Salida} salida 
+     */
+     graficarAST(salida){
+        
+        var textoGrafico = "";    
+        var conteo = new Conteo();
+        var titulo = 'node[shape = "rectangle"]';
+        conteo.agregarEncabezado(titulo);
+        var nodoFuncion = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelFuncion = '[label = "AST de Funcion: '+this.identificador+'"]';
+        conteo.agregarEncabezado(nodoFuncion+labelFuncion);        
+        for(var i = 0; i < this.cuerpo.length; i++){        
+            if(this.cuerpo[i].id == "Declaracion"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Asignacion"){
+                textoGrafico += nodoFuncion+ "->"+this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Mostrar"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Llamada"){
+                textoGrafico += nodoFuncion+ "->" + this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "DibujarAST"){
+                textoGrafico += nodoFuncion+ "->"+  this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            }  else if(this.cuerpo[i].id  == "DibujarEXP"){
+                textoGrafico += nodoFuncion+ "->"+ nodo + "->" + this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "DibujarTS"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Si"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Para"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Mientras"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else {
+                console.log("ERror")
+            }           
+        }        
+        salida.agregarGrafico(conteo.encabezado + textoGrafico);
     }
 
 }

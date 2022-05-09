@@ -30,7 +30,29 @@ class DibujarEXP{
         } else {
             salida.agregarError(Tipo.SEMANTICO, "Solo se pueden dibujar expresiones aritmeticas", this.fila, this.columna);
         }
-        console.log(textoGrafico);
+        //console.log(conteo.encabezado + textoGrafico);
+        salida.agregarGrafico(conteo.encabezado + textoGrafico);
+    }
+
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "DibujarEXP"]';
+        conteo.agregarEncabezado(nodo+label);
+
+        var nodoEXP = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelEXP = '[label = "Expresion"]';
+        conteo.agregarEncabezado(nodoEXP+labelEXP);
+
+        var texto = nodo + "->" + nodoEXP;
+        return texto;
+
     }
 
 }

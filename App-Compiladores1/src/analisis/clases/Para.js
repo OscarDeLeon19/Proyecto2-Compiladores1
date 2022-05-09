@@ -86,6 +86,70 @@ class Para {
         return true;
     }
 
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "Para"]';
+        conteo.agregarEncabezado(nodo+label);
+
+        var nodoDecla = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelDecla = '[label = "Declaracion"]';
+        conteo.agregarEncabezado(nodoDecla+labelDecla);
+
+        var nodoEXP = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelEXP = '[label = "Expresion"]';
+        conteo.agregarEncabezado(nodoEXP+labelEXP);
+
+        var nodoIter = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelIter = '[label = "Iteracion"]';
+        conteo.agregarEncabezado(nodoIter+labelIter);
+
+        var nodoCuerpo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelCuerpo = '[label = "Cuerpo"]';
+        conteo.agregarEncabezado(nodoCuerpo+labelCuerpo);
+
+        var texto = nodo + "->" + nodoDecla +"\n";
+        texto += nodo + "->" + nodoEXP +"\n";
+        texto += nodo + "->" + nodoIter +"\n";
+        texto += nodo + "->" + nodoCuerpo + "\n";
+
+        for(var i = 0; i < this.cuerpo.length; i++){        
+            if(this.cuerpo[i].id == "Declaracion"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Asignacion"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Mostrar"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Llamada"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "DibujarAST"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            }  else if(this.cuerpo[i].id  == "DibujarEXP"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "DibujarTS"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Si"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Para"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Mientras"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else {
+                console.log("ERror")
+            }           
+        }
+       return texto;
+    }
+
 }
 
 module.exports = Para;

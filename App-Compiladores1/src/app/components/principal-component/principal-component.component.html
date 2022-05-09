@@ -83,7 +83,7 @@
   </table>
 </div>
 
-<div class = "mx-auto"style="width: 1000px;" [hidden]="hiddenTablas">
+<div id = "tablas" class = "mx-auto"style="width: 1000px;" [hidden]="hiddenTablas">
   <div *ngFor="let tab of this.tablas">
     <h1>Simbolos de la tabla dibujada en la fila: {{tab.fila}}</h1>
     <table class="table">
@@ -109,7 +109,5 @@
   </div>
 </div>
 
-<div id = "graficos" class = "mx-auto"style="width: 1000px;" [hidden]="hiddenGraficos">
-      <div id="reporteGrafico"></div>
-</div>
+<div id = "graficos" class = "mx-auto"style="width: 1000px;" [hidden]="hiddenGraficos"></div>
 

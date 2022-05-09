@@ -28,6 +28,8 @@ export class PrincipalComponentComponent implements OnInit {
   hiddenUpload:boolean = true;
   errores:Error[] = [];
   tablas:DBTabla[] = [];
+  graficos:string[] = [];
+  graficosAnteriores:number = 0;
 
 
   constructor() { }
@@ -36,8 +38,22 @@ export class PrincipalComponentComponent implements OnInit {
     
   }
 
-  graficar(){
-    graphviz("#reporteGrafico").renderDot('digraph G { node0[label="Suma"] node0 -> b,c,d,a}');
+  graficar(){ 
+    var divMayor = document.getElementById("graficos");
+    for(var i = 0; i < this.graficos.length; i++){
+      var titulo = document.createElement("h1");
+      titulo.setAttribute("id", "title"+i);
+      titulo.textContent = "Grafico #" + (i+1);
+      var elementoNuevo = document.createElement("div");
+      var nameGrafico:string = "grafico"+i;
+      elementoNuevo.setAttribute("id", nameGrafico);
+      elementoNuevo.setAttribute("class", "mx-auto");
+      elementoNuevo.setAttribute("style", "width: 1000px;");
+      divMayor?.appendChild(titulo);
+      divMayor?.appendChild(elementoNuevo);
+      graphviz("#"+nameGrafico).renderDot(this.graficos[i]);
+    }
+    this.graficosAnteriores = this.graficos.length;
   }
 
   compilarProyecto(){
@@ -46,8 +62,12 @@ export class PrincipalComponentComponent implements OnInit {
     this.resultado = outPUT.getSalida();
     this.errores = outPUT.getTablaErrores();
     this.tablas = outPUT.getTablasDibujadas();
+    this.graficos = outPUT.getGraficos();;
     if(this.errores.length > 0){
       alert("Hay errores en el programa");
+    }
+    if(this.graficos.length > 0){
+      this.graficar();
     }
     
     

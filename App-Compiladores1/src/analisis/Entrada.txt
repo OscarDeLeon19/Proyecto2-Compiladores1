@@ -1,5 +1,8 @@
 Void Principal():
 	DibujarEXP(1+2+3+4+5+6)
+	DibujarEXP(5/96*5+25/85+65.000)
+	DibujarEXP(2*504545)
+	DibujarAST(funcionMetodo1)
 	String cad3 = "CADENAssss"
 	Mostrar("hol a" > "hola")
 	funcionMetodo1(100,100)
@@ -67,10 +70,57 @@ Int HOLAAAAAA(String kishi):
 
 
 Void funcionMetodo1(Int num3, Int num4):
+	Para (Int i=1;i<=3;++):
+		Para (Int j=1;j<=3;++):
+			Mostrar("Iteracion con anidacion: " + j)
+
+		Mostrar("Este es un: " + i)
+
+	Para (Int i=1;i<=3;++):
+		Si(i==2):
+			Mostrar("I: " + i)
+
+
+	Si (10<20):
+		Int obo = 0
+		Mostrar ("El resultado es menor")
+		Para (Int i=1;i<=5;++):
+			Mostrar("Iteracion anidada: " + i)
+
+		Mientras (obo < 5):
+			Mostrar ("Hay esperanzas de de ganar compi1 anidado")
+			obo = obo+2
+
+		Si(10>20):
+			Mostrar("El resultado es menor anidado")
+		Sino:
+			Mostrar("El resultado es mayor anidado")
+
+	Sino:
+		Mostrar ("El resultado es mayor")
+		Para (Int i=1;i<=5;++):
+			Mostrar("Iteracion anidada en else: " + i)
+
+
+	Int val1 = 0
+	Mientras (val1 < 5):
+		Mostrar ("Hay esperanzas de de ganar compi1")
+		val1 = val1+1
+		Detener
+
+	DibujarTS()
 	Mostrar("Suma: " + (num3+num4))
 	Mostrar("Resta: " + (num3-num4))
 	Mostrar("Multiplicacion: " + (num3*num4))
 	Mostrar("Division: " + (num3/num4))
+	Si(10>20):
+		Mostrar("El resultado es menor anidado")
+	Sino:
+		Mostrar("El resultado es mayor anidado")
+		Si(10>5):
+			Mostrar("Hola")
+
+
 	DibujarTS()
 
 

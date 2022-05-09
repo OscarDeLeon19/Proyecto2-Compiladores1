@@ -283,8 +283,7 @@ class Operacion{
         var nombre = "";
         switch(this.tipoDato){
             case Tipo.SUMA:
-                nombre = "Suma" + conteo.conteoSuma;
-                conteo.aumentarSuma();
+                nombre = "Suma";
                 break;
             case Tipo.RESTA:
                 nombre = "Resta";
@@ -302,14 +301,18 @@ class Operacion{
                 nombre = "Potencia";
                 break;                                 
         }
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "' + nombre +'"]';
+        conteo.agregarEncabezado(nodo+label);
         var textoGrafico = "";
         if(this.valorIzquierdo.id === "Operacion" || this.valorIzquierdo.id === "Valor"){
-            textoGrafico = nombre + "->" + this.valorIzquierdo.obtenerDot(salida, conteo) + "\n";
+            textoGrafico = nodo + "->" + this.valorIzquierdo.obtenerDot(salida, conteo) + "\n";
         } else {
             salida.agregarError(Tipo.SEMANTICO, "Solo se pueden dibujar expresiones aritmeticas", this.fila, this.columna);
         }
         if(this.valorDerecho.id === "Operacion" || this.valorDerecho.id === "Valor"){
-            textoGrafico += nombre + "->" + this.valorDerecho.obtenerDot(salida, conteo) + "\n";
+            textoGrafico += nodo + "->" + this.valorDerecho.obtenerDot(salida, conteo) + "\n";
         } else {
             salida.agregarError(Tipo.SEMANTICO, "Solo se pueden dibujar expresiones aritmeticas", this.fila, this.columna);
         }

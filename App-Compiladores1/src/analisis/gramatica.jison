@@ -50,8 +50,8 @@
 \n                 	return 'SALTO';
 [\r]+				{}
 
-"!!".*										// Comentario de una linea
-[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]			// comentario multiple líneas
+"!!".*															// Comentario de una linea
+[\"][\"][\"][^*]*[*]*([^/*][^*]*[*]+)*[\"][\"][\"]			// comentario multiple líneas
 
 "Importar"			return 'IMPORTAR';
 "Incerteza"			return 'INCERTEZA';
@@ -107,7 +107,7 @@
 
 "&&"				return 'AND'
 "||"				return 'OR';
-"!&"				return 'XOR';
+"|&"				return 'XOR';
 "!"					return 'NOT';
 
 \'([^']|"\\n"|"\\r"|"\\t")\'             return 'CARACTER';
@@ -192,7 +192,7 @@ instruccion
 ;
 
 dibujar_EXP
-	: DIBUJAREXP PARIZQ expresion PARDER {$$ = new DibujarEXP("DibujarAST",$3,yylineno,this._$.first_column)}
+	: DIBUJAREXP PARIZQ expresion PARDER {$$ = new DibujarEXP("DibujarEXP",$3,yylineno,this._$.first_column)}
 ;
 
 dibujar_TS
@@ -350,7 +350,7 @@ instrucciones_funcion
 	| SALTO {}
 ;
 
-instruccion_funcion
+instruccion_funcion 
 	:  declaracion {if ($1!=null){operaciones_funcion.push($1);}}
 	|  asignacion {operaciones_funcion.push($1);}
 	|  llamada {operaciones_funcion.push($1);}

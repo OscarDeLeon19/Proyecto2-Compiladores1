@@ -2,42 +2,20 @@
 
 class Conteo{
 
-    constructor(){       
-        this.conteoSuma = 1;
-        this.conteoResta = 1;
-        this.conteoMultiplicacion = 1;
-        this.conteoDivision = 1;
-        this.conteoModulo = 1;
-        this.conteoPotencia = 1;
+    constructor(){     
+        this.conteoNodo = 0;
+        this.encabezado = "";
+        this.uniones = "";
     }
 
-    retornarSuma(){
-        return this.conteoSuma;
+    sumarConteo(){
+        this.conteoNodo++;
     }
 
-    aumentarSuma(){
-        this.conteoSuma++;
-    }
-   
-    aumentarResta(){
-        this.conteoResta++;
-    }
-  
-    aumentarMultiplicacion(){
-        this.conteoMultiplicacion++;
-    }
-   
-    aumentarDivision(){
-        this.conteoDivision++;
-    }
- 
-    aumentarModulo(){
-        this.conteoModulo++;
+    agregarEncabezado(texto){
+        this.encabezado = this.encabezado + texto + "\n";
     }
 
-    aumentarPotencia(){
-        this.conteoPotencia++;
-    }
 }
 
 module.exports = Conteo;

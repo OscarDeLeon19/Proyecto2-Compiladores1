@@ -3,6 +3,7 @@ const Valor = require('./Valor');
 const Tipo = require('./Tipo');
 const Salida = require('./Salida');
 const Tabla = require('./Tabla');
+const Conteo = require('../Conteo');
 
 class Asignacion{
     /**
@@ -61,6 +62,31 @@ class Asignacion{
         return false;
     }
 
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "Asignacion"]';
+        conteo.agregarEncabezado(nodo+label);
+        
+        var nodoID = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelID = '[label = "'+this.identificador+'"]';
+        conteo.agregarEncabezado(nodoID+labelID);
+
+        var nodoEXP = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelEXP = '[label = "Expresion"]';
+        conteo.agregarEncabezado(nodoEXP+labelEXP);
+
+        var texto = nodo + "->" + nodoID +"->"+ nodoEXP;
+        return texto;
+
+    }
 }
 
 module.exports = Asignacion;

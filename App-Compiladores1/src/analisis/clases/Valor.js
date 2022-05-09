@@ -72,32 +72,36 @@ class Valor{
         var textoGrafico = "";
         switch(this.tipoDato){          
             case Tipo.ENTERO:
-                textoGrafico = "" + this.valor;
+                textoGrafico = "Int | " + this.valor;
                 break;
             case Tipo.DECIMAL: 
-                textoGrafico = "" + this.valor;
+                textoGrafico = "Double | " + this.valor;
                 break;   
             case Tipo.CADENA:
                 if (this.valor.toString().startsWith("\"")){
                     this.valor = this.valor.toString().substring(1, this.valor.toString().length - 1);
                 }
-                textoGrafico = "" + this.valor;
+                textoGrafico = "String | " + this.valor;
                 break;
             case Tipo.CARACTER:
                 var caracter = this.valor.replace(/'/g,'');
-                textoGrafico = "" + caracter.charCodeAt(0);
+                textoGrafico = "Caracter | " + caracter.charCodeAt(0);
                 break;  
             case Tipo.BOOLEAN:
-                textoGrafico = "" + this.valor;
+                textoGrafico = "Boolean | " + this.valor;
                 break;
             case Tipo.ID:
-                textoGrafico = "" + this.valor;
+                textoGrafico = "ID | " + this.valor;
                 break;
             case Tipo.LLAMADA:
-                textoGrafico = "" + this.valor.identificador;
+                textoGrafico = "Llamada | " + this.valor.identificador;
                 break;         
         }
-        return textoGrafico;
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "' + textoGrafico +'"]';
+        conteo.agregarEncabezado(nodo+label);
+        return nodo;
     }
 
 }

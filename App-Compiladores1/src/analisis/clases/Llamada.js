@@ -3,6 +3,7 @@ const Simbolo = require('./Simbolo');
 const Tabla = require('./Tabla');
 const Valor = require('./Valor');
 const Tipo = require('./Tipo');
+const Conteo = require('../Conteo');
 
 class LLamada{
  
@@ -70,6 +71,32 @@ class LLamada{
         } else {
             return null;
         }
+    }
+
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "Llamada"]';
+        conteo.agregarEncabezado(nodo+label);
+        
+        var nodoID = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelID = '[label = "'+this.identificador+'"]';
+        conteo.agregarEncabezado(nodoID+labelID);
+
+        var nodoEXP = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var labelEXP = '[label = "Paramatros: '+this.cantidadParametros+'"]';
+        conteo.agregarEncabezado(nodoEXP+labelEXP);
+
+        var texto = nodo + "->" + nodoID +"->"+ nodoEXP;
+        return texto;
+
     }
 
 }

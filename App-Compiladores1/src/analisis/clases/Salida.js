@@ -20,6 +20,7 @@ class Salida{
         this.salida = '';
         this.tablaErrores = [];
         this.cantidadTablas = [];
+        this.graficos = [];
     }
 
     getSalida(){
@@ -28,6 +29,10 @@ class Salida{
 
     getTablaErrores(){
         return this.tablaErrores;
+    }
+
+    getGraficos(){
+        return this.graficos;
     }
 
     getTablasDibujadas(){
@@ -49,6 +54,11 @@ class Salida{
      */
     agregarTabla(tabla){
         this.cantidadTablas.push(tabla);
+    }
+
+    agregarGrafico(textoGrafico){
+        var text = 'digraph G { ' + textoGrafico + ' }';
+        this.graficos.push(text); 
     }
 }
 
