@@ -21,6 +21,11 @@ class Salida{
         this.tablaErrores = [];
         this.cantidadTablas = [];
         this.graficos = [];
+        this.expresiones = 1;
+    }
+
+    sumarExpresion(){
+        this.expresiones++;
     }
 
     getSalida(){

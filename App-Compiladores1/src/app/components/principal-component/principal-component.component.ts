@@ -5,7 +5,7 @@ import {graphviz} from 'd3-graphviz';
 
 declare var require:any;
 const gramatica = require("../../../analisis/gramatica.js");
-const Salida = require("../../../analisis/clases/Salida.js")
+const Salida = require("../../../analisis/clases/Salida.js");
 
 //import { Salida } from 'src/analisis/clases/Salida';
 //import { Error } from 'src/analisis/clases/Error';
@@ -41,15 +41,11 @@ export class PrincipalComponentComponent implements OnInit {
   graficar(){ 
     var divMayor = document.getElementById("graficos");
     for(var i = 0; i < this.graficos.length; i++){
-      var titulo = document.createElement("h1");
-      titulo.setAttribute("id", "title"+i);
-      titulo.textContent = "Grafico #" + (i+1);
       var elementoNuevo = document.createElement("div");
       var nameGrafico:string = "grafico"+i;
       elementoNuevo.setAttribute("id", nameGrafico);
       elementoNuevo.setAttribute("class", "mx-auto");
       elementoNuevo.setAttribute("style", "width: 1000px;");
-      divMayor?.appendChild(titulo);
       divMayor?.appendChild(elementoNuevo);
       graphviz("#"+nameGrafico).renderDot(this.graficos[i]);
     }

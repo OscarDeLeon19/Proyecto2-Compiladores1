@@ -246,7 +246,9 @@ instruccion_anidadas_else
 	|  mostrar {operaciones_anidadas_else.push($1);}
 	|  dibujar_AST {operaciones_anidadas_else.push($1);} 
 	|  dibujar_EXP {operaciones_anidadas_else.push($1);} 
-	|  dibujar_TS {operaciones_anidadas_else.push($1);} 
+	|  dibujar_TS {operaciones_anidadas_else.push($1);}	
+	|  DETENER {operaciones_anidadas_else.push(new Detener("Detener",yylineno,this._$.first_column));}
+	|  CONTINUAR {operaciones_anidadas_else.push(new Detener("Continuar",yylineno,this._$.first_column));}  
 	|  {$$ = null}
 ;
 
@@ -263,7 +265,9 @@ instruccion_anidadas
 	|  mostrar {operaciones_anidadas.push($1);}
 	|  dibujar_AST {operaciones_anidadas.push($1);} 
 	|  dibujar_EXP {operaciones_anidadas.push($1);} 
-	|  dibujar_TS {operaciones_anidadas.push($1);} 
+	|  dibujar_TS {operaciones_anidadas.push($1);}
+	|  DETENER {operaciones_anidadas.push(new Detener("Detener",yylineno,this._$.first_column));}
+	|  CONTINUAR {operaciones_anidadas.push(new Detener("Continuar",yylineno,this._$.first_column));} 
 	|  {$$ = null}
 ;
 

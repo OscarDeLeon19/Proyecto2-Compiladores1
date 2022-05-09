@@ -6,6 +6,11 @@ class Conteo{
         this.conteoNodo = 0;
         this.encabezado = "";
         this.uniones = "";
+        this.expresiones = 1;
+    }
+
+    sumarExpresion(){
+        this.expresiones++;
     }
 
     sumarConteo(){

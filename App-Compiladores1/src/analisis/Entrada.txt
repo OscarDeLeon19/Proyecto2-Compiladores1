@@ -79,6 +79,7 @@ Void funcionMetodo1(Int num3, Int num4):
 	Para (Int i=1;i<=3;++):
 		Si(i==2):
 			Mostrar("I: " + i)
+			Detener
 
 
 	Si (10<20):

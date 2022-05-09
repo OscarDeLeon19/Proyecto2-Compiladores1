@@ -24,6 +24,22 @@ class Continuar{
         return null;
     }
 
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "Continuar"]';
+        conteo.agregarEncabezado(nodo+label);
+
+        var texto = nodo;
+        return texto;
+
+    }
+
 }
 
 module.exports = Continuar;

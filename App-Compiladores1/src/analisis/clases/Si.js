@@ -109,6 +109,10 @@ class Si{
                 texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
             } else if(this.cuerpo[i].id  == "Mientras"){
                 texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Continuar"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Detener"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
             } else {
                 console.log("ERror")
             }           
