@@ -37,6 +37,7 @@
 	var parametros_metodo = [];
 	var valores_llamada = [];
 	var operaciones_ciclo = [];
+	var parametros_mostrar = [];
 %}
 
 // Parte Lexica
@@ -204,7 +205,13 @@ dibujar_AST
 ;
 
 mostrar
-	: MOSTRAR PARIZQ expresion PARDER {$$ = new Mostrar("Mostrar",$3,Tipo.VALOR,yylineno,this._$.first_column);}
+	: MOSTRAR PARIZQ CADENA PARDER {$$ = new Mostrar("Mostrar",$3,null,0,Tipo.VALOR,yylineno,this._$.first_column);}
+	| MOSTRAR PARIZQ CADENA expresion_mostrar PARDER {$$ = new Mostrar("Mostrar",$3,parametros_mostrar,parametros_mostrar.length,Tipo.VALOR,yylineno,this._$.first_column); parametros_mostrar = [];}
+;
+
+expresion_mostrar
+	: expresion_mostrar COMA expresion {parametros_mostrar.push($3);}
+	| COMA expresion {parametros_mostrar.push($2);}
 ;
 
 mientras 

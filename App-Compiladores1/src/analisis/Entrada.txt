@@ -129,3 +129,18 @@ Int funcionMetodo2(Int num1, Int num2):
 	Int nuevaSuma = num1+num2
 	Retorno nuevaSuma
 
+
+Void Principal():
+	String perro = "Miau"
+	Mostrar("HOLA {1}{1}{2}{0} jg",5,66,perro)
+	Mostrar ("Fecha: {0} de {1} de {2} \n",20, "Abril", 2022)
+
+
+
+
+
+
+
+
+
+

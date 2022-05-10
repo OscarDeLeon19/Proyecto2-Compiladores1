@@ -29,6 +29,7 @@ class Si{
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
         this.cantElse = cantElse;
+        this.valorCiclo = "";
     }
     /**
      * 
@@ -36,6 +37,7 @@ class Si{
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
+        this.valorCiclo = "";
         var expresion = this.relacion.operar(tablaSimbolos, salida);
         if (expresion == null){
             salida.agregarError(Tipo.SEMANTICO, "No se puede ejecutar la funcion porque se necesita una condicion", this.fila, this.columna);
@@ -50,14 +52,26 @@ class Si{
             var nuevaTabla = new Tabla(tablaSimbolos);
             //console.log(this)
             for(var i = 0; i<this.cantOperaciones; i++){
-                this.cuerpo[i].operar(nuevaTabla, salida);
+                if (this.cuerpo[i].id === "Detener") {
+                    this.valorCiclo = "Detener";
+                } else if (this.cuerpo[i].id === "Continuar") {
+                    this.valorCiclo = "Continuar";
+                } else {
+                    this.cuerpo[i].operar(nuevaTabla, salida);
+                }
             }
             return true;
         } else {
             if(this.cuerpo_else != null){
                 var nuevaTabla = new Tabla(tablaSimbolos);
                 for(var i = 0; i<this.cantElse; i++){
-                    this.cuerpo_else[i].operar(nuevaTabla, salida);
+                    if (this.cuerpo_else[i].id === "Detener") {
+                        this.valorCiclo = "Detener";
+                    } else if (this.cuerpo_else[i].id === "Continuar") {
+                        this.valorCiclo = "Continuar";
+                    } else {
+                        this.cuerpo_else[i].operar(nuevaTabla, salida);
+                    }
                 }
                 return true;
             }

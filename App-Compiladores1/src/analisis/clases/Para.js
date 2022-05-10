@@ -63,6 +63,14 @@ class Para {
                     break;
                 } else {
                     this.cuerpo[i].operar(nuevaTabla, salida);
+                    if(this.cuerpo[i].id === "Si"){
+                        if(this.cuerpo[i].valorCiclo === "Detener"){
+                            detener = true;
+                            break;
+                        } else if(this.cuerpo[i].valorCiclo === "Continuar"){
+                            break;
+                        }
+                    }
                 }
             }
             if(detener === true){
