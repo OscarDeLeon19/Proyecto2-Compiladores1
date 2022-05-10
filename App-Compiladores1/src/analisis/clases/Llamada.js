@@ -37,7 +37,7 @@ class LLamada{
         var nuevaTabla = new Tabla(tablaSimbolos);
         if (funcion.parametros != null){
             for(var i = 0; i < funcion.cantidadParametros; i++){
-                if(nuevaTabla.buscarSimboloLocal(funcion.parametros[i].identificador)===false){
+                if(nuevaTabla.buscarSimboloLocal(funcion.parametros[i].identificadores[0])===false){
                     var expresion = this.parametros[i].operar(nuevaTabla, salida);
                     if(expresion === null){
                         salida.agregarError(Tipo.SEMANTICO, "Parametro Pos: "+ (i +1) + " invalido", this.fila, this.columna);
@@ -47,7 +47,7 @@ class LLamada{
                         salida.agregarError(Tipo.SEMANTICO, "Los parametros tienen simbolos incompatibles en la posicion: " + (i+1), this.fila, this.columna);
                         return null;     
                     }
-                    nuevaTabla.agregarSimboloLocal(new Simbolo(funcion.parametros[i].identificador, funcion.parametros[i].tipoDato, funcion.parametros[i].tipoEstructura, expresion.valor, funcion.fila, funcion.columna))
+                    nuevaTabla.agregarSimboloLocal(new Simbolo(funcion.parametros[i].identificadores[0], funcion.parametros[i].tipoDato, funcion.parametros[i].tipoEstructura, expresion.valor, funcion.fila, funcion.columna))
                 }
             }
         }

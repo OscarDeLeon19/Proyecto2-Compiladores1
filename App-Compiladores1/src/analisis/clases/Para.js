@@ -41,7 +41,7 @@ class Para {
             salida.agregarError(Tipo.SEMANTICO, "Error en la declaracion del ciclo", this.fila, this.columna);
             return null;
         }
-        var variableIteracion = this.declaracion.identificador;
+        var variableIteracion = this.declaracion.identificadores[0];
 
         var expresion = this.relacion.operar(nuevaTabla, salida);
         if (expresion == null) {

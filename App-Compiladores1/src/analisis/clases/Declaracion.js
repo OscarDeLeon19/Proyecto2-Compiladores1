@@ -35,6 +35,7 @@ class Declaracion{
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
+        var error = false;
         var valorExpresion = null;
         if (this.valor != null){
             valorExpresion = this.valor.operar(tablaSimbolos, salida);
@@ -57,8 +58,14 @@ class Declaracion{
                 }
             } else {
                 salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.nuevoID+" esta declarada en este ambito", this.fila, this.columna);
+                error = true;
             }
-        }         
+        }  
+        if(error == true){
+            return null;
+        } else {
+            return true;
+        }       
     }
 
     comprobarTipo(variable, salida){
@@ -81,17 +88,21 @@ class Declaracion{
         var label = '[label = "Declaracion"]';
         conteo.agregarEncabezado(nodo+label);
         
-        var nodoID = "node" + conteo.conteoNodo;
-        conteo.sumarConteo();
-        var labelID = '[label = "'+this.identificador+'"]';
-        conteo.agregarEncabezado(nodoID+labelID);
+        var texto = "";
+        for(var i = 0; i < this.identificadores.length; i++){
+            var nodoID = "node" + conteo.conteoNodo;
+            conteo.sumarConteo();
+            var labelID = '[label = "'+this.identificadores[i]+'"]';
+            conteo.agregarEncabezado(nodoID+labelID);
+            texto += nodo + "->" + nodoID + "\n";
+        }
 
         var nodoEXP = "node" + conteo.conteoNodo;
         conteo.sumarConteo();
         var labelEXP = '[label = "Expresion"]';
         conteo.agregarEncabezado(nodoEXP+labelEXP);
 
-        var texto = nodo + "->" + nodoID +"->"+ nodoEXP;
+        texto += nodo +"->"+ nodoEXP;
         return texto;
 
     }

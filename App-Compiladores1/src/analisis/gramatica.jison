@@ -398,8 +398,8 @@ lista_valores
 ;
 
 parametros
-	: parametros COMA tipo ID {$$ = parametros_metodo; parametros_metodo.push(new Declaracion("Declaracion",$4,null,$3,Tipo.VALOR,yylineno,this._$.first_column));}
-	| tipo ID {parametros_metodo.push(new Declaracion("Declaracion",$2,null,$1,Tipo.VALOR,yylineno,this._$.first_column));}
+	: parametros COMA tipo ID {$$ = parametros_metodo; identificadores_decla.push($4); parametros_metodo.push(new Declaracion("Declaracion",identificadores_decla,null,$3,Tipo.VALOR,yylineno,this._$.first_column)); identificadores_decla = [];}
+	| tipo ID {identificadores_decla.push($2); parametros_metodo.push(new Declaracion("Declaracion",identificadores_decla,null,$1,Tipo.VALOR,yylineno,this._$.first_column)); identificadores_decla = [];}
 ;
 
 asignacion 

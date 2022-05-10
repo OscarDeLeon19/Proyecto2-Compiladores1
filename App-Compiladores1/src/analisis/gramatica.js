@@ -265,10 +265,10 @@ case 126: case 127:
 valores_llamada.push($$[$0]);
 break;
 case 128:
-this.$ = parametros_metodo; parametros_metodo.push(new Declaracion("Declaracion",$$[$0],null,$$[$0-1],Tipo.VALOR,yylineno,this._$.first_column));
+this.$ = parametros_metodo; identificadores_decla.push($$[$0]); parametros_metodo.push(new Declaracion("Declaracion",identificadores_decla,null,$$[$0-1],Tipo.VALOR,yylineno,this._$.first_column)); identificadores_decla = [];
 break;
 case 129:
-parametros_metodo.push(new Declaracion("Declaracion",$$[$0],null,$$[$0-1],Tipo.VALOR,yylineno,this._$.first_column));
+identificadores_decla.push($$[$0]); parametros_metodo.push(new Declaracion("Declaracion",identificadores_decla,null,$$[$0-1],Tipo.VALOR,yylineno,this._$.first_column)); identificadores_decla = [];
 break;
 case 130:
 this.$ = new Asignacion("Asignacion",$$[$0-2],$$[$0],yylineno,this._$.first_column);
