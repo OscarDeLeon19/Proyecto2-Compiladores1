@@ -70,6 +70,19 @@ Int funcionMetodo2(Int num1, Int num2):
 	Int nuevaSuma = num1+num2*num1
 	Retorno nuevaSuma
 
+Void Principal():
+	Si(10<20):
+		Para (Int i=1;i<=3;++):
+			Int ab = 0
+			Mientras(ab < 3):
+				Mostrar("Abss: {0}", ab)
+				ab = ab + 1
+
+
+	Sino:
+		Para (Int i=1;i<=3;++):
+			Para (Int j=1;j<=3;++):
+				Mostrar("ELSE: I: {0} J: {1}",i,j)
 
 
 

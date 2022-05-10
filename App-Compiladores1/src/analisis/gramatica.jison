@@ -39,6 +39,8 @@
 	var operaciones_ciclo = [];
 	var parametros_mostrar = [];
 	var identificadores_decla = [];
+	var operaciones_anidadas_2 = [];
+	var operaciones_anidadas_else_2 = [];
 %}
 
 // Parte Lexica
@@ -228,6 +230,57 @@ aumentar
 	| DECREMENTO {$$ = new Iteracion("Iteracion",Tipo.DECREMENTO,yylineno,this._$.first_column);}
 ;
 
+mientras_anidado_2 
+	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Mientras("Mientras",$3,operaciones_anidadas_2,operaciones_anidadas_2.length,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
+;
+
+para_anidado_2
+	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Para("Para",$3,$5,$7,operaciones_anidadas_2,operaciones_anidadas_2.length,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
+;
+
+si_anidado_2
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 TAB TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,operaciones_anidadas_else_2,operaciones_anidadas_else_2.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_anidadas_2 = []; operaciones_anidadas_else_2 = [];}
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,null,0,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
+;
+
+instrucciones_anidadas_else_2
+	: instrucciones_anidadas_else_2 TAB TAB TAB TAB instruccion_anidadas_else_2 SALTO
+	| TAB TAB TAB TAB instruccion_anidadas_else_2 SALTO
+	| SALTO
+;
+
+instruccion_anidadas_else_2
+	:  declaracion {if ($1!=null){operaciones_anidadas_else_2.push($1);}}
+	|  asignacion {operaciones_anidadas_else_2.push($1);}
+	|  llamada {operaciones_anidadas_else_2.push($1);}
+	|  mostrar {operaciones_anidadas_else_2.push($1);}
+	|  dibujar_AST {operaciones_anidadas_else_2.push($1);} 
+	|  dibujar_EXP {operaciones_anidadas_else_2.push($1);} 
+	|  dibujar_TS {operaciones_anidadas_else_2.push($1);}	
+	|  DETENER {operaciones_anidadas_else_2.push(new Detener("Detener",yylineno,this._$.first_column));}
+	|  CONTINUAR {operaciones_anidadas_else_2.push(new Detener("Continuar",yylineno,this._$.first_column));}  
+	|  {$$ = null}
+;
+
+instrucciones_anidadas_2
+	: instrucciones_anidadas_2 TAB TAB TAB TAB instruccion_anidadas_2 SALTO
+	| TAB TAB TAB TAB instruccion_anidadas_2 SALTO
+	| SALTO
+;
+
+instruccion_anidadas_2
+	:  declaracion {if ($1!=null){operaciones_anidadas_2.push($1);}}
+	|  asignacion {operaciones_anidadas_2.push($1);}
+	|  llamada {operaciones_anidadas_2.push($1);}
+	|  mostrar {operaciones_anidadas_2.push($1);}
+	|  dibujar_AST {operaciones_anidadas_2.push($1);} 
+	|  dibujar_EXP {operaciones_anidadas_2.push($1);} 
+	|  dibujar_TS {operaciones_anidadas_2.push($1);}
+	|  DETENER {operaciones_anidadas_2.push(new Detener("Detener",yylineno,this._$.first_column));}
+	|  CONTINUAR {operaciones_anidadas_2.push(new Detener("Continuar",yylineno,this._$.first_column));} 
+	|  {$$ = null}
+;
+
 mientras_anidado 
 	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Mientras("Mientras",$3,operaciones_anidadas,operaciones_anidadas.length,yylineno,this._$.first_column); operaciones_anidadas = [];}
 ;
@@ -255,6 +308,9 @@ instruccion_anidadas_else
 	|  dibujar_AST {operaciones_anidadas_else.push($1);} 
 	|  dibujar_EXP {operaciones_anidadas_else.push($1);} 
 	|  dibujar_TS {operaciones_anidadas_else.push($1);}	
+	|  si_anidado_2 {operaciones_anidadas_else.push($1);}
+	|  para_anidado_2 {operaciones_anidadas_else.push($1);}
+	|  mientras_anidado_2 {operaciones_anidadas_else.push($1);}	
 	|  DETENER {operaciones_anidadas_else.push(new Detener("Detener",yylineno,this._$.first_column));}
 	|  CONTINUAR {operaciones_anidadas_else.push(new Detener("Continuar",yylineno,this._$.first_column));}  
 	|  {$$ = null}
@@ -274,6 +330,9 @@ instruccion_anidadas
 	|  dibujar_AST {operaciones_anidadas.push($1);} 
 	|  dibujar_EXP {operaciones_anidadas.push($1);} 
 	|  dibujar_TS {operaciones_anidadas.push($1);}
+	|  si_anidado_2 {operaciones_anidadas.push($1);}
+	|  para_anidado_2 {operaciones_anidadas.push($1);}
+	|  mientras_anidado_2 {operaciones_anidadas.push($1);}
 	|  DETENER {operaciones_anidadas.push(new Detener("Detener",yylineno,this._$.first_column));}
 	|  CONTINUAR {operaciones_anidadas.push(new Detener("Continuar",yylineno,this._$.first_column));} 
 	|  {$$ = null}
