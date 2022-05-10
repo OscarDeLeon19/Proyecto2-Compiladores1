@@ -4,81 +4,21 @@ Void Principal():
 	DibujarEXP(2*504545)
 	DibujarAST(funcionMetodo1)
 	String cad3 = "CADENAssss"
-	Mostrar("hol a" > "hola")
 	funcionMetodo1(100,100)
-	Mostrar("Funcion: " + (funcionMetodo2(10,20)))
-	Mostrar("HOLA esto es prueba" + cad3)
-	Mostrar(100*20)
-	Mostrar(800/2+100)
-	Mostrar(5 >= 10)
-	Mostrar("Odio compi1 " + 25)
-	Para (Int i=1;i<=3;++):
-		Para (Int j=1;j<=3;++):
-			Mostrar("Iteracion con anidacion: " + j)
-
-		Mostrar("Este es un: " + i)
-
-	Para (Int i=1;i<=3;++):
-		Si(i==2):
-			Mostrar("I: " + i)
-
-
-	Si (10<20):
-		Int obo = 0
-		Mostrar ("El resultado es menor")
-		Para (Int i=1;i<=5;++):
-			Mostrar("Iteracion anidada: " + i)
-
-		Mientras (obo < 5):
-			Mostrar ("Hay esperanzas de de ganar compi1 anidado")
-			obo = obo+2
-
-		Si(10>20):
-			Mostrar("El resultado es menor anidado")
-		Sino:
-			Mostrar("El resultado es mayor anidado")
-
-	Sino:
-		Mostrar ("El resultado es mayor")
-		Para (Int i=1;i<=5;++):
-			Mostrar("Iteracion anidada en else: " + i)
-
-
-	Int val1 = 0
-	Mientras (val1 < 5):
-		Mostrar ("Hay esperanzas de de ganar compi1")
-		val1 = val1+1
-		Detener
-
-	DibujarTS()
-
-
-Void nuevaFuncionPerro():
-	String nuevaCAD = "25"
-	Mostrar("HOLA esto es prueba" + cad3)
-	Retorno
-
-
-Int HOLAAAAAA():
-
-	Retorno 25
-
-
-Int HOLAAAAAA(String kishi):
-
-	Retorno 25
+	Mostrar("Funcion: {0}",funcionMetodo2(10,200))
+	Mostrar("HOLA esto es prueba {0}",cad3)
 
 
 Void funcionMetodo1(Int num3, Int num4):
 	Para (Int i=1;i<=3;++):
 		Para (Int j=1;j<=3;++):
-			Mostrar("Iteracion con anidacion: " + j)
+			Mostrar("Iteracion con anidacion: {0}",j)
 
-		Mostrar("Este es un: " + i)
+		Mostrar("Este es un: {0}",i)
 
 	Para (Int i=1;i<=3;++):
 		Si(i==2):
-			Mostrar("I: " + i)
+			Mostrar("I: {0}",i)
 			Detener
 
 
@@ -86,7 +26,7 @@ Void funcionMetodo1(Int num3, Int num4):
 		Int obo = 0
 		Mostrar ("El resultado es menor")
 		Para (Int i=1;i<=5;++):
-			Mostrar("Iteracion anidada: " + i)
+			Mostrar("Iteracion anidada: {0}",i)
 
 		Mientras (obo < 5):
 			Mostrar ("Hay esperanzas de de ganar compi1 anidado")
@@ -100,7 +40,7 @@ Void funcionMetodo1(Int num3, Int num4):
 	Sino:
 		Mostrar ("El resultado es mayor")
 		Para (Int i=1;i<=5;++):
-			Mostrar("Iteracion anidada en else: " + i)
+			Mostrar("Iteracion anidada en else: {0}",i)
 
 
 	Int val1 = 0
@@ -110,10 +50,10 @@ Void funcionMetodo1(Int num3, Int num4):
 		Detener
 
 	DibujarTS()
-	Mostrar("Suma: " + (num3+num4))
-	Mostrar("Resta: " + (num3-num4))
-	Mostrar("Multiplicacion: " + (num3*num4))
-	Mostrar("Division: " + (num3/num4))
+	Mostrar("Suma: {0}",(num3+num4))
+	Mostrar("Resta: {0}",(num3-num4))
+	Mostrar("Multiplicacion: {0}",(num3*num4))
+	Mostrar("Division: {0}",(num3/num4))
 	Si(10>20):
 		Mostrar("El resultado es menor anidado")
 	Sino:
@@ -123,24 +63,19 @@ Void funcionMetodo1(Int num3, Int num4):
 
 
 	DibujarTS()
+	Retorno
 
 
 Int funcionMetodo2(Int num1, Int num2):
-	Int nuevaSuma = num1+num2
+	Int nuevaSuma = num1+num2*num1
 	Retorno nuevaSuma
 
 
+
+
 Void Principal():
-	String perro = "Miau"
-	Mostrar("HOLA {1}{1}{2}{0} jg",5,66,perro)
-	Mostrar ("Fecha: {0} de {1} de {2} \n",20, "Abril", 2022)
-
-
-
-
-
-
-
+	Int perro, gato = 5
+	Mostrar("{0} + {1}",perro,gato)
 
 
 

@@ -38,6 +38,7 @@
 	var valores_llamada = [];
 	var operaciones_ciclo = [];
 	var parametros_mostrar = [];
+	var identificadores_decla = [];
 %}
 
 // Parte Lexica
@@ -406,9 +407,16 @@ asignacion
 ;
 
 declaracion
-	:	tipo ID IGUAL expresion {$$ = new Declaracion("Declaracion",$2,$4,$1,Tipo.VALOR,yylineno,this._$.first_column);}
-	| 	tipo ID {$$ = new Declaracion("Declaracion",$2,null,$1,Tipo.VALOR,yylineno,this._$.first_column);}
+	:	tipo identificadores_declaracion IGUAL expresion {$$ = new Declaracion("Declaracion",identificadores_decla,$4,$1,Tipo.VALOR,yylineno,this._$.first_column); identificadores_decla = [];}
+	| 	tipo identificadores_declaracion {$$ = new Declaracion("Declaracion",identificadores_decla,null,$1,Tipo.VALOR,yylineno,this._$.first_column); identificadores_decla = [];}
 ;
+
+identificadores_declaracion
+	: identificadores_declaracion COMA ID {identificadores_decla.push($3);}
+	| ID {identificadores_decla.push($1);}
+;
+
+
 
 tipo
      : INT {$$ = Tipo.ENTERO;}

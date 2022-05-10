@@ -9,16 +9,19 @@ class Declaracion{
     /**
      * 
      * @param {*} id 
-     * @param {*} identificador 
+     * @param {Array} identificadores 
      * @param {*} valor 
      * @param {*} tipoDato 
      * @param {*} tipoEstructura 
      * @param {*} fila 
      * @param {*} columna 
      */
-    constructor(id, identificador, valor, tipoDato, tipoEstructura, fila, columna){
+    constructor(id, identificadores, valor, tipoDato, tipoEstructura, fila, columna){
         this.id = id;
-        this.identificador = identificador;
+        this.identificadores = [];
+        if(identificadores != null){
+            this.identificadores = identificadores;
+        }
         this.valor = valor;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
@@ -43,21 +46,19 @@ class Declaracion{
                 return null;
             }
         }
-
-        var comprobacion = tablaSimbolos.buscarSimboloLocal(this.identificador);
-        if (comprobacion === false){
-            if (valorExpresion===null){
-                tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, null, this.fila, this.columna))             
-                return true;
+        for(var i = 0; i < this.identificadores.length; i++){
+            var nuevoID = this.identificadores[i];
+            var comprobacion = tablaSimbolos.buscarSimboloLocal(nuevoID);
+            if (comprobacion === false){
+                if (valorExpresion===null){
+                    tablaSimbolos.agregarSimboloLocal(new Simbolo(nuevoID, this.tipoDato, this.tipoEstructura, null, this.fila, this.columna))             
+                } else {
+                    tablaSimbolos.agregarSimboloLocal(new Simbolo(nuevoID, this.tipoDato, this.tipoEstructura, valorExpresion.valor,  this.fila, this.columna))
+                }
+            } else {
+                salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.nuevoID+" esta declarada en este ambito", this.fila, this.columna);
             }
-            tablaSimbolos.agregarSimboloLocal(new Simbolo(this.identificador, this.tipoDato, this.tipoEstructura, valorExpresion.valor,  this.fila, this.columna))
-            return true;
-        } else {
-            salida.agregarError(Tipo.SEMANTICO, "La variable ya "+ this.identificador+" esta declarada en este ambito", this.fila, this.columna);
-            return null;
-        }
-
-
+        }         
     }
 
     comprobarTipo(variable, salida){

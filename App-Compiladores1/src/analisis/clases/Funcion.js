@@ -86,7 +86,14 @@ class Funcion{
             } else {
                 console.log("ERror")
             }           
-        }        
+        }   
+        if(this.retorno != null){
+            var nodoRetorno = "node" + conteo.conteoNodo;
+            conteo.sumarConteo();
+            var labelRetorno = '[label = "Retorno"]';
+            conteo.agregarEncabezado(nodoRetorno+labelRetorno);  
+            textoGrafico += nodoFuncion +"->"+nodoRetorno;
+        }     
         salida.agregarGrafico(conteo.encabezado + textoGrafico);
     }
 
