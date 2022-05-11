@@ -494,6 +494,11 @@ expresion
 
 expresion_1
     : expresion_1 AND expresion_1 {$$ = new Logica("Logica",$1,$3,Tipo.AND,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion_2 {$$ = $1}
+;
+
+expresion_2
+    : expresion_2 XOR expresion_2 {$$ = new Logica("Logica",$1,$3,Tipo.XOR,Tipo.VALOR,yylineno,this._$.first_column);}
     | expresion_relacional {$$ = $1}
 ;
 

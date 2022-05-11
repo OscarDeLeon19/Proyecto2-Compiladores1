@@ -1,8 +1,9 @@
-Incerteza 0.5
+Incerteza 1.5
 
 !!Declaro algunas globales
 Int Estado=(0+10-10)^1
-String palabra = "Hola Mundo"
+String palabra, palabra1="Hola Mundo"
+palabra1="Adios Mundo"
 
 Void Principal():
 	Saludar(palabra, true, true)
@@ -10,11 +11,12 @@ Void Principal():
 	Saludar(palabra, false, false)
 	Int resultado=factorial(5)*true
 	Int resultado2=factorial(1)*true
-	Mostrar("El fatorial de 5 es: " + resultado + " y el factorial de 1 es: " + resultado2)
-	imprimr(2,2)
+	Mostrar("El factorial de: {0} es: {1} y el factorial de: {2} por 0 es: {3}",5,resultado,1,resultado2)
+	Imprimir(2,2)
 	DibujarEXP((60+5)*num1)
-	imprimr2(2,2)
+	Imprimir2(2,2)
 	Contar(10)
+
 
 
 Int factorial(Int n):
@@ -26,34 +28,40 @@ Int factorial(Int n):
 	Retorno num
 
 
-Void Saludar(String mensaje, Boolean tipo, Boolean tipo1):
-	Si (tipo && tipo1):
+Void Saludar(String mensaje, Boolean tipo, Boolean tipo2):
+	Si (tipo && tipo2):
 		Mostrar ("Dar saludo")
-		Mostrar (mensaje)
+		Mostrar ("{0}", mensaje)
 	Sino: 
-		Si(tipo != tipo1):
+		Si(tipo |& tipo2):
 			Mostrar ("Sigue en el programa")
 		Sino:
 			Mostrar ("Dar despedida")
-			Mostrar (mensaje)
+			Mostrar ("{0}", mensaje)
 
 		Mostrar ("Se acabo el sino")
 
 	Mostrar ("Se acabo la funcion")
 
 
-Void imprimr(Int a, Int b):
+
+Void Imprimir(Int a, Int b):
 	Para (Int i=1; i<a; ++):
 		Para (Int j=1; j<b;++):
-			Mostrar ("Matriz " + i + " " + j)
+			Si(j~3):
+				Mostrar ("Matriz x={0}, y={1}",i,j)
 
 
 
 
-Void imprimr2(Int a, Int b):
+
+Void Imprimir2(Int a, Int b):
 	Para (Int i=1; i<a; ++):
 		Para (Int j=1; j<b;++):
-			Mostrar ("Matriz " + i + " " + j)
+			Si(j~3):
+				Continuar
+
+			Mostrar ("Matriz x={0}, y={1}",i,j)
 
 
 
@@ -61,9 +69,9 @@ Void imprimr2(Int a, Int b):
 Void Contar(Int a):
 	Para (Int i=0; i<a; ++):
 		Si (i>=5):
-			Mostrar ("Se detuvo")
+			Detener
 
-		Mostrar ("numero:" + i)
+		Mostrar ("numero: {0}", i)
 
 
 

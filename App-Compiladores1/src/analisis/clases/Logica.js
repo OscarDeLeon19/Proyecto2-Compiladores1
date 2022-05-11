@@ -50,7 +50,17 @@ class Logica{
                             case Tipo.OR:
                                 return new Valor("Valor",nodoIzquierdo.valor || nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                             case Tipo.XOR:
-                                return new Valor("Valor",nodoIzquierdo.valor ^= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
+                                var valorNuevo;
+                                if (nodoIzquierdo.valor == false && nodoDerecho.valor == false){
+                                    valorNuevo =false;
+                                } else if (nodoIzquierdo.valor == false && nodoDerecho.valor == true){
+                                    valorNuevo =true;
+                                } else if (nodoIzquierdo.valor == true && nodoDerecho.valor == false){
+                                    valorNuevo =true;
+                                }  else if (nodoIzquierdo.valor == true && nodoDerecho.valor == true){
+                                    valorNuevo =false;
+                                }
+                                return new Valor("Valor",valorNuevo, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                             default:
                                 salida.agregarError(Tipo.SEMANTICO, "La operacion " + this.tipoDato + " no se puede realizar", this.fila, this.columna);
                                 return null;                             
