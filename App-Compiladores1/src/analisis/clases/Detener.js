@@ -11,7 +11,7 @@ class Detener{
      */
     constructor(id,fila, columna){
         this.id = id;
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
     }
 

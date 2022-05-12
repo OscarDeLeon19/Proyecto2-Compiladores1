@@ -10,7 +10,7 @@ class Valor{
         this.valor = valor;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
-        this.fila = fila +1;
+        this.fila = fila;
         this.columna = columna;
     }
     /**
@@ -48,6 +48,7 @@ class Valor{
                 }  else {
                     salida.agregarError(Tipo.SEMANTICO, "La variable " + this.valor + " no esta definida", this.fila, this.columna);
                 }
+                break;
             case Tipo.LLAMADA:
                 var a = tablaSimbolos.buscarFuncion(this.valor.identificador, this.valor.cantidadParametros);
                 if(a === true){

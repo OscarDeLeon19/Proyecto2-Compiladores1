@@ -22,7 +22,7 @@ class Mientras{
         if(this.cuerpo != null){
             this.cuerpo = cuerpo;
         }
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
     }

@@ -45,7 +45,7 @@ class Salida{
     }
 
     agregarError(tipo, mensaje, fila, columna){
-        var error = new Error(tipo, mensaje, fila, columna);
+        var error = new Error(tipo, mensaje, fila+1, columna);
         this.tablaErrores.push(error);
     }
 

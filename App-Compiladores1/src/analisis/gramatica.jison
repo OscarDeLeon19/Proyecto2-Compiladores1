@@ -166,7 +166,7 @@ ini
 		if (funcionPrincipal != null){
 			funcionPrincipal.operar(nuevaTabla, nuevaSalida);		
 		} else {
-			console.log("error");
+			nuevaSalida.agregarError(Tipo.SEMANTICO, "No hay funcion principal", yylineno, this._$.first_column); 
 		}
 		operaciones = [];
 		tabla.limpiarTabla();
@@ -191,7 +191,7 @@ instruccion
 	: declaracion {if ($1!=null){$$ = $1}}
 	| asignacion {$$ = $1}
 	| funcion { $$ = null;}
-	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,null,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}	
+	| VOID PRINCIPAL PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion","Principal",null,operaciones_funcion,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}	
 	| {$$ = null}
 ;
 
@@ -208,8 +208,8 @@ dibujar_AST
 ;
 
 mostrar
-	: MOSTRAR PARIZQ CADENA PARDER {$$ = new Mostrar("Mostrar",$3,null,0,Tipo.VALOR,yylineno,this._$.first_column);}
-	| MOSTRAR PARIZQ CADENA expresion_mostrar PARDER {$$ = new Mostrar("Mostrar",$3,parametros_mostrar,parametros_mostrar.length,Tipo.VALOR,yylineno,this._$.first_column); parametros_mostrar = [];}
+	: MOSTRAR PARIZQ CADENA PARDER {$$ = new Mostrar("Mostrar",$3,null,0,Tipo.VALOR,Tipo.VALOR,yylineno,this._$.first_column);}
+	| MOSTRAR PARIZQ CADENA expresion_mostrar PARDER {$$ = new Mostrar("Mostrar",$3,parametros_mostrar,parametros_mostrar.length,Tipo.VALOR,Tipo.VALOR,yylineno,this._$.first_column); parametros_mostrar = [];}
 ;
 
 expresion_mostrar
@@ -239,7 +239,7 @@ para_anidado_2
 ;
 
 si_anidado_2
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 TAB TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,operaciones_anidadas_else_2,operaciones_anidadas_else_2.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_anidadas_2 = []; operaciones_anidadas_else_2 = [];}
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 TAB TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,operaciones_anidadas_else_2,operaciones_anidadas_else_2.length,yylineno,this._$.first_column); operaciones_anidadas_2 = []; operaciones_anidadas_else_2 = [];}
 	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,null,0,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
 ;
 
@@ -290,7 +290,7 @@ para_anidado
 ;
 
 si_anidado
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,operaciones_anidadas_else,operaciones_anidadas_else.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_anidadas = []; operaciones_anidadas_else = [];}
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,operaciones_anidadas_else,operaciones_anidadas_else.length,yylineno,this._$.first_column); operaciones_anidadas = []; operaciones_anidadas_else = [];}
 	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,null,0,yylineno,this._$.first_column); operaciones_anidadas = [];}
 ;
 
@@ -312,7 +312,8 @@ instruccion_anidadas_else
 	|  para_anidado_2 {operaciones_anidadas_else.push($1);}
 	|  mientras_anidado_2 {operaciones_anidadas_else.push($1);}	
 	|  DETENER {operaciones_anidadas_else.push(new Detener("Detener",yylineno,this._$.first_column));}
-	|  CONTINUAR {operaciones_anidadas_else.push(new Detener("Continuar",yylineno,this._$.first_column));}  
+	|  CONTINUAR {operaciones_anidadas_else.push(new Detener("Continuar",yylineno,this._$.first_column));} 
+	|  retorno {operaciones_anidadas_else.push($1);} 
 	|  {$$ = null}
 ;
 
@@ -335,6 +336,7 @@ instruccion_anidadas
 	|  mientras_anidado_2 {operaciones_anidadas.push($1);}
 	|  DETENER {operaciones_anidadas.push(new Detener("Detener",yylineno,this._$.first_column));}
 	|  CONTINUAR {operaciones_anidadas.push(new Detener("Continuar",yylineno,this._$.first_column));} 
+	|  retorno {operaciones_anidadas.push($1);}
 	|  {$$ = null}
 ;
 
@@ -363,7 +365,7 @@ instruccion_para
 
 
 si
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,operaciones_else,operaciones_else.length,yylineno,this._$.first_column); console.log(operaciones_si.length);operaciones_si = []; operaciones_else = [];}
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,operaciones_else,operaciones_else.length,yylineno,this._$.first_column); operaciones_si = []; operaciones_else = [];}
 	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,null,0,yylineno,this._$.first_column); operaciones_si = [];}
 ;
 

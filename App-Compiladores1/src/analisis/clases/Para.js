@@ -26,7 +26,7 @@ class Para {
             this.cuerpo = cuerpo;
         }
         this.iterador = iterador;
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
     }

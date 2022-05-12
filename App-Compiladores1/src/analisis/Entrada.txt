@@ -5,7 +5,7 @@ Void Principal():
 	DibujarAST(funcionMetodo1)
 	String cad3 = "CADENAssss"
 	funcionMetodo1(100,100)
-	Mostrar("Funcion: {0}",funcionMetodo2(10,200))
+	Mostrar("Funcion: {0}",funcionMetodo2(10,20))
 	Mostrar("HOLA esto es prueba {0}",cad3)
 	Mostrar("Valor: {0}",(10<20) || (5>20))
 
@@ -68,6 +68,15 @@ Void funcionMetodo1(Int num3, Int num4):
 
 
 Int funcionMetodo2(Int num1, Int num2):
-	Int nuevaSuma = num1+num2*num1
-	Retorno nuevaSuma
+	Int nuevaSuma = num1+num2
+	Si(nuevaSuma<=100):
+		Si(10<20):
+			Retorno 455
+		Sino:
+			Retorno 800
+
+	Sino:
+		Mostrar("ERROR")
+		Retorno 1000
+
 

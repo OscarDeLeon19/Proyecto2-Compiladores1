@@ -13,7 +13,7 @@ class DibujarAST{
     constructor(id, identificador, fila, columna){
         this.id = id;
         this.identificador = identificador;
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
     }
 

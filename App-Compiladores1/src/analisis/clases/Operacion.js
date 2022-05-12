@@ -21,7 +21,7 @@ class Operacion{
         this.valorDerecho = valorDerecho;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
     }
 

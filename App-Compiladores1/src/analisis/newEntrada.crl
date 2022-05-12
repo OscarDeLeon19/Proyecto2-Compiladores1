@@ -83,3 +83,11 @@ Double Graficar(Double a):
 	Retorno a
 
 
+Double Graficar(Double a, Double b):
+	Si (a>10.0):
+		Mostrar("GOLA")
+		Retorno 1.0
+
+	Retorno a
+
+

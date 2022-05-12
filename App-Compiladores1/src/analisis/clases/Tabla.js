@@ -117,7 +117,7 @@ class Tabla{
             this.funciones.push(funcion);
             return true;
         } else {
-            salida.agregarError(Tipo.SEMANTICO, "Funcion "+ funcion.identificador + "ya declarada", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "Funcion "+ funcion.identificador + " ya declarada", funcion.fila, funcion.columna);
             return false;
         }
     }

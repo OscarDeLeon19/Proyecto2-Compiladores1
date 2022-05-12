@@ -25,9 +25,8 @@ class Mostrar{
         this.cantidadParametros = cantidadParametros;
         this.tipoDato = tipoDato;
         this.tipoEstructura = tipoEstructura;
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
-
     }
 
     /**

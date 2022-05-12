@@ -29,8 +29,7 @@ export class PrincipalComponentComponent implements OnInit {
   errores:Error[] = [];
   tablas:DBTabla[] = [];
   graficos:string[] = [];
-  graficosAnteriores:number = 0;
-
+  elementos:HTMLDivElement[] = [];
 
   constructor() { }
 
@@ -40,21 +39,39 @@ export class PrincipalComponentComponent implements OnInit {
 
   graficar(){ 
     var divMayor = document.getElementById("graficos");
+    if(this.elementos.length > 0){
+      console.log("ELEMENTOS")
+      for(var i = 0; i < this.elementos.length; i++){
+        this.elementos[i].remove();
+      }
+    }
+    this.elementos = [];
     for(var i = 0; i < this.graficos.length; i++){
+      var subDiv = document.createElement("div");
+      var titulo = document.createElement("h1");
+      titulo.textContent = "Grafica No." + (i+1);
       var elementoNuevo = document.createElement("div");
       var nameGrafico:string = "grafico"+i;
       elementoNuevo.setAttribute("id", nameGrafico);
       elementoNuevo.setAttribute("class", "mx-auto");
-      elementoNuevo.setAttribute("style", "width: 1000px;");
-      divMayor?.appendChild(elementoNuevo);
-      graphviz("#"+nameGrafico).renderDot(this.graficos[i]);
+      elementoNuevo.setAttribute("style", "border-style: solid; border-width: 2px; text-align: center; width: 1500px;");
+      this.elementos.push(elementoNuevo);
+      subDiv?.appendChild(titulo);
+      subDiv?.appendChild(elementoNuevo);
+      divMayor?.appendChild(subDiv);
+      this.elementos.push(subDiv);
+      graphviz("#"+nameGrafico).width(1500).scale(1.0).renderDot(this.graficos[i]);
     }
-    this.graficosAnteriores = this.graficos.length;
   }
 
   compilarProyecto(){
     var outPUT = new Salida();
-    outPUT = gramatica.parse(this.texto + "\n\n");
+    try {
+        outPUT = gramatica.parse(this.texto + "\n\n");
+    } catch (error) {
+        alert("Error Fatal. No se puede ejecutar la gramatica"); 
+        console.log(error) 
+    }
     this.resultado = outPUT.getSalida();
     this.errores = outPUT.getTablaErrores();
     this.tablas = outPUT.getTablasDibujadas();
@@ -66,8 +83,6 @@ export class PrincipalComponentComponent implements OnInit {
       this.graficar();
     }
     
-    
-
   }
 
   limpiarEditor(){

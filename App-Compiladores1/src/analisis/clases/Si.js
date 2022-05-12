@@ -25,7 +25,7 @@ class Si{
         if(cuerpo_else != null){
             this.cuerpo_else = cuerpo_else;
         }
-        this.fila = fila+1;
+        this.fila = fila;
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
         this.cantElse = cantElse;
@@ -63,6 +63,12 @@ class Si{
                     break;
                 } else {
                     this.cuerpo[i].operar(nuevaTabla, salida);
+                    if(this.cuerpo[i].id == "Si"){
+                        if(this.cuerpo[i].retorno != null){
+                            this.retorno = this.cuerpo[i].retorno;
+                            break;
+                        }
+                    }
                 }
             }
             return true;
@@ -79,6 +85,12 @@ class Si{
                         break;
                     } else {
                         this.cuerpo_else[i].operar(nuevaTabla, salida);
+                        if(this.cuerpo_else[i].id == "Si"){
+                            if(this.cuerpo_else[i].retorno != null){
+                                this.retorno = this.cuerpo_else[i].retorno;
+                                break;
+                            }
+                        }
                     }
                 }
                 return true;

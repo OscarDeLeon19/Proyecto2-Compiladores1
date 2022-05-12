@@ -20,7 +20,7 @@ class Asignacion{
         this.id = id;
         this.identificador = identificador;
         this.valor = valor;
-        this.fila = fila +1;
+        this.fila = fila;
         this.columna = columna;
     }
 
@@ -32,9 +32,8 @@ class Asignacion{
     operar(tablaSimbolos, salida){
 
         var a = tablaSimbolos.obtenerSimbolo(this.identificador);
-
-        if (a === null){
-            salida.agregarError(Tipo.SEMANTICO, "Variable "+ this.id + "no encontrada", this.fila, this.columna);
+        if (a == null){
+            salida.agregarError(Tipo.SEMANTICO, "Variable "+ this.identificador + " no encontrada", this.fila, this.columna);
             return null;
         }
 
