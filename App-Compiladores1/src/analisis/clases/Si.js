@@ -30,6 +30,7 @@ class Si{
         this.cantOperaciones = cantOperaciones;
         this.cantElse = cantElse;
         this.valorCiclo = "";
+        this.retorno = null;
     }
     /**
      * 
@@ -37,6 +38,7 @@ class Si{
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
+        this.retorno = null;
         this.valorCiclo = "";
         var expresion = this.relacion.operar(tablaSimbolos, salida);
         if (expresion == null){
@@ -56,6 +58,9 @@ class Si{
                     this.valorCiclo = "Detener";
                 } else if (this.cuerpo[i].id === "Continuar") {
                     this.valorCiclo = "Continuar";
+                } else if (this.cuerpo[i].id === "Retorno") {
+                    this.retorno = this.cuerpo[i];
+                    break;
                 } else {
                     this.cuerpo[i].operar(nuevaTabla, salida);
                 }
@@ -69,6 +74,9 @@ class Si{
                         this.valorCiclo = "Detener";
                     } else if (this.cuerpo_else[i].id === "Continuar") {
                         this.valorCiclo = "Continuar";
+                    } else if (this.cuerpo_else[i].id === "Retorno") {
+                        this.retorno = this.cuerpo_else[i];
+                        break;
                     } else {
                         this.cuerpo_else[i].operar(nuevaTabla, salida);
                     }
@@ -127,6 +135,8 @@ class Si{
                 texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
             } else if(this.cuerpo[i].id  == "Detener"){
                 texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Retorno"){
+                texto += nodoCuerpo+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
             } else {
                 console.log("ERror")
             }           
@@ -158,6 +168,8 @@ class Si{
                 } else if(this.cuerpo_else[i].id  == "Para"){
                     texto += nodoElse+ "->"+ this.cuerpo_else[i].graficarAST(conteo, salida) + "\n";
                 } else if(this.cuerpo_else[i].id  == "Mientras"){
+                    texto += nodoElse+ "->"+ this.cuerpo_else[i].graficarAST(conteo, salida) + "\n";
+                } else if(this.cuerpo_else[i].id  == "Retorno"){
                     texto += nodoElse+ "->"+ this.cuerpo_else[i].graficarAST(conteo, salida) + "\n";
                 } else {
                     console.log("ERror")

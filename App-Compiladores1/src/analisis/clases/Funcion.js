@@ -14,7 +14,7 @@ class Funcion{
      * @param {*} fila 
      * @param {*} columna 
      */
-    constructor(id, identificador, parametros, cuerpo, retorno, tipoDato, tipoEstructura, fila, columna){
+    constructor(id, identificador, parametros, cuerpo, tipoDato, tipoEstructura, fila, columna){
         this.id = id;
         this.identificador = identificador;
         if (parametros == null){
@@ -29,7 +29,7 @@ class Funcion{
         this.tipoEstructura = tipoEstructura;
         this.fila = fila+1;
         this.columna = columna;
-        this.retorno = retorno;
+        this.retorno = null;
     }
     /**
      * 
@@ -38,11 +38,23 @@ class Funcion{
      * @returns 
      */
     operar(tablaSimbolos, salida){
+        this.retorno = null;
         var a = Array.isArray(this.cuerpo);
         if (a){
             var cantidad = this.cuerpo.length;
-            for(var i = 0; i < cantidad; i++){           
-                this.cuerpo[i].operar(tablaSimbolos, salida);           
+            for(var i = 0; i < cantidad; i++){   
+                if(this.cuerpo[i].id == "Retorno"){
+                    this.retorno = this.cuerpo[i];
+                    break;
+                } else {        
+                    this.cuerpo[i].operar(tablaSimbolos, salida); 
+                    if(this.cuerpo[i].id == "Si"){
+                        if(this.cuerpo[i].retorno != null){
+                            this.retorno = this.cuerpo[i].retorno;
+                            break;
+                        }
+                    }
+                }          
             }
         }
         return null;
@@ -83,17 +95,12 @@ class Funcion{
                 textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
             } else if(this.cuerpo[i].id  == "Mientras"){
                 textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
+            } else if(this.cuerpo[i].id  == "Retorno"){
+                textoGrafico += nodoFuncion+ "->"+ this.cuerpo[i].graficarAST(conteo, salida) + "\n";
             } else {
                 console.log("ERror")
             }           
         }   
-        if(this.retorno != null){
-            var nodoRetorno = "node" + conteo.conteoNodo;
-            conteo.sumarConteo();
-            var labelRetorno = '[label = "Retorno"]';
-            conteo.agregarEncabezado(nodoRetorno+labelRetorno);  
-            textoGrafico += nodoFuncion +"->"+nodoRetorno;
-        }     
         salida.agregarGrafico(conteo.encabezado + textoGrafico);
     }
 

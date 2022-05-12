@@ -54,7 +54,7 @@ export class PrincipalComponentComponent implements OnInit {
 
   compilarProyecto(){
     var outPUT = new Salida();
-    outPUT = gramatica.parse(this.texto);
+    outPUT = gramatica.parse(this.texto + "\n\n");
     this.resultado = outPUT.getSalida();
     this.errores = outPUT.getTablaErrores();
     this.tablas = outPUT.getTablasDibujadas();

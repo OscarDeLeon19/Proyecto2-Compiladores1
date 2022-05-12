@@ -32,6 +32,29 @@ class Retorno{
         return new Valor("Valor", expresion.valor, expresion.tipoDato, Tipo.VALOR, this.fila, this.columna);
     }
 
+    /**
+     * 
+     * @param {Conteo} conteo 
+     * @param {Salida} salida 
+     */
+     graficarAST(conteo, salida){
+        var nodo = "node" + conteo.conteoNodo;
+        conteo.sumarConteo();
+        var label = '[label = "Retorno"]';
+        conteo.agregarEncabezado(nodo+label);  
+        if(this.valor != null){
+            var nodoValor = "node" + conteo.conteoNodo;
+            conteo.sumarConteo();
+            var labelValor = '[label = "Expresion"]';
+            conteo.agregarEncabezado(nodoValor+labelValor); 
+            nodo = nodo + "->" + nodoValor; 
+        }
+        var texto = nodo;
+        return texto;
+
+    }
+
+
 }
 
 module.exports = Retorno;

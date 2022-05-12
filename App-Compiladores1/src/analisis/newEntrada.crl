@@ -16,6 +16,7 @@ Void Principal():
 	DibujarEXP((60+5)*num1)
 	Imprimir2(2,2)
 	Contar(10)
+	DibujarAST(Graficar)
 
 
 
@@ -46,8 +47,8 @@ Void Saludar(String mensaje, Boolean tipo, Boolean tipo2):
 
 
 Void Imprimir(Int a, Int b):
-	Para (Int i=1; i<a; ++):
-		Para (Int j=1; j<b;++):
+	Para (Int i=1; i<=a; ++):
+		Para (Int j=1; j<=b;++):
 			Si(j~3):
 				Mostrar ("Matriz x={0}, y={1}",i,j)
 
@@ -56,8 +57,8 @@ Void Imprimir(Int a, Int b):
 
 
 Void Imprimir2(Int a, Int b):
-	Para (Int i=1; i<a; ++):
-		Para (Int j=1; j<b;++):
+	Para (Int i=1; i<=a; ++):
+		Para (Int j=1; j<=b;++):
 			Si(j~3):
 				Continuar
 
@@ -73,5 +74,12 @@ Void Contar(Int a):
 
 		Mostrar ("numero: {0}", i)
 
+
+
+Double Graficar(Double a):
+	Si (a>10.0):
+		Retorno 1.0
+
+	Retorno a
 
 

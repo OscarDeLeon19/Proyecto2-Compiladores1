@@ -384,6 +384,7 @@ instruccion_if
 	|  para_anidado {operaciones_si.push($1);}
 	|  mientras_anidado {operaciones_si.push($1);}
 	|  si_anidado {operaciones_si.push($1);}
+	|  retorno {operaciones_si.push($1);}
 	| {$$ = null}
 	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
@@ -404,15 +405,16 @@ instruccion_else
 	|  para_anidado {operaciones_else.push($1);}
 	|  mientras_anidado {operaciones_else.push($1);}
 	|  si_anidado {operaciones_else.push($1);}
+	|  retorno {operaciones_else.push($1);}
 	| {$$ = null}
 	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
 funcion
-	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = []; }
-	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$9,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = [];}
-	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno_metodo SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}
-	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion retorno SALTO {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$8,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; }	
+	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = []; }
+	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = [];}
+	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}
+	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; }	
 ;
 
 instrucciones_funcion
@@ -432,18 +434,14 @@ instruccion_funcion
 	|  dibujar_AST {operaciones_funcion.push($1);}
 	|  dibujar_EXP {operaciones_funcion.push($1);}
 	|  dibujar_TS {operaciones_funcion.push($1);}
+	|  retorno {operaciones_funcion.push($1);}
 	|  {$$ = null}
 	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
 ;
 
-retorno_metodo
-	: TAB RETORNO expresion {$$ = new Retorno("Retorno",$3, yylineno,this._$.first_column);}
-	| TAB RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
-;
-
 retorno
-	:TAB RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
-	| {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
+	: RETORNO {$$ = new Retorno("Retorno",null, yylineno,this._$.first_column);}
+	| RETORNO expresion {$$ = new Retorno("Retorno",$2, yylineno,this._$.first_column);}
 ;
 
 llamada
