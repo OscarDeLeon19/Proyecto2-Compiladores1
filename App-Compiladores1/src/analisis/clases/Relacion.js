@@ -7,7 +7,7 @@ const Valor = require('./Valor');
 class Relacion{
 
     /**
-     * 
+     * Clase de la instruccion Relacion
      * @param {*} id 
      * @param {Valor} valorIzquierdo 
      * @param {Valor} valorDerecho 
@@ -27,11 +27,12 @@ class Relacion{
     }
 
     /**
-    * 
+    * Opera la instruccion de una relacion
     * @param {Tabla} tablaSimbolos 
     * @param {Salida} salida 
     */
     operar(tablaSimbolos, salida){
+        // Comprueba que ambos nodos tengan un valor
         var nodoIzquierdo = null;
         var nodoDerecho = null;
         if (this.valorIzquierdo != null){
@@ -42,8 +43,10 @@ class Relacion{
         }
         if (nodoIzquierdo != null && nodoDerecho != null){
             if (nodoIzquierdo.tipoEstructura === Tipo.VALOR && nodoDerecho.tipoEstructura === Tipo.VALOR){
+                // Comprueba que ambos nodos tengan un tipo de dato igual.
                 if(nodoIzquierdo.tipoDato === nodoDerecho.tipoDato){
                     if(nodoIzquierdo.tipoDato == Tipo.CADENA){
+                        // Si son cadenas se realiza una comprobacion segun los valores de los caracteres en la tabla ASSCII
                         var valorCadena1 = 0;
                         var valorCadena2 = 0;
                         for(var i = 0; i< String(nodoIzquierdo.valor.length); i++){
@@ -67,6 +70,7 @@ class Relacion{
                                 case Tipo.MENORIGUAL:
                                     return new Valor("Valor",valorCadena1 <= valorCadena2, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna); 
                                 case Tipo.INCERTEZA:
+                                    // Si es una incerteza se evalua de manera diferente
                                     var cadena1 = String(nodoIzquierdo.valor.toUpperCase());
                                     var cadena2 = String(nodoDerecho.valor.toUpperCase());
                                     var nuevaCadena1;
@@ -133,6 +137,7 @@ class Relacion{
                                 case Tipo.MENORIGUAL:
                                     return new Valor("Valor",nodoIzquierdo.valor <= nodoDerecho.valor, Tipo.BOOLEAN, Tipo.VALOR, this.fila, this.columna);
                                 case Tipo.INCERTEZA:
+                                    // La incerteza solo se puede evaluar entre numeros
                                     if(nodoIzquierdo.tipoDato === Tipo.ENTERO || nodoIzquierdo.tipoDato === Tipo.DECIMAL){
                                         var valorIncerteza;
                                         var resultado = Math.abs(nodoIzquierdo.valor - nodoDerecho.valor);

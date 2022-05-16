@@ -7,7 +7,7 @@ const Iteracion = require('./Iteracion');
 class Para {
 
     /**
-     * 
+     * Clase de la instruccion Para
      * @param {*} id 
      * @param {*} declaracion 
      * @param {*} relacion 
@@ -31,28 +31,34 @@ class Para {
         this.cantOperaciones = cantOperaciones;
     }
     /**
-     * 
+     * Opera la instruccion para
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida) {
+        // Crea una nueva tabla para este scope.
         var nuevaTabla = new Tabla(tablaSimbolos);
+        // Opera la declaracion del ciclo
         if (this.declaracion.operar(nuevaTabla, salida) == null) {
-            salida.agregarError(Tipo.SEMANTICO, "Error en la declaracion del ciclo", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "Error en la declaracion del ciclo", this.fila-1, this.columna);
             return null;
         }
+        // Asigna la variable del ciclo a la de iteracion
         var variableIteracion = this.declaracion.identificadores[0];
-
+        // Opera la expresion relacional del ciclo.
         var expresion = this.relacion.operar(nuevaTabla, salida);
         if (expresion == null) {
-            salida.agregarError(Tipo.SEMANTICO, "Error en la expresion relacional del ciclo", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "Error en la expresion relacional del ciclo", this.fila-1, this.columna);
             return null;
         }
         if (expresion.tipoDato != Tipo.BOOLEAN) {
-            salida.agregarError(Tipo.SEMANTICO, "La expresion del for debe ser booleana", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "La expresion del for debe ser booleana", this.fila-1, this.columna);
             return null;
         }
+
+        // Asigna la variable al iterador
         this.iterador.setIdentificador(variableIteracion);
+        // Inicia un while que se ejecutara mientras la relacion se cumpla.
         while (expresion.valor === true) {
             var detener = false;
             for (var i = 0; i < this.cantOperaciones; i++) {
@@ -73,21 +79,23 @@ class Para {
                     }
                 }
             }
+            // Si se encuentra una instruccion detener el ciclo se termina
             if(detener === true){
                 break;
             }
+            // Si hay un error en el iterador se termina el ciclo.
             if (this.iterador.operar(nuevaTabla, salida) == null) {
-                salida.agregarError(Tipo.SEMANTICO, "Error al realizar la iteracion", this.fila, this.columna);
+                salida.agregarError(Tipo.SEMANTICO, "Error al realizar la iteracion", this.fila-1, this.columna);
                 return null;
             }
 
             expresion = this.relacion.operar(nuevaTabla, salida);
             if (expresion == null) {
-                salida.agregarError(Tipo.SEMANTICO, "Error en la expresion relacional del ciclo", this.fila, this.columna);
+                salida.agregarError(Tipo.SEMANTICO, "Error en la expresion relacional del ciclo", this.fila-1, this.columna);
                 return null;
             }
             if (expresion.tipoDato != Tipo.BOOLEAN) {
-                salida.agregarError(Tipo.SEMANTICO, "La expresion del for debe ser booleana", this.fila, this.columna);
+                salida.agregarError(Tipo.SEMANTICO, "La expresion del for debe ser booleana", this.fila-1, this.columna);
                 return null;
             }
         }
@@ -95,7 +103,7 @@ class Para {
     }
 
     /**
-     * 
+     * Grafica los nodos del AST del ciclo.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

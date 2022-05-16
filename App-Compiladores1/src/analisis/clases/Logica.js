@@ -7,7 +7,7 @@ const Valor = require('./Valor');
 class Logica{
 
     /**
-     * 
+     * Clase de la instruccion Logica
      * @param {*} id 
      * @param {Valor} valorIzquierdo 
      * @param {Valor} valorDerecho 
@@ -27,11 +27,12 @@ class Logica{
     }
 
     /**
-    * 
+    * Opera una instruccion Logica
     * @param {Tabla} tablaSimbolos 
     * @param {Salida} salida 
     */
     operar(tablaSimbolos, salida){
+        // Obtiene los valores de los nodos izquierdo y derecho.
         var nodoIzquierdo = null;
         var nodoDerecho = null;
         if (this.valorIzquierdo != null){
@@ -40,9 +41,11 @@ class Logica{
         if (this.valorDerecho != null){
             nodoDerecho = this.valorDerecho.operar(tablaSimbolos, salida)
         }
+        // Si estos son diferente de nulo entonces se opera.
         if (nodoIzquierdo != null && nodoDerecho != null){
             if (nodoIzquierdo.tipoEstructura === Tipo.VALOR && nodoDerecho.tipoEstructura === Tipo.VALOR){
                 if(nodoIzquierdo.tipoDato === Tipo.BOOLEAN && nodoDerecho.tipoDato === Tipo.BOOLEAN){                    
+                    // Segun el tipo de dato entonces el valor retornara un valor diferente.
                     if(this.tipoDato != null){
                         switch (this.tipoDato){
                             case Tipo.AND:
@@ -71,6 +74,7 @@ class Logica{
                     return null; 
                 }
             }
+            // Si solo hay un solo valor quiere decir que se operara una instruccion NOT.
         } else if (nodoDerecho === null && nodoIzquierdo != null){
             if (nodoIzquierdo.tipoEstructura === Tipo.VALOR){
                 if(nodoIzquierdo.tipoDato === Tipo.BOOLEAN){                    

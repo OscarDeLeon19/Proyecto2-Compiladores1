@@ -17,6 +17,7 @@ Void Principal():
 	Imprimir2(2,2)
 	Contar(10)
 	DibujarAST(Graficar)
+	DibujarTS()
 
 
 

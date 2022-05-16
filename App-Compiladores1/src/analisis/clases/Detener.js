@@ -4,7 +4,7 @@ const Tipo = require('./Tipo');
 
 class Detener{
     /**
-     * 
+     * Clase de la instruccion detener
      * @param {*} id 
      * @param {*} fila 
      * @param {*} columna 
@@ -16,7 +16,7 @@ class Detener{
     }
 
     /**
-     * 
+     * No opera ninguna funcion
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
@@ -25,7 +25,7 @@ class Detener{
     }
 
     /**
-     * 
+     * Crea un nodo para la graficacion del AST.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

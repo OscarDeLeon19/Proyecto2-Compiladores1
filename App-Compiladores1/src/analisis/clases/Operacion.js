@@ -7,6 +7,7 @@ const Conteo = require('../Conteo');
 class Operacion{
 
     /**
+     * Clase de la instrucion Operacion
      * @param {*} id
      * @param {Valor} valorIzquierdo 
      * @param {Valor} valorDerecho 
@@ -26,11 +27,12 @@ class Operacion{
     }
 
     /**
-     * 
+     * Opera la instruccion operacion.
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
+        // Obtiene los valores de los nodos
         var nodoIzquierdo = null;
         var nodoDerecho = null;
         if (this.valorIzquierdo != null){
@@ -43,6 +45,7 @@ class Operacion{
         if (nodoIzquierdo != null && nodoDerecho != null){
             if (nodoIzquierdo.tipoEstructura === Tipo.VALOR && nodoDerecho.tipoEstructura === Tipo.VALOR){
                 if(this.tipoDato != null){
+                    // Ejecuta diferentes operaciones segun el tipo de operacion que se va a realizar.
                     switch(this.tipoDato){
                         case Tipo.SUMA:
                             if (nodoIzquierdo.tipoDato === Tipo.BOOLEAN && nodoDerecho.tipoDato === Tipo.BOOLEAN){

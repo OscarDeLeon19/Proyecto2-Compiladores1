@@ -4,7 +4,13 @@ const Valor = require('./Valor');
 const Tipo = require('./Tipo');
 
 class Retorno{
-    
+    /**
+     * Clase de la instruccion retorno
+     * @param {*} id 
+     * @param {*} valor 
+     * @param {*} fila 
+     * @param {*} columna 
+     */
     constructor(id, valor, fila, columna){
         this.id = id;
         this.valor = valor;
@@ -14,15 +20,15 @@ class Retorno{
     }
 
     /**
-     * 
+     * Opera la instruccion retorono
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      * @returns 
      */
     operar(tablaSimbolos, salida){
         var expresion = null;
-        if (this.valor != null){            
-            
+        // Si el retorno posee un valor entonces lo opera.
+        if (this.valor != null){                       
             expresion = this.valor.operar(tablaSimbolos, salida);
         }
         if (expresion == null){
@@ -33,7 +39,7 @@ class Retorno{
     }
 
     /**
-     * 
+     * Grafica los nodos del AST.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

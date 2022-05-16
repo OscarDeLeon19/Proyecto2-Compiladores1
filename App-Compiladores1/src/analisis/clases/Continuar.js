@@ -4,7 +4,7 @@ const Tipo = require('./Tipo');
 
 class Continuar{
     /**
-     * 
+     * Clase con la instruccion para continuar.
      * @param {*} id 
      * @param {*} fila 
      * @param {*} columna 
@@ -16,7 +16,7 @@ class Continuar{
     }
 
     /**
-     * 
+     * No realiza ninguna operacion
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
@@ -25,7 +25,7 @@ class Continuar{
     }
 
     /**
-     * 
+     * Grafica los nodos del AST.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

@@ -5,7 +5,7 @@ const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript')
 
 class Mostrar{
     /**
-     * 
+     * Clase de la instruccion Mostrar
      * @param {*} id 
      * @param {string} cadena 
      * @param {array} parametros 
@@ -30,25 +30,18 @@ class Mostrar{
     }
 
     /**
-     * 
+     * Opera la instruccion Mostrar
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
-    operar(tablaSimbolos, salida){
-        /*
-        var expresion = this.valor.operar(tablaSimbolos, salida);
-        if (expresion != null){
-            salida.agregarSalida(expresion.valor);
-        } else {
-            salida.agregarError(Tipo.SEMANTICO, "Error al imprimir", this.fila, this.columna);           
-        }
-        return null;
-        */
-
+    operar(tablaSimbolos, salida){    
         var nuevaCadena = "";
+        // Se crea un ciclo con para leer cada caracter de la cadena. 
         for(var i = 0; i < this.cadena.length; i++){
             if(this.cadena.substring(i,i+1)=="{"){
+                // Si la cadena es una llave, entonces se busca algun parametro con ese valor
                 for(var j = i + 1; j < this.cadena.length; j++){
+                    // Se hace una busqueda hasta encontrar el cierre de la llave
                     if(this.cadena.substring(j,j+1)=="}"){
                         try{
                             var number = Number(this.cadena.substring(i+1,j));                   
@@ -83,7 +76,7 @@ class Mostrar{
     }
 
     /**
-     * 
+     * Grafica los nodos del AST.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

@@ -30,17 +30,19 @@ export class PrincipalComponentComponent implements OnInit {
   tablas:DBTabla[] = [];
   graficos:string[] = [];
   elementos:HTMLDivElement[] = [];
+  nombreArchivo = "";
 
   constructor() { }
 
   ngOnInit(): void {
     
   }
-
+  /**
+   * Se encarga de graficar todos los Dot que devuelve la aplicacion.
+   */
   graficar(){ 
     var divMayor = document.getElementById("graficos");
     if(this.elementos.length > 0){
-      console.log("ELEMENTOS")
       for(var i = 0; i < this.elementos.length; i++){
         this.elementos[i].remove();
       }
@@ -63,7 +65,9 @@ export class PrincipalComponentComponent implements OnInit {
       graphviz("#"+nameGrafico).width(1500).scale(1.0).renderDot(this.graficos[i]);
     }
   }
-
+  /**
+   * Compila el proyecto. Llama al parser y obtene la salida.
+   */
   compilarProyecto(){
     var outPUT = new Salida();
     try {
@@ -84,67 +88,91 @@ export class PrincipalComponentComponent implements OnInit {
     }
     
   }
-
+  /**
+   * Limpia el texto del editor.
+   */
   limpiarEditor(){
     this.texto = '';
+    this.nombreArchivo = '';
   }
 
+  /**
+   * Descarga el contenido del editor a la computadora con extencion crl.
+   */
   descargarCRL(){
     const file = new Blob([this.texto], {type: "text/plain"});
     const link = document.createElement("a");
     link.href = URL.createObjectURL(file);
-    if(this.UploadfileName === ""){
+    if(this.nombreArchivo === ""){
       link.download = "archivo.crl";
     } else {
-      link.download = this.UploadfileName;
+      link.download = this.nombreArchivo;
     }
     link.click();
     link.remove();
   }
-
+  /**
+   * Sube un archivo de la computadora a la aplicacion.
+   * @param event 
+   */
   async subirCRL(event:any){
       const file:File = event.target.files[0];
       this.UploadfileName = file.name;
       this.UploadfileText = await file.text();
   }
-
+  /**
+   * Agrega el texto subido al editor
+   */
   importarCRL(){
     this.texto = this.UploadfileText;
+    this.nombreArchivo = this.UploadfileName;
     this.hiddenUpload = true;
   }
-
+  /**
+   * Muestra el div en donde se puede subir un archivo.
+   */
   mostrarUpload(){
     this.hiddenUpload = false;
   }
-
+  /**
+   * Muestra la parte del editor en pantalla
+   */
   mostrarEditor(){
     this.hiddenEditor = false;
     this.hiddenErrores = true;
     this.hiddenTablas = true;
     this.hiddenGraficos = true;
   }
-
+  /**
+   * Muestra el reporte de errores
+   */
   mostrarErrores(){
     this.hiddenEditor = true;
     this.hiddenErrores = false;
     this.hiddenTablas = true;
     this.hiddenGraficos = true;
   }
-
+  /**
+   * Muestra reporte de tablas
+   */
   mostrarTablas(){
     this.hiddenEditor = true;
     this.hiddenErrores = true;
     this.hiddenTablas = false;
     this.hiddenGraficos = true;
   }
-
+  /**
+   * Muestra el reporte de graficos
+   */
   mostrarGraficos(){
     this.hiddenEditor = true;
     this.hiddenErrores = true;
     this.hiddenTablas = true;
     this.hiddenGraficos = false;
   }
-
+  /**
+   * Limpia los resultados de la consola.
+   */
   limpiarConsola(){
     this.resultado = "";
   }

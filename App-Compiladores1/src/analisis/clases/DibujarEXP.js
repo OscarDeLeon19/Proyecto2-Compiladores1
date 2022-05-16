@@ -5,7 +5,7 @@ const Conteo = require('../Conteo')
 
 class DibujarEXP{
     /**
-     * 
+     * Clase de la instruccion DibujarEXP
      * @param {*} id 
      * @param {*} fila 
      * @param {*} columna 
@@ -18,17 +18,19 @@ class DibujarEXP{
     }
 
     /**
-     * 
+     * Opera la instruccion de Dibujar EXP
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
+        // Crea el nodo con si etiqueta y la agrega a la lista de encabezados
         var textoGrafico = "";
         var conteo = new Conteo();
         var nodo = "node" + conteo.conteoNodo;
         conteo.sumarConteo();
         var label = '[label = "Grafica de Expresion No.'+salida.expresiones+'" shape="rectangle"]';
         conteo.agregarEncabezado(nodo+label);
+        // Obtiene el dot de todas las expresiones que estan allí.
         if(this.expresion.id === "Operacion" || this.expresion.id === "Valor"){
             textoGrafico = textoGrafico + this.expresion.obtenerDot(salida, conteo);
         } else {
@@ -40,7 +42,7 @@ class DibujarEXP{
     }
 
     /**
-     * 
+     * Crea el nodo y la etiqueta de dibujarEXP.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

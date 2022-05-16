@@ -6,7 +6,7 @@ const Tipo = require('./Tipo');
 class Incerteza{
     
     /**
-     * 
+     * Clase de la instruccion incerteza.
      * @param {string} id 
      * @param {number} valor 
      * @param {number} fila 
@@ -20,7 +20,7 @@ class Incerteza{
     }
 
     /**
-     * 
+     * Ingresa la incerteza a la tabla de simbolos.
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */

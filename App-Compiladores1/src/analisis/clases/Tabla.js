@@ -6,7 +6,7 @@ const Tipo = require('./Tipo');
 class Tabla{
 
     /**
-     * 
+     * Constructor de la clase Tabla de la tabla de simbolos.
      * @param {Tabla} _tablaSuperior 
      */
     constructor(_tablaSuperior){
@@ -18,6 +18,9 @@ class Tabla{
         this.tablaSuperior = _tablaSuperior;
     }
 
+    /**
+     * Comprueba si hay una incerteza asignada. Sino asigna 0.5 como valor por defecto.
+     */
     comprobarIncerteza(){
         var comprobacion = this.buscarSimbolo("Incerteza");
         if(comprobacion == false){
@@ -27,7 +30,7 @@ class Tabla{
     }
 
     /**
-     * 
+     * Agrega una incerteza a la tabla de simbolos.
      * @param {Incerteza} incerteza 
      */
     agregarIncerteza(incerteza){
@@ -35,6 +38,9 @@ class Tabla{
         this.agregarSimboloLocal(incert);
     }
 
+    /**
+     * Limpia la tabla de todos los simbolos y funcionan que contienen.
+     */
     limpiarTabla(){
         this.funciones = [];
         this.simbolos = [];
@@ -42,7 +48,7 @@ class Tabla{
     }
 
     /**
-     * 
+     * Agrega un simbolo a la tabla de simbolos
      * @param {Simbolo} simbolo 
      * @returns 
      */
@@ -55,7 +61,7 @@ class Tabla{
     }
 
     /**
-     * 
+     * Agrega una variable a la tabla del entorno local.
      * @param {Simbolo} simbolo 
      * @returns boolean
      */
@@ -65,7 +71,7 @@ class Tabla{
     }
     
     /**
-     * 
+     * Devuelve un simbolo por su nombre.
      * @param {string} nombre 
      * @returns Simbolo
      */
@@ -80,7 +86,7 @@ class Tabla{
         }
     }
     /**
-     * 
+     * Busca un simbolo en la tabla de simbolos.
      * @param {*} nombre 
      * @returns Simbolo
      */
@@ -96,7 +102,7 @@ class Tabla{
         return false;
     }
     /**
-     * 
+     * Busca un simbolo en la tabla de simbolos globales.
      * @param {*} nombre 
      * @returns boolean
      */
@@ -109,7 +115,7 @@ class Tabla{
         return false;
     }
     /**
-     * 
+     * Agrega una funcion a la lista de funciones. Comprueba que esta no este repetida.
      * @param {Funcion} funcion 
      */
     agregarFuncion(funcion, salida){
@@ -122,10 +128,20 @@ class Tabla{
         }
     }
 
+    /**
+     * Devuelve la cantidad de funciones
+     * @returns 
+     */
     devolverCantidad(){
         return this.funciones.length;
     }
 
+    /**
+     * Devuelve una funcion segun su nombre y cantidad de parametros.
+     * @param {*} nombre 
+     * @param {*} cantidadParametros 
+     * @returns 
+     */
     obtenerFuncion(nombre, cantidadParametros){
         for(var i = 0; i < this.funciones.length; i++){
             if(this.funciones[i].identificador === nombre && this.funciones[i].cantidadParametros === cantidadParametros){
@@ -136,7 +152,7 @@ class Tabla{
     }
 
     /**
-     * 
+     * Devuelve las funciones unicamente por su nombre.
      * @param {*} nombre 
      * @returns 
      */
@@ -150,7 +166,12 @@ class Tabla{
         return cantidadFunciones;
     }
 
-
+    /**
+     * Busca una funcion en la tabla de funciones y devuelve true si existe.
+     * @param {*} nombre 
+     * @param {*} cantidadParametros 
+     * @returns 
+     */
     buscarFuncion(nombre, cantidadParametros){
         if (this.funciones != null){
             for(var i = 0; i < this.funciones.length; i++){

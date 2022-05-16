@@ -54,9 +54,10 @@
 \n                 	return 'SALTO';
 [\r]+				{}
 
-"!!".*															// Comentario de una linea
-[\"][\"][\"][^*]*[*]*([^/*][^*]*[*]+)*[\"][\"][\"]			// comentario multiple líneas
+"!!".*													{console.log("COM: " + yytext)}		// Comentario de una linea
+[\"][\"][\"][^*]*[*]*([^/*][^*]*[*]+)*[\"][\"][\"]		 {console.log("COMMULT: " + yytext)}// comentario multiple líneas
 
+"crl"				return 'CRL';
 "Importar"			return 'IMPORTAR';
 "Incerteza"			return 'INCERTEZA';
 "Double"			return 'DOUBLE';
@@ -80,6 +81,7 @@
 "DibujarEXP"		return 'DIBUJAREXP';
 "DibujarTS"			return 'DIBUJARTS';
 
+"."					return 'PUNTO';
 ","					return 'COMA';
 ":"					return 'DOSPTS';
 ";"					return 'PTCOMA';
@@ -135,13 +137,13 @@
 /* Asociación de operadores y precedencia */
 
 %right IGUAL
+%left MAS, MENOS
+%left POR, DIVIDIDO, MODULO
+%left DOBLE_IGUAL, DIFERENTE
+%left MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, INCERT
 %left XOR
 %left OR
 %left AND
-%left DOBLE_IGUAL, DIFERENTE
-%left MAYOR, MENOR, MAYOR_IGUAL, MENOR_IGUAL, INCERT
-%left MAS, MENOS
-%left POR, DIVIDIDO, MODULO
 %right POTENCIA 
 %right NOT
 
@@ -178,7 +180,14 @@ ini
 
 encabezado
 	: INCERTEZA DECIMAL SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $2, yylineno, this._$.first_column));}
+	| importacion {}
+	| importacion INCERTEZA DECIMAL SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $3, yylineno, this._$.first_column));}
 	| 
+;
+
+importacion
+	: importacion IMPORTAR ID PUNTO CRL SALTO {}
+	| IMPORTAR ID PUNTO CRL SALTO {}
 ;
 
 instrucciones
@@ -218,11 +227,11 @@ expresion_mostrar
 ;
 
 mientras 
-	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_para {$$ = new Mientras("Mientras",$3,operaciones_ciclo,operaciones_ciclo.length,yylineno,this._$.first_column); operaciones_ciclo = [];}
+	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_para {$$ = new Mientras("Mientras",$3,operaciones_ciclo,operaciones_ciclo.length,@1.first_line,this._$.first_column); operaciones_ciclo = [];}
 ;
 
 para
-	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_para {$$ = new Para("Para",$3,$5,$7,operaciones_ciclo,operaciones_ciclo.length,yylineno,this._$.first_column); operaciones_ciclo = [];}
+	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_para {$$ = new Para("Para",$3,$5,$7,operaciones_ciclo,operaciones_ciclo.length,@1.first_line,this._$.first_column); operaciones_ciclo = [];}
 ;
 
 aumentar
@@ -231,16 +240,16 @@ aumentar
 ;
 
 mientras_anidado_2 
-	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Mientras("Mientras",$3,operaciones_anidadas_2,operaciones_anidadas_2.length,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
+	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Mientras("Mientras",$3,operaciones_anidadas_2,operaciones_anidadas_2.length,@1.first_line,this._$.first_column); operaciones_anidadas_2 = [];}
 ;
 
 para_anidado_2
-	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Para("Para",$3,$5,$7,operaciones_anidadas_2,operaciones_anidadas_2.length,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
+	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Para("Para",$3,$5,$7,operaciones_anidadas_2,operaciones_anidadas_2.length,@1.first_line,this._$.first_column); operaciones_anidadas_2 = [];}
 ;
 
 si_anidado_2
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 TAB TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,operaciones_anidadas_else_2,operaciones_anidadas_else_2.length,yylineno,this._$.first_column); operaciones_anidadas_2 = []; operaciones_anidadas_else_2 = [];}
-	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,null,0,yylineno,this._$.first_column); operaciones_anidadas_2 = [];}
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 TAB TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,operaciones_anidadas_else_2,operaciones_anidadas_else_2.length,@1.first_line,this._$.first_column); operaciones_anidadas_2 = []; operaciones_anidadas_else_2 = [];}
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas_2 {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas_2,operaciones_anidadas_2.length,null,0,@1.first_line,this._$.first_column); operaciones_anidadas_2 = [];}
 ;
 
 instrucciones_anidadas_else_2
@@ -260,6 +269,7 @@ instruccion_anidadas_else_2
 	|  DETENER {operaciones_anidadas_else_2.push(new Detener("Detener",yylineno,this._$.first_column));}
 	|  CONTINUAR {operaciones_anidadas_else_2.push(new Detener("Continuar",yylineno,this._$.first_column));}  
 	|  {$$ = null}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_anidadas_else_2 = [];}
 ;
 
 instrucciones_anidadas_2
@@ -279,19 +289,20 @@ instruccion_anidadas_2
 	|  DETENER {operaciones_anidadas_2.push(new Detener("Detener",yylineno,this._$.first_column));}
 	|  CONTINUAR {operaciones_anidadas_2.push(new Detener("Continuar",yylineno,this._$.first_column));} 
 	|  {$$ = null}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_anidadas_2 = [];}
 ;
 
 mientras_anidado 
-	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Mientras("Mientras",$3,operaciones_anidadas,operaciones_anidadas.length,yylineno,this._$.first_column); operaciones_anidadas = [];}
+	: MIENTRAS PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Mientras("Mientras",$3,operaciones_anidadas,operaciones_anidadas.length,@1.first_line,this._$.first_column); operaciones_anidadas = [];}
 ;
 
 para_anidado
-	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Para("Para",$3,$5,$7,operaciones_anidadas,operaciones_anidadas.length,yylineno,this._$.first_column); operaciones_anidadas = [];}
+	: PARA PARIZQ declaracion PTCOMA expresion PTCOMA aumentar PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Para("Para",$3,$5,$7,operaciones_anidadas,operaciones_anidadas.length,@1.first_line,this._$.first_column); operaciones_anidadas = [];}
 ;
 
 si_anidado
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,operaciones_anidadas_else,operaciones_anidadas_else.length,yylineno,this._$.first_column); operaciones_anidadas = []; operaciones_anidadas_else = [];}
-	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,null,0,yylineno,this._$.first_column); operaciones_anidadas = [];}
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas TAB TAB SINO DOSPTS SALTO instrucciones_anidadas_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,operaciones_anidadas_else,operaciones_anidadas_else.length,@1.first_line,this._$.first_column); operaciones_anidadas = []; operaciones_anidadas_else = [];}
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_anidadas {$$ = new Si("Si",$3,Tipo.SI,operaciones_anidadas,operaciones_anidadas.length,null,0,@1.first_line,this._$.first_column); operaciones_anidadas = [];}
 ;
 
 instrucciones_anidadas_else
@@ -315,6 +326,7 @@ instruccion_anidadas_else
 	|  CONTINUAR {operaciones_anidadas_else.push(new Detener("Continuar",yylineno,this._$.first_column));} 
 	|  retorno {operaciones_anidadas_else.push($1);} 
 	|  {$$ = null}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_anidadas_else = [];}
 ;
 
 instrucciones_anidadas
@@ -338,6 +350,7 @@ instruccion_anidadas
 	|  CONTINUAR {operaciones_anidadas.push(new Detener("Continuar",yylineno,this._$.first_column));} 
 	|  retorno {operaciones_anidadas.push($1);}
 	|  {$$ = null}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_anidadas = [];}
 ;
 
 
@@ -361,12 +374,13 @@ instruccion_para
 	|  mientras_anidado {operaciones_ciclo.push($1);}
 	|  si_anidado {operaciones_ciclo.push($1);} 
 	| {$$ = null}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_ciclo = [];}
 ;
 
 
 si
-	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,operaciones_else,operaciones_else.length,yylineno,this._$.first_column); operaciones_si = []; operaciones_else = [];}
-	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,null,0,yylineno,this._$.first_column); operaciones_si = [];}
+	: SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if TAB SINO DOSPTS SALTO instrucciones_else {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,operaciones_else,operaciones_else.length,@1.first_line,this._$.first_column); operaciones_si = []; operaciones_else = [];}
+	| SI PARIZQ expresion PARDER DOSPTS SALTO instrucciones_if {$$ = new Si("Si",$3,Tipo.SI,operaciones_si,operaciones_si.length,null,0,@1.first_line,this._$.first_column); operaciones_si = [];}
 ;
 
 instrucciones_if
@@ -388,7 +402,7 @@ instruccion_if
 	|  si_anidado {operaciones_si.push($1);}
 	|  retorno {operaciones_si.push($1);}
 	| {$$ = null}
-	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_si = [];}
 ;
 
 instrucciones_else
@@ -409,14 +423,14 @@ instruccion_else
 	|  si_anidado {operaciones_else.push($1);}
 	|  retorno {operaciones_else.push($1);}
 	| {$$ = null}
-	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); operaciones_else = [];}
 ;
 
 funcion
-	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = []; }
-	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = [];}
-	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$1,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = [];}
-	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,Tipo.VOID,Tipo.VALOR,yylineno,this._$.first_column), salida); operaciones_funcion = []; }	
+	: tipo ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,$1,Tipo.VALOR,@1.first_line,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = []; }
+	| VOID ID PARIZQ parametros PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,parametros_metodo,operaciones_funcion,Tipo.VOID,Tipo.VALOR,@1.first_line,this._$.first_column), salida); operaciones_funcion = []; parametros_metodo = [];}
+	| tipo ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,$1,Tipo.VALOR,@1.first_line,this._$.first_column), salida); operaciones_funcion = [];}
+	| VOID ID PARIZQ PARDER DOSPTS SALTO instrucciones_funcion {$$ = null; tabla.agregarFuncion(new Funcion("Funcion",$2,null,operaciones_funcion,Tipo.VOID,Tipo.VALOR,@1.first_line,this._$.first_column), salida); operaciones_funcion = []; }	
 ;
 
 instrucciones_funcion
@@ -438,7 +452,7 @@ instruccion_funcion
 	|  dibujar_TS {operaciones_funcion.push($1);}
 	|  retorno {operaciones_funcion.push($1);}
 	|  {$$ = null}
-	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column); console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + (yylineno) + ', en la columna: ' + this._$.first_column)}
+	| error {salida.agregarError(Tipo.SINTACTICO, "Error en el lexema: " + yytext, yylineno, this._$.first_column);}
 ;
 
 retorno
@@ -466,8 +480,8 @@ asignacion
 ;
 
 declaracion
-	:	tipo identificadores_declaracion IGUAL expresion {$$ = new Declaracion("Declaracion",identificadores_decla,$4,$1,Tipo.VALOR,yylineno,this._$.first_column); identificadores_decla = [];}
-	| 	tipo identificadores_declaracion {$$ = new Declaracion("Declaracion",identificadores_decla,null,$1,Tipo.VALOR,yylineno,this._$.first_column); identificadores_decla = [];}
+	:	tipo identificadores_declaracion IGUAL expresion {$$ = new Declaracion("Declaracion",identificadores_decla,$4,$1,Tipo.VALOR,@1.first_line,this._$.first_column); identificadores_decla = [];}
+	| 	tipo identificadores_declaracion {$$ = new Declaracion("Declaracion",identificadores_decla,null,$1,Tipo.VALOR,@1.first_line,this._$.first_column); identificadores_decla = [];}
 ;
 
 identificadores_declaracion
@@ -504,8 +518,8 @@ expresion_2
 
 // Expresiones Relacionales
 expresion_relacional
-	: expresion_relacional DOBLE_IGUAL  expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
-    | expresion_relacional DIFERENTE expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,yylineno,this._$.first_column);}
+	: expresion_relacional DOBLE_IGUAL  expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,@1.first_line,this._$.first_column);}
+    | expresion_relacional DIFERENTE expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,@1.first_line,this._$.first_column);}
     | expresion_relacional_1 {$$ = $1;}
 ;
 

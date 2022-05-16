@@ -6,7 +6,16 @@ const Tipo = require('./Tipo');
 const Conteo = require('../Conteo');
 
 class LLamada{
- 
+    /**
+     * Clase de la instruccion llamada.
+     * @param {*} id 
+     * @param {*} identificador 
+     * @param {*} parametros 
+     * @param {*} tipoDato 
+     * @param {*} tipoEstructura 
+     * @param {*} fila 
+     * @param {*} columna 
+     */
     constructor(id, identificador, parametros, tipoDato, tipoEstructura, fila, columna){
         this.id = id;
         this.identificador = identificador;
@@ -24,17 +33,21 @@ class LLamada{
     }
 
     /**
-     * 
+     * Opera la instruccion de una llamada.
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} simbolos 
      */
     operar(tablaSimbolos, salida){
+        // Obtiene la funcion de la tabla de simbolos
         var funcion = tablaSimbolos.obtenerFuncion(this.identificador, this.cantidadParametros);
+        // Si no hay funcionse agrega un error.
         if (funcion == null){
             salida.agregarError(Tipo.SEMANTICO, "Funcion: "+ this.identificador + " no declarada", this.fila, this.columna);
             return null;
         }
+        // Crea una nueva tabla para este ambito.
         var nuevaTabla = new Tabla(tablaSimbolos);
+        // Si hay parametros entonces asigna sus valores a la tabla de simbolos
         if (funcion.parametros != null){
             for(var i = 0; i < funcion.cantidadParametros; i++){
                 if(nuevaTabla.buscarSimboloLocal(funcion.parametros[i].identificadores[0])===false){
@@ -51,16 +64,9 @@ class LLamada{
                 }
             }
         }
+        // Opera el cuerpo de la funcion
         funcion.operar(nuevaTabla, salida);
-        /*
-        console.log("Error2: " + funcion.getCantidadCuerpo())
-        var cuerpo = funcion.getCuerpo();
-        for(var i = 0; i < funcion.getCantidadCuerpo(); i++){
-            console.log("IDDD: " + cuerpo.id)
-            cuerpo[i].operar(nuevaTabla, salida);
-        }
-        */
-       
+        // Si la funcion es diferente de Void. Se obtiene el valor del retorno y se devuelve.
         if (funcion.tipoDato != Tipo.VOID){
             var valorRetorno = funcion.retorno.operar(nuevaTabla, salida);
             if(valorRetorno === null){
@@ -74,7 +80,7 @@ class LLamada{
     }
 
     /**
-     * 
+     * Grafica el ast de la salida
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */
@@ -91,7 +97,7 @@ class LLamada{
 
         var nodoEXP = "node" + conteo.conteoNodo;
         conteo.sumarConteo();
-        var labelEXP = '[label = "Paramatros: '+this.cantidadParametros+'"]';
+        var labelEXP = '[label = "Parametros: '+this.cantidadParametros+'"]';
         conteo.agregarEncabezado(nodoEXP+labelEXP);
 
         var texto = nodo + "->" + nodoID +"->"+ nodoEXP;

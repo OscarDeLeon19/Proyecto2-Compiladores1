@@ -7,7 +7,7 @@ const Conteo = require('../Conteo');
 
 class Declaracion{
     /**
-     * 
+     * Guarda una declaracion de una variable
      * @param {*} id 
      * @param {Array} identificadores 
      * @param {*} valor 
@@ -30,27 +30,33 @@ class Declaracion{
     }
 
     /**
-     * 
+     * Opera la instruccion
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
         var error = false;
         var valorExpresion = null;
+        // Si el valor no es nulo lo opera para obtener el valor final
         if (this.valor != null){
             valorExpresion = this.valor.operar(tablaSimbolos, salida);
+            // Si es nulo quiere decir que hay un error
             if (valorExpresion === null){
                 salida.agregarError(Tipo.SEMANTICO, "Error en la expresion de la variable", this.fila, this.columna);
                 return null;
             }
+            // Comprueba que se tengan los mismos tipos de datos
             if(this.comprobarTipo(valorExpresion,salida)===true){
                 return null;
             }
         }
+        // Comienza a asignar los valores y crear los simbolos en la tabla.
         for(var i = 0; i < this.identificadores.length; i++){
             var nuevoID = this.identificadores[i];
             var comprobacion = tablaSimbolos.buscarSimboloLocal(nuevoID);
+            // Si el simbolo no se encuentra en la tabla genera un error
             if (comprobacion === false){
+                // Si el valor de la expresion es nula asigna una variable sin valor
                 if (valorExpresion===null){
                     tablaSimbolos.agregarSimboloLocal(new Simbolo(nuevoID, this.tipoDato, this.tipoEstructura, null, this.fila, this.columna))             
                 } else {
@@ -61,6 +67,7 @@ class Declaracion{
                 error = true;
             }
         }  
+        // Si hay un error retorna un valor nulo
         if(error == true){
             return null;
         } else {
@@ -68,6 +75,12 @@ class Declaracion{
         }       
     }
 
+    /**
+     * Comprueba que el tipo de la variable sea igual a la del tipo de dato de la expresion
+     * @param {*} variable 
+     * @param {*} salida 
+     * @returns 
+     */
     comprobarTipo(variable, salida){
         if (this.tipoDato !== variable.tipoDato){
             salida.agregarError(Tipo.SEMANTICO, "No se puede asignar un " + variable.tipoDato + " a una variable " + this.tipoDato, this.fila, this.columna);
@@ -78,7 +91,7 @@ class Declaracion{
     }
 
     /**
-     * 
+     * Crea los nodos para graficar un AST.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

@@ -3,7 +3,7 @@ const Conteo = require('../Conteo');
 
 class Funcion{
     /**
-     * 
+     * Guarda una funcion del programa
      * @param {*} id 
      * @param {*} identificador 
      * @param {*} parametros 
@@ -32,7 +32,7 @@ class Funcion{
         this.retorno = null;
     }
     /**
-     * 
+     * Opera las instrucciones de la funcion.
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      * @returns 
@@ -40,15 +40,19 @@ class Funcion{
     operar(tablaSimbolos, salida){
         this.retorno = null;
         var a = Array.isArray(this.cuerpo);
+        // Comprueba que hayan instrucciones en la funcion
         if (a){
             var cantidad = this.cuerpo.length;
             for(var i = 0; i < cantidad; i++){   
+                // Si una funcion es un retorno. Asigna esa instruccion al retorno de la funcion y finaliza la ejecucion de instrucciones.
                 if(this.cuerpo[i].id == "Retorno"){
                     this.retorno = this.cuerpo[i];
                     break;
                 } else {        
+                    // Opera cada una de las funciones
                     this.cuerpo[i].operar(tablaSimbolos, salida); 
                     if(this.cuerpo[i].id == "Si"){
+                        // Si la funcion es un Si y contiene un retorno. asigna ese retorno a la funcio y finaliza la ejecucion.
                         if(this.cuerpo[i].retorno != null){
                             this.retorno = this.cuerpo[i].retorno;
                             break;
@@ -61,11 +65,11 @@ class Funcion{
     }
 
     /**
-     * 
+     * Inicia la graficacion del ast de la funcion
      * @param {Salida} salida 
      */
      graficarAST(salida){
-        
+        // Primero crea los nodos del titulo y su etiqueta.
         var textoGrafico = "";    
         var conteo = new Conteo();
         var titulo = 'node[shape = "rectangle"]';
@@ -101,6 +105,7 @@ class Funcion{
                 console.log("ERror")
             }           
         }   
+        // Asigna el grafico al arreglo de graficos de la salida.
         salida.agregarGrafico(conteo.encabezado + textoGrafico);
     }
 

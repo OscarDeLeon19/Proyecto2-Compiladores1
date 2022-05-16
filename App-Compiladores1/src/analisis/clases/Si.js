@@ -4,7 +4,7 @@ const Tipo = require('./Tipo');
 
 class Si{
     /**
-     * 
+     * Clase de la instruccion Si
      * @param {*} id 
      * @param {*} relacion 
      * @param {*} tipoDato 
@@ -25,7 +25,7 @@ class Si{
         if(cuerpo_else != null){
             this.cuerpo_else = cuerpo_else;
         }
-        this.fila = fila;
+        this.fila = fila - 1;
         this.columna = columna;
         this.cantOperaciones = cantOperaciones;
         this.cantElse = cantElse;
@@ -33,26 +33,26 @@ class Si{
         this.retorno = null;
     }
     /**
-     * 
+     * Opera la instruccion SI
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
         this.retorno = null;
         this.valorCiclo = "";
+        // Opera la expresion relacional del si. / Si hay errores los agrega a la lista.
         var expresion = this.relacion.operar(tablaSimbolos, salida);
         if (expresion == null){
-            salida.agregarError(Tipo.SEMANTICO, "No se puede ejecutar la funcion porque se necesita una condicion", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "No se puede ejecutar la instruccion (Si) porque se necesita una condicion", this.fila, this.columna);
             return null;
         }
         if(expresion.tipoDato !== Tipo.BOOLEAN){
-            salida.agregarError(Tipo.SEMANTICO, "La condicion debe ser booleana", this.fila, this.columna);
+            salida.agregarError(Tipo.SEMANTICO, "La condicion del SI debe ser booleana", this.fila, this.columna);
             return null;
         }
-        //console.log(expresion)
+        // si la expresion es verdadera se ejecuta el si. Sino se ejecuta el Sino
         if(expresion.valor === true){
             var nuevaTabla = new Tabla(tablaSimbolos);
-            //console.log(this)
             for(var i = 0; i<this.cantOperaciones; i++){
                 if (this.cuerpo[i].id === "Detener") {
                     this.valorCiclo = "Detener";
@@ -99,7 +99,7 @@ class Si{
     }
 
     /**
-     * 
+     * Graficas los nodos del AST de la salida.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */

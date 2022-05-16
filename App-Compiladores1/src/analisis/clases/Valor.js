@@ -4,7 +4,15 @@ const Tabla = require('./tabla');
 const Conteo = require('../Conteo');
 
 class Valor{
-
+    /**
+     * Constructor de la clase valor
+     * @param {*} id 
+     * @param {*} valor 
+     * @param {*} tipoDato 
+     * @param {*} tipoEstructura 
+     * @param {*} fila 
+     * @param {*} columna 
+     */
     constructor(id, valor, tipoDato, tipoEstructura, fila, columna){
         this.id = id;
         this.valor = valor;
@@ -14,13 +22,13 @@ class Valor{
         this.columna = columna;
     }
     /**
-     * 
+     * Opera un valor
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      * @returns 
      */
     operar(tablaSimbolos, salida){
-        
+        // Segun el tipo de datos devolvera un objeto Valor con diferente valor.
         switch(this.tipoDato){
             
             case Tipo.ENTERO:
@@ -64,7 +72,7 @@ class Valor{
     }
 
     /**
-     * 
+     * Obtiene el nodo del ast de el valor.
      * @param {Salida} salida 
      * @param {Conteo} conteo 
      * @returns 

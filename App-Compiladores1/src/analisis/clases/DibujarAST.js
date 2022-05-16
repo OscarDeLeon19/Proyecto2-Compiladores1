@@ -5,7 +5,7 @@ const Conteo = require('../Conteo');
 
 class DibujarAST{
     /**
-     * 
+     * Clase de la instruccion para dibujar AST
      * @param {*} id 
      * @param {*} fila 
      * @param {*} columna 
@@ -18,24 +18,27 @@ class DibujarAST{
     }
 
     /**
-     * 
+     * Opera la instruccion del AST.
      * @param {Tabla} tablaSimbolos 
      * @param {Salida} salida 
      */
     operar(tablaSimbolos, salida){
+        // Obtiene las funciones con identificador buscado
         var funciones = tablaSimbolos.obtenerFunciones(this.identificador);
         if(funciones.length > 0){          
+            // Opera todos los nodos para graficar un AST.
             for(var i = 0; i < funciones.length; i++){
                 funciones[i].graficarAST(salida);              
             }
         } else {
+            // Si no hay funciones se agrega un error.
             salida.agregarError(Tipo.SEMANTICO, "No hay funciones con el identificador: "+ this.identificador, this.fila, this.columna);
             return null;
         }
     }
 
     /**
-     * 
+     * Grafica sus nodos del AST.
      * @param {Conteo} conteo 
      * @param {Salida} salida 
      */
