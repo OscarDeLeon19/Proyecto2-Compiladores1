@@ -180,10 +180,15 @@ ini
 ;
 
 encabezado
-	: INCERTEZA DECIMAL SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $2, yylineno, this._$.first_column));}
+	: INCERTEZA numeroIncerteza SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $2, yylineno, this._$.first_column));}
 	| importacion {}
-	| importacion INCERTEZA DECIMAL SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $3, yylineno, this._$.first_column));}
+	| importacion INCERTEZA numeroIncerteza SALTO {tabla.agregarIncerteza(new Incerteza("Incerteza", $3, yylineno, this._$.first_column));}
 	| 
+;
+
+numeroIncerteza
+	: ENTERO  {$$ = $1}	
+	| DECIMAL {$$ = $1}
 ;
 
 importacion
