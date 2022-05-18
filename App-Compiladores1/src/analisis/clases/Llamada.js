@@ -47,6 +47,7 @@ class LLamada{
         }
         // Crea una nueva tabla para este ambito.
         var nuevaTabla = new Tabla(tablaSimbolos);
+        nuevaTabla.setAmbito("Ambito: Funcion " + this.identificador);
         // Si hay parametros entonces asigna sus valores a la tabla de simbolos
         if (funcion.parametros != null){
             for(var i = 0; i < funcion.cantidadParametros; i++){

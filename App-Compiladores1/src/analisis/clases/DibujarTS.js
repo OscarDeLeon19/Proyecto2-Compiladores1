@@ -23,7 +23,8 @@ class DibujarTS{
     operar(tablaSimbolos, salida){
         // Obtiene los simbolos de la tabla solicitada
         var simbolos = tablaSimbolos.simbolos;
-        var nuevaTabla = new DBTabla(this.fila+1, this.columna);
+        var nuevaTabla = new DBTabla(tablaSimbolos.ambito, this.fila+1, this.columna);
+        
         if(simbolos.length > 0){
             // Agrega cada simbolo a una clase para exportarla.
             for(var i = 0; i < simbolos.length; i++){

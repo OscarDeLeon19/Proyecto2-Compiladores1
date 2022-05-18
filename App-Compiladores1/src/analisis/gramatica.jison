@@ -165,6 +165,7 @@ ini
         }
 		var nuevaTabla = new Tabla(tabla);
 		var funcionPrincipal = tabla.obtenerFuncion('Principal',0);
+		nuevaTabla.setAmbito("Ambito: Funcion Principal");
 		if (funcionPrincipal != null){
 			funcionPrincipal.operar(nuevaTabla, nuevaSalida);		
 		} else {

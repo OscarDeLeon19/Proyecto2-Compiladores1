@@ -11,8 +11,8 @@ export class DBTabla{
          * @param fila 
          * @param columna 
          */
-        constructor(fila:number, columna:number) {
-            this.nombre = "";
+        constructor(nombre:string, fila:number, columna:number) {
+            this.nombre = nombre;
             this.fila = fila;
             this.columna = columna;
             this.columnasTabla = [];
@@ -29,5 +29,5 @@ export class DBTabla{
             var nuevaColumna = new Columna(id, valor, tipo, fila, columna);
             this.columnasTabla.push(nuevaColumna);
         }
-        
+       
 }

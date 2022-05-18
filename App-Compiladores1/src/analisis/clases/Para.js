@@ -38,6 +38,7 @@ class Para {
     operar(tablaSimbolos, salida) {
         // Crea una nueva tabla para este scope.
         var nuevaTabla = new Tabla(tablaSimbolos);
+        nuevaTabla.setAmbito(tablaSimbolos.ambito + " SubAmbito: Sentencia Para");
         // Opera la declaracion del ciclo
         if (this.declaracion.operar(nuevaTabla, salida) == null) {
             salida.agregarError(Tipo.SEMANTICO, "Error en la declaracion del ciclo", this.fila-1, this.columna);

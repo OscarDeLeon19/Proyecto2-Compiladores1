@@ -1,5 +1,6 @@
 const Salida = require('./Salida');
 const Conteo = require('../Conteo');
+const Tabla = require('./Tabla');
 
 class Funcion{
     /**

@@ -12,10 +12,15 @@ class Tabla{
     constructor(_tablaSuperior){
         this.funciones = [];       
         this.simbolos = [];
+        this.ambito = "";
         if (_tablaSuperior != null){
             this.funciones = _tablaSuperior.funciones;
         }
         this.tablaSuperior = _tablaSuperior;
+    }
+
+    setAmbito(texto){
+        this.ambito = texto;
     }
 
     /**

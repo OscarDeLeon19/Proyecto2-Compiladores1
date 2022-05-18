@@ -34,6 +34,7 @@ class Mientras{
     operar(tablaSimbolos, salida){
         // Se crea la tabla para el nuevo ambito.
         var nuevaTabla = new Tabla(tablaSimbolos);
+        nuevaTabla.setAmbito(tablaSimbolos.ambito + " SubAmbito: Sentencia Mientras");
         // Se opera la expresion del mientras | Si es nulo entonces se agrega un error.
         var expresion = this.relacion.operar(nuevaTabla, salida);
         if (expresion == null){

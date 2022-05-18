@@ -87,7 +87,7 @@
 <!-- Div donde se encuentra la lista de tablas dibujadas desde la aplicacion -->
 <div id = "tablas" class = "mx-auto"style="width: 1000px;" [hidden]="hiddenTablas">
   <div *ngFor="let tab of this.tablas">
-    <h1>Simbolos de la tabla dibujada en la fila: {{tab.fila}}</h1>
+    <h1>{{tab.nombre}}</h1>
     <table class="table">
       <thead>
         <tr>

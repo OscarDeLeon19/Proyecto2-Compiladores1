@@ -53,6 +53,7 @@ class Si{
         // si la expresion es verdadera se ejecuta el si. Sino se ejecuta el Sino
         if(expresion.valor === true){
             var nuevaTabla = new Tabla(tablaSimbolos);
+            nuevaTabla.setAmbito(tablaSimbolos.ambito + " SubAmbito: Sentencia Si");
             for(var i = 0; i<this.cantOperaciones; i++){
                 if (this.cuerpo[i].id === "Detener") {
                     this.valorCiclo = "Detener";
