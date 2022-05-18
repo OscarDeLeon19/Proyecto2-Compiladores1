@@ -76,7 +76,7 @@ class Funcion{
         conteo.agregarEncabezado(titulo);
         var nodoFuncion = "node" + conteo.conteoNodo;
         conteo.sumarConteo();
-        var labelFuncion = '[label = "AST de Funcion: '+this.identificador+'"]';
+        var labelFuncion = '[label = "AST de Funcion: '+this.identificador+' | Parametros: '+this.cantidadParametros+'"]';
         conteo.agregarEncabezado(nodoFuncion+labelFuncion);        
         for(var i = 0; i < this.cuerpo.length; i++){        
             if(this.cuerpo[i].id == "Declaracion"){

@@ -4,12 +4,9 @@ const Tipo = require('./Tipo');
 
 class Iteracion{
     /**
-     * Clase de la instruccion Iteracion.
+     * 
      * @param {*} id 
-     * @param {*} relacion 
      * @param {*} tipoDato 
-     * @param {*} cuerpo 
-     * @param {*} cuerpo_else 
      * @param {*} fila 
      * @param {*} columna 
      */

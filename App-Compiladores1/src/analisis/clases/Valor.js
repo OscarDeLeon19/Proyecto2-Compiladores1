@@ -60,7 +60,13 @@ class Valor{
             case Tipo.LLAMADA:
                 var a = tablaSimbolos.buscarFuncion(this.valor.identificador, this.valor.cantidadParametros);
                 if(a === true){
-                    return this.valor.operar(tablaSimbolos, salida);
+                    var valorLlamada = this.valor.operar(tablaSimbolos, salida);
+                    if(valorLlamada == null){
+                        salida.agregarError(Tipo.SEMANTICO, "Error en el retorno de la funcion  "+this.valor.identificador, this.fila, this.columna);
+                        return null;
+                    } else {
+                        return valorLlamada;
+                    }     
                 }  else {
                     salida.agregarError(Tipo.SEMANTICO, "La funcion "+this.valor.identificador+" no esta definida", this.fila, this.columna);
                     return new Valor("Valor",null, Tipo.ERROR, Tipo.ERROR, this.fila, this.columna);   

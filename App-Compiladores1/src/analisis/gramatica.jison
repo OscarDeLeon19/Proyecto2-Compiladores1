@@ -461,13 +461,13 @@ retorno
 ;
 
 llamada
-	: ID PARIZQ lista_valores PARDER {$$ = new Llamada("Llamada",$1,valores_llamada,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column); valores_llamada = []}
+	: ID PARIZQ lista_valores PARDER {$$ = new Llamada("Llamada",$1,$3,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column); valores_llamada = [];}
 	| ID PARIZQ PARDER {$$ = new Llamada("Llamada",$1,null,Tipo.LLAMADA,Tipo.VALOR,yylineno,this._$.first_column);}
 ;
 
 lista_valores
-	: lista_valores COMA expresion {valores_llamada.push($3);}
-	| expresion {valores_llamada.push($1);}
+	: lista_valores COMA expresion {$$.push($3);}
+	| expresion {$$ = []; $$.push($1);}
 ;
 
 parametros
@@ -503,48 +503,22 @@ tipo
 
 expresion
     : expresion OR expresion {$$ = new Logica("Logica",$1,$3,Tipo.OR,Tipo.VALOR,yylineno,this._$.first_column);}
-	| expresion_1 {$$ = $1}
-;
-
-expresion_1
-    : expresion_1 AND expresion_1 {$$ = new Logica("Logica",$1,$3,Tipo.AND,Tipo.VALOR,yylineno,this._$.first_column);}
-    | expresion_2 {$$ = $1}
-;
-
-expresion_2
-    : expresion_2 XOR expresion_2 {$$ = new Logica("Logica",$1,$3,Tipo.XOR,Tipo.VALOR,yylineno,this._$.first_column);}
-    | expresion_relacional {$$ = $1}
-;
-
-// Expresiones Relacionales
-expresion_relacional
-	: expresion_relacional DOBLE_IGUAL  expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,@1.first_line,this._$.first_column);}
-    | expresion_relacional DIFERENTE expresion_relacional {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,@1.first_line,this._$.first_column);}
-    | expresion_relacional_1 {$$ = $1;}
-;
-
-expresion_relacional_1
-     : expresion_relacional_1 MAYOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_relacional_1 MENOR expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_relacional_1 MAYOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYORIGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_relacional_1 MENOR_IGUAL expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.MENORIGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
-	 | expresion_relacional_1 INCERT expresion_relacional_1 {$$ = new Relacion("Relacion",$1,$3,Tipo.INCERTEZA,Tipo.VALOR,yylineno,this._$.first_column);}	
-     | expresion_aritmetica {$$ = $1;}
-;
-//-----------------------------------------------------------------------------------------------------------
-//producciones para operaciones aritmeticas
-expresion_aritmetica 
-	: expresion_aritmetica MAS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.SUMA,Tipo.VALOR,yylineno,this._$.first_column);}
-    | expresion_aritmetica MENOS expresion_aritmetica {$$ = new Operacion("Operacion",$1,$3,Tipo.RESTA,Tipo.VALOR,yylineno,this._$.first_column);}
-    | expresion_aritmetica_1 {$$ = $1;}
-;
-
-expresion_aritmetica_1 
-	 : expresion_aritmetica_1 POR expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MULTIPLICACION,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_aritmetica_1 DIVIDIDO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.DIVISION,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_aritmetica_1 MODULO expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.MODULO,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_aritmetica_1 POTENCIA expresion_aritmetica_1 {$$ = new Operacion("Operacion",$1,$3,Tipo.POTENCIA,Tipo.VALOR,yylineno,this._$.first_column);}
-     | expresion_not {$$ = $1;}
+	| expresion AND expresion {$$ = new Logica("Logica",$1,$3,Tipo.AND,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion XOR expresion {$$ = new Logica("Logica",$1,$3,Tipo.XOR,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion DOBLE_IGUAL  expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.IGUAL,Tipo.VALOR,@1.first_line,this._$.first_column);}
+    | expresion DIFERENTE expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.DIFERENTE,Tipo.VALOR,@1.first_line,this._$.first_column);}
+    | expresion MAYOR expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYOR,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion MENOR expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.MENOR,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion MAYOR_IGUAL expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.MAYORIGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion MENOR_IGUAL expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.MENORIGUAL,Tipo.VALOR,yylineno,this._$.first_column);}
+	| expresion INCERT expresion {$$ = new Relacion("Relacion",$1,$3,Tipo.INCERTEZA,Tipo.VALOR,yylineno,this._$.first_column);}	
+	| expresion MAS expresion {$$ = new Operacion("Operacion",$1,$3,Tipo.SUMA,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion MENOS expresion {$$ = new Operacion("Operacion",$1,$3,Tipo.RESTA,Tipo.VALOR,yylineno,this._$.first_column);}
+	| expresion POR expresion {$$ = new Operacion("Operacion",$1,$3,Tipo.MULTIPLICACION,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion DIVIDIDO expresion {$$ = new Operacion("Operacion",$1,$3,Tipo.DIVISION,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion MODULO expresion {$$ = new Operacion("Operacion",$1,$3,Tipo.MODULO,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion POTENCIA expresion {$$ = new Operacion("Operacion",$1,$3,Tipo.POTENCIA,Tipo.VALOR,yylineno,this._$.first_column);}
+    | expresion_not {$$ = $1;}
 ;
 
 expresion_not

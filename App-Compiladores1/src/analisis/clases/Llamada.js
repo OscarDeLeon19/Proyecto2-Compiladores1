@@ -10,7 +10,7 @@ class LLamada{
      * Clase de la instruccion llamada.
      * @param {*} id 
      * @param {*} identificador 
-     * @param {*} parametros 
+     * @param {Array} parametros 
      * @param {*} tipoDato 
      * @param {*} tipoEstructura 
      * @param {*} fila 
@@ -52,11 +52,11 @@ class LLamada{
             for(var i = 0; i < funcion.cantidadParametros; i++){
                 if(nuevaTabla.buscarSimboloLocal(funcion.parametros[i].identificadores[0])===false){
                     var expresion = this.parametros[i].operar(nuevaTabla, salida);
-                    if(expresion === null){
+                    if(expresion == null){
                         salida.agregarError(Tipo.SEMANTICO, "Parametro Pos: "+ (i +1) + " invalido", this.fila, this.columna);
                         return null;
                     }
-                    if(expresion.tipoDato !== funcion.parametros[i].tipoDato){
+                    if(expresion.tipoDato != funcion.parametros[i].tipoDato){
                         salida.agregarError(Tipo.SEMANTICO, "Los parametros tienen simbolos incompatibles en la posicion: " + (i+1), this.fila, this.columna);
                         return null;     
                     }
@@ -69,8 +69,12 @@ class LLamada{
         // Si la funcion es diferente de Void. Se obtiene el valor del retorno y se devuelve.
         if (funcion.tipoDato != Tipo.VOID){
             var valorRetorno = funcion.retorno.operar(nuevaTabla, salida);
-            if(valorRetorno === null){
-                salida.agregarError(Tipo.SEMANTICO, "Error al evaluar el retorno de la funcion: " + funcion.identificador, this.fila, this.columna);
+            if(valorRetorno == null){
+                salida.agregarError(Tipo.SEMANTICO, "Error al evaluar el retorno de la funcion: " + funcion.identificador, valorRetorno.fila, valorRetorno.columna);
+                return null;
+            }
+            if(valorRetorno.tipoDato != funcion.tipoDato){
+                salida.agregarError(Tipo.SEMANTICO, "El retorno es de un tipo diferente al de la funcion", valorRetorno.fila, valorRetorno.columna);
                 return null;
             }
             return valorRetorno;
